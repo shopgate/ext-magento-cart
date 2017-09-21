@@ -1,0 +1,62 @@
+{
+  "products": [
+    {
+      "id": "p1-c1",
+      "characteristics": {
+        "1": "1-1",
+        "2": "2-1"
+      }
+    },
+    {
+      "id": "p1-c2",
+      "characteristics": {
+        "1": "1-1",
+        "2": "2-2"
+      }
+    },
+    {
+      "id": "p1-c3",
+      "characteristics": {
+        "1": "1-2",
+        "2": "2-1"
+      }
+    },
+    {
+      "id": "p1-c4",
+      "characteristics": {
+        "1": "1-2",
+        "2": "2-2"
+      }
+    }
+  ],
+  "characteristics": [
+    {
+      "id": "1",
+      "label": "Color",
+      "values": [
+        {
+          "id": "1-1",
+          "label": "Rot"
+        },
+        {
+          "id": "1-2",
+          "label": "Blau"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "label": "Size",
+      "values": [
+        {
+          "id": "2-1",
+          "label": "S"
+        },
+        {
+          "id": "2-2",
+          "label": "M"
+        }
+      ]
+    }
+  ]
+}

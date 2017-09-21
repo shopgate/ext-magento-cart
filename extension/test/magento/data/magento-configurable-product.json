@@ -1,0 +1,54 @@
+{
+  "store_id": "p1",
+  "type_id": "configurable",
+  "children": {
+    "attributes": {
+      "a1": {
+        "id": "a1",
+        "code": "color",
+        "label": "Color",
+        "options": [
+          {
+            "id": "a1o1",
+            "label": "Rot",
+            "products": [
+              "c1",
+              "c2"
+            ]
+          },
+          {
+            "id": "a1o2",
+            "label": "Blau",
+            "products": [
+              "c3",
+              "c4"
+            ]
+          }
+        ]
+      },
+      "a2": {
+        "id": "a2",
+        "code": "size",
+        "label": "Size",
+        "options": [
+          {
+            "id": "a2o1",
+            "label": "S",
+            "products": [
+              "c1",
+              "c3"
+            ]
+          },
+          {
+            "id": "a2o2",
+            "label": "M",
+            "products": [
+              "c2",
+              "c4"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

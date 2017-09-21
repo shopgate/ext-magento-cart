@@ -1,0 +1,50 @@
+{
+  "id": "1",
+  "name": "Shopgate Bierbauchwärmer",
+  "manufacturer": "MANUFACTURER",
+  "identifiers": {
+      "sku": "sg_bauch_1",
+      "mpn": "manufacturer_sg_bauch_1"
+  },
+  "ageRating": 0,
+  "stock": {
+      "ignoreQuantity": true,
+      "quantity": 0,
+      "info": "Available_Text",
+      "orderable": true,
+      "minOrderQuantity": 0,
+      "maxOrderQuantity": 0
+  },
+  "rating": {
+      "count": 2,
+      "average": 60,
+      "reviewCount": 2
+  },
+  "flags": {
+      "hasChildren": false,
+      "hasVariants": false,
+      "hasOptions": false
+  },
+  "featuredImageUrl": "http://img.shopgate.localdev.cc/php/shopgate/sites/img/image.php/10006/1/d25ad195563f3e011d6f25c20bffa5c4c7612d4bd2d984baab0ac04b2800dce2",
+  "price": {
+      "currency": "EUR",
+      "info": "",
+      "unitPrice": 15.99,
+      "unitPriceStriked": 0,
+      "unitPriceMin": 0,
+      "unitPriceNet": 13.43,
+      "unitPriceWithTax": 15.99,
+      "taxAmount": 2.56,
+      "taxPercent": 0,
+      "msrp": 0,
+      "tiers": [],
+      "unitPriceMax": 1000
+  },
+  "liveshoppings": [],
+  "highlight": false,
+  "availability": {
+      "text": "Available_Text",
+      "state": "ok"
+  },
+  "active": true
+}
