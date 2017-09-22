@@ -1,0 +1,8 @@
+{
+  "credentials": {
+    "id": "id1",
+    "secret": "secret1"
+  },
+  "authUrl": "https://foo.bar/auth/token",
+  "productUrl": "https://foo.bar/product"
+}

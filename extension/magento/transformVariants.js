@@ -1,29 +1,37 @@
+/**
+ * @param {object} context
+ * @param {function} cb
+ */
 module.exports = function (context, input, cb) {
   const shopgateVariants = input.shopgateVariants
   const magentoParentProduct = input.magentoParentProduct
 
   const newCharacteristics = getNewCharacteristics(shopgateVariants, magentoParentProduct)
 
-  updateVariantsByLabelMapping(shopgateVariants, newCharacteristics)
+  try {
+    updateVariantsByLabelMapping(shopgateVariants, newCharacteristics)
+  } catch (err) {
+    cb(err)
+  }
 
   cb(null, {products: shopgateVariants.products, characteristics: newCharacteristics})
 }
 
 /**
- * @param {*} shopgateVariantsCharacteristics
- * @param {*} magentoParentProduct
+ * @param {object} shopgateVariantsCharacteristics
+ * @param {object} magentoParentProduct
  */
 function getNewCharacteristics (shopgateVariantsCharacteristics, magentoParentProduct) {
   const characteristics = []
-
   const attributes = magentoParentProduct.children.attributes
-  for (var key in attributes) {
-    if (attributes.hasOwnProperty(key)) {
-      const attribute = attributes[key]
+  for (var aKey in attributes) {
+    if (attributes.hasOwnProperty(aKey)) {
+      const attribute = attributes[aKey]
       const characteristic = new Characteristic(attribute.id, attribute.label)
 
-      for (let key in attribute.options) {
-        characteristic.addValue(attribute.options[key].id, attribute.options[key].label)
+      for (let oKey in attribute.options) {
+        const options = attribute.options[oKey]
+        characteristic.addValue(options.id, options.label)
       }
 
       characteristics.push(characteristic)
@@ -36,19 +44,27 @@ function getNewCharacteristics (shopgateVariantsCharacteristics, magentoParentPr
 /**
  * Iterates all the products variants and updates the characteristics to the
  * magento characteristics
- * @param {*} shopgateVariants
- * @param {*} characteristics
+ * @param {object[]} shopgateVariants
+ * @param {object} characteristics
  */
-function updateVariantsByLabelMapping (shopgateVariants, characteristics) {
+function updateVariantsByLabelMapping (shopgateVariants, newCharacteristics) {
   for (let i in shopgateVariants.products) {
-    for (var key in shopgateVariants.products[i].characteristics) {
-      if (shopgateVariants.products[i].characteristics.hasOwnProperty(key)) {
+    const characteristics = shopgateVariants.products[i].characteristics
+    for (var key in characteristics) {
+      if (characteristics.hasOwnProperty(key)) {
         const characteristicId = key
-        const characteristicValueId = shopgateVariants.products[i].characteristics[key]
+        const characteristicValueId = characteristics[key]
+
+        // Get labels of shopgate config (config is characteristic and characteristicValue)
         const labels = getLabelsForOldConfigurationPair(characteristicId, characteristicValueId, shopgateVariants.characteristics)
-        const newConfigurationPair = getConfigurationPairForLabels(labels.characteristicLabel, labels.characteristicValueLabel, characteristics)
-        shopgateVariants.products[i].characteristics[newConfigurationPair.characteristicId] = newConfigurationPair.characteristicValueId
-        delete shopgateVariants.products[i].characteristics[key]
+        if (!labels) throw new Error(`can't find labels for shopgate characteristicId "${characteristicId}" and characteristicValueId "${characteristicValueId}"`)
+
+        // Get ids for the former extracted labels in the magento characteristics
+        const newConfigurationPair = getConfigurationPairForLabels(labels.characteristicLabel, labels.characteristicValueLabel, newCharacteristics)
+        if (!newConfigurationPair) throw new Error(`can't find magento characteristicId and characteristicValueId for characteristicLabel "${labels.characteristicLabel}" and characteristicValueLabel "${labels.characteristicValueLabel}"`)
+
+        characteristics[newConfigurationPair.characteristicId] = newConfigurationPair.characteristicValueId
+        delete characteristics[key]
       }
     }
   }
@@ -77,16 +93,16 @@ function getLabelsForOldConfigurationPair (characteristicId, characteristicValue
 }
 
 /**
- * It is expected, that the labels are equal in magento parent and the shopgate variants
+ * It is expected, that the labels are equal in the magento parent and the shopgate variants
  * @param {string} characteristicLabel
  * @param {string} characteristicValueLabel
  * @param {Characteristic[]} newCharacteristic
  */
 function getConfigurationPairForLabels (characteristicLabel, characteristicValueLabel, newCharacteristic) {
   for (let i in newCharacteristic) {
-    if (characteristicLabel === newCharacteristic[i].label) {
+    if (characteristicLabel.toLocaleLowerCase() === newCharacteristic[i].label.toLocaleLowerCase()) {
       for (let j in newCharacteristic[i].values) {
-        if (characteristicValueLabel === newCharacteristic[i].values[j].label) {
+        if (characteristicValueLabel.toLowerCase() === newCharacteristic[i].values[j].label.toLowerCase()) {
           return {
             characteristicId: newCharacteristic[i].id,
             characteristicValueId: newCharacteristic[i].values[j].id

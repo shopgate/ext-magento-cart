@@ -1,3 +1,7 @@
+/**
+ * @param {object} context
+ * @param {function} cb
+ */
 module.exports = function (context, input, cb) {
   // TODO: input validation?
   const shopgateProduct = input.shopgateProduct
