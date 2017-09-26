@@ -2,7 +2,6 @@
  * @param {object} context
  * @param {object} input - Properties depend on the pipeline this is used for
  * @param {object} input.array
- * @param {object} input.outputKey
  * @param {Function} cb
  */
 module.exports = function (context, input, cb) {
@@ -11,7 +10,7 @@ module.exports = function (context, input, cb) {
   }
 
   const output = {}
-  output[input.outputKey || 'element'] = input.array[0]
+  output['element'] = input.array[0]
 
   cb(null, output)
 }

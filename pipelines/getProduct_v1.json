@@ -45,7 +45,7 @@
       }, {
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/magento/helpers/getFirstElementAsOutputKey.js",
+        "path": "@shopgate/magento-cart/magento/helpers/setFirstElementAsOutputKey.js",
         "input": [{"key": "array", "id": "20"}],
         "output": [
           {"key": "element", "id": "30"}

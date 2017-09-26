@@ -24,7 +24,7 @@ module.exports = function (context, input, cb) {
 function getNewCharacteristics (magentoParentProduct) {
   const characteristics = []
   const attributes = magentoParentProduct.children.attributes
-  for (var aKey in attributes) {
+  for (let aKey in attributes) {
     if (attributes.hasOwnProperty(aKey)) {
       const attribute = attributes[aKey]
       const characteristic = new Characteristic(attribute.id, attribute.label)
@@ -50,7 +50,7 @@ function getNewCharacteristics (magentoParentProduct) {
 function updateVariantsByLabelMapping (shopgateVariants, newCharacteristics) {
   for (let i in shopgateVariants.products) {
     const characteristics = shopgateVariants.products[i].characteristics
-    for (var key in characteristics) {
+    for (let key in characteristics) {
       if (characteristics.hasOwnProperty(key)) {
         const characteristicId = key
         const characteristicValueId = characteristics[key]

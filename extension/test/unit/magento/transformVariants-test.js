@@ -1,4 +1,4 @@
-const step = require('../../magento/transformVariants')
+const step = require('../../../magento/transformVariants')
 const assert = require('assert')
 
 describe('transformVariants', () => {

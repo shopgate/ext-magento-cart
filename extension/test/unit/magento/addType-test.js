@@ -1,4 +1,4 @@
-const step = require('../../magento/addType')
+const step = require('../../../magento/addType')
 const assert = require('assert')
 
 describe('addType', () => {

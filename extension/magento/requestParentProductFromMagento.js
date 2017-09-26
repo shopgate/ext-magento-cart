@@ -1,4 +1,4 @@
-const getTokens = require('./helpers/token')
+const TokenHandler = require('./helpers/token')
 
 /**
  * @param {object} context
@@ -9,8 +9,10 @@ module.exports = function (context, input, cb) {
   const url = context.config.productUrl
   const log = context.log
 
+  const tokenHandler = new TokenHandler(context.config.credentials, context.config.authUrl, context.storage.extension, log, context.tracedRequest)
+
   log.debug('requesting tokens for magento shop plugin')
-  getTokens(context, false, log, (err, tokens) => {
+  tokenHandler.getTokens(false, (err, tokens) => {
     if (err) {
       log.error(err)
       return cb(err)
@@ -22,7 +24,7 @@ module.exports = function (context, input, cb) {
         // Just an expired token, no big deal, try to get a new one without the
         // "storage cache"
         if (err.message.startsWith('Got error (401)')) { // TODO: look for right error
-          return getTokens(context, true, log, (err, tokens) => {
+          return tokenHandler.getTokens(true, (err, tokens) => {
             if (err) return cb(err)
 
             requestParentProductFromMagento(context.tracedRequest, productId, tokens.accessToken, url, log, (err, product) => {
@@ -59,7 +61,6 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
   request('Magento:parentProduct').get(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode >= 400) {
-      // TODO: Check for unauthorized
       return cb(new Error(`Got error (${res.statusCode}) from magento: ${JSON.stringify(body)}`))
     }
 
