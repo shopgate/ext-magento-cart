@@ -9,15 +9,11 @@ module.exports = function (context, input, cb) {
   const url = context.config.productUrl
   const log = context.log
 
-  const tokenHandler = new TokenHandler(context.config.credentials, context.config.authUrl, context.storage.extension, log, context.tracedRequest)
+  const tokenHandler = new TokenHandler(context.config.credentials, context.config.authUrl, context.storage, log, context.tracedRequest)
 
   log.debug('requesting tokens for magento shop plugin')
   tokenHandler.getTokens(false, (err, tokens) => {
-    if (err) {
-      log.error(err)
-      return cb(err)
-    }
-
+    if (err) return cb(err)
     log.debug(`getting product ${productId} from magento`)
     requestParentProductFromMagento(context.tracedRequest, productId, tokens.accessToken, url, log, (err, product) => {
       if (err) {
@@ -26,7 +22,6 @@ module.exports = function (context, input, cb) {
         if (err.message.startsWith('Got error (401)')) { // TODO: look for right error
           return tokenHandler.getTokens(true, (err, tokens) => {
             if (err) return cb(err)
-
             requestParentProductFromMagento(context.tracedRequest, productId, tokens.accessToken, url, log, (err, product) => {
               if (err) return cb(err)
               cb(null, product)

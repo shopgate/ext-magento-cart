@@ -2,11 +2,12 @@ const Buffer = require('buffer').Buffer
 const util = require('util')
 
 class TokenHandler {
-  constructor (credentials, authUrl, storage, log, request) {
+  // TODO: we may need all the storages since there will not just be a guest login
+  constructor (credentials, authUrl, storages, log, request) {
     this.credentials = credentials
     this.authUrl = authUrl
     this.log = log
-    this.storage = storage
+    this.storages = storages
     this.request = request
   }
 
@@ -16,15 +17,16 @@ class TokenHandler {
    */
   getTokens (skipStorage, cb) {
     const key = `${this.credentials.id}-tokens`
+    const storage = 'extension'
 
-    this.getTokensFromStorage(key, skipStorage, (err, tokens) => {
+    this.getTokensFromStorage(storage, key, skipStorage, (err, tokens) => {
       if (err) return cb(err)
       if (!tokens) {
         this.log.debug('Getting tokens from cache failed, getting tokens from magento')
         return this.getTokensFromMagento((err, tokens) => {
           if (err) return cb(err)
 
-          this.storage.set(key, tokens, (err) => {
+          this.storages['storage'].set(key, tokens, (err) => {
             if (err) return cb(err)
             cb(null, tokens)
           })
@@ -36,15 +38,16 @@ class TokenHandler {
 
   /**
    * @param {string} key
+   * @param {string} key
    * @param {boolean} skip
    * @param {function} cb
    */
-  getTokensFromStorage (key, skip, cb) {
+  getTokensFromStorage (storage, key, skip, cb) {
     if (skip) {
       this.log.debug('skipping getting tokens from cache')
       return cb(null, null)
     }
-    this.storage.get(key, (err, tokens) => {
+    this.storages[storage].get(key, (err, tokens) => {
       if (err) return cb(err)
       cb(null, tokens)
     })
@@ -74,6 +77,7 @@ class TokenHandler {
         cb(new Error(`received invalid response from magento: ${body}`))
       }
 
+      // TODO: later there will be a refresh token as well
       const tokens = {
         // TODO: this is hopefully subject to change!!!
         accessToken: body.success[0].access_token
