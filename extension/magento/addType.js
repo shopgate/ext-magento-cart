@@ -7,7 +7,8 @@ module.exports = function (context, input, cb) {
   const shopgateProduct = input.shopgateProduct
   const magentoProduct = input.magentoProduct
 
-  // TODO: mapping?
+  if (!magentoProduct['type_id']) return cb(new Error('type_id is missing in magentoProduct'))
+
   shopgateProduct.type = magentoProduct['type_id']
 
   cb(null, {product: shopgateProduct})

@@ -8,8 +8,8 @@
       {"key": "showInactive", "id": "2", "optional": true}
     ],
     "output": [
-      {"key": "products", "id": "1000"},
-      {"key": "characteristics", "id": "1001"}
+      {"key": "products", "id": "2000"},
+      {"key": "characteristics", "id": "1002"}
     ],
     "steps": [
       {
@@ -58,12 +58,33 @@
         "path": "@shopgate/products/products/formatProductVariants.js",
         "input": [{"key": "products", "id": "200"}],
         "output": [{"key": "products", "id": "1000"}]
+      },{
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/magento/requestParentProductFromMagento.js",
+        "input": [{"key": "productId", "id": "1"}],
+        "output": [
+          {"key": "product", "id": "50"}
+        ]
+      },{
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/magento/transformVariants.js",
+        "input": [
+          {"key": "products", "id": "1000"},
+          {"key": "characteristics", "id": "101"},
+          {"key": "magentoParentProduct", "id": "50"}
+        ],
+        "output": [
+          {"key": "products", "id": "2000"},
+          {"key": "characteristics", "id": "102"}
+        ]
       }, {
         "type": "extension",
         "id": "@shopgate/products",
         "path": "@shopgate/products/products/sortCharacteristics.js",
-        "input": [{"key": "characteristics", "id": "101"}],
-        "output": [{"key": "characteristics", "id": "1001"}]
+        "input": [{"key": "characteristics", "id": "102"}],
+        "output": [{"key": "characteristics", "id": "1002"}]
       }
     ]
   }

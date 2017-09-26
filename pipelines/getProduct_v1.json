@@ -24,7 +24,8 @@
       {"key": "highlight", "id": "320"},
       {"key": "availability", "id": "330"},
       {"key": "active", "id": "340"},
-      {"key": "characteristics", "id": "350", "optional": true}
+      {"key": "characteristics", "id": "350", "optional": true},
+      {"key": "type", "id": "360"}
     ],
     "steps": [
       {
@@ -43,9 +44,36 @@
         "output": [{"key": "products", "id": "20"}]
       }, {
         "type": "extension",
-        "id": "@shopgate/products",
-        "path": "@shopgate/products/helpers/firstElementOfArray.js",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/magento/helpers/getFirstElementAsOutputKey.js",
         "input": [{"key": "array", "id": "20"}],
+        "output": [
+          {"key": "element", "id": "30"}
+        ]
+      }, {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/magento/requestParentProductFromMagento.js",
+        "input": [{"key": "productId", "id": "1"}],
+        "output": [
+          {"key": "product", "id": "40"}
+        ]
+      }, {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/magento/addType.js",
+        "input": [
+          {"key": "shopgateProduct", "id": "30"},
+          {"key": "magentoProduct", "id": "40"}
+        ],
+        "output": [
+          {"key": "product", "id": "50"}
+        ]
+      }, {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/magento/helpers/exportAsObject.js",
+        "input": [{"key": "element", "id": "50"}],
         "output": [
           {"key": "id", "id": "100"},
           {"key": "name", "id": "101"},
@@ -62,7 +90,8 @@
           {"key": "highlight", "id": "320"},
           {"key": "availability", "id": "330"},
           {"key": "active", "id": "340"},
-          {"key": "characteristics", "id": "350", "optional": true}
+          {"key": "characteristics", "id": "350", "optional": true},
+          {"key": "type", "id": "360"}
         ]
       }
     ]

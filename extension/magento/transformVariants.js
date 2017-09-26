@@ -3,10 +3,11 @@
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
-  const shopgateVariants = input.shopgateVariants
+  // TODO: input validation
+  const shopgateVariants = {products: input.products, characteristics: input.characteristics}
   const magentoParentProduct = input.magentoParentProduct
 
-  const newCharacteristics = getNewCharacteristics(shopgateVariants, magentoParentProduct)
+  const newCharacteristics = getNewCharacteristics(magentoParentProduct)
 
   try {
     updateVariantsByLabelMapping(shopgateVariants, newCharacteristics)
@@ -18,10 +19,9 @@ module.exports = function (context, input, cb) {
 }
 
 /**
- * @param {object} shopgateVariantsCharacteristics
  * @param {object} magentoParentProduct
  */
-function getNewCharacteristics (shopgateVariantsCharacteristics, magentoParentProduct) {
+function getNewCharacteristics (magentoParentProduct) {
   const characteristics = []
   const attributes = magentoParentProduct.children.attributes
   for (var aKey in attributes) {

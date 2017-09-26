@@ -1,3 +1,6 @@
+const Buffer = require('buffer').Buffer
+const util = require('util')
+
 /**
  * @param {object} context
  * @param {boolean} skipStorage
@@ -11,10 +14,9 @@ function getTokens (context, skipStorage, log, cb) {
 
   getTokensFromStorage(storage, key, skipStorage, log, (err, tokens) => {
     if (err) return cb(err)
-
     if (!tokens) {
-      const url = context.config.productUrl
-      return getTokensFromMagento(context.tracedRequest, clientCredentials, url, log, (err, tokens) => {
+      log.debug('Getting tokens from cache failed, getting tokens from magento')
+      return getTokensFromMagento(context.tracedRequest, clientCredentials, context.config.authUrl, log, (err, tokens) => {
         if (err) return cb(err)
 
         storage.set(key, tokens, (err) => {
@@ -23,7 +25,7 @@ function getTokens (context, skipStorage, log, cb) {
         })
       })
     }
-    cb(tokens)
+    cb(null, tokens)
   })
 }
 
@@ -34,7 +36,10 @@ function getTokens (context, skipStorage, log, cb) {
  * @param {function} cb
  */
 function getTokensFromStorage (storage, key, skip, log, cb) {
-  if (skip) return cb(null, null)
+  if (skip) {
+    log.debug('skipping getting tokens from cache')
+    return cb(null, null)
+  }
   storage.get(key, (err, tokens) => {
     if (err) return cb(err)
     cb(null, tokens)
@@ -53,21 +58,31 @@ function getTokensFromStorage (storage, key, skip, log, cb) {
 function getTokensFromMagento (request, clientCredentials, url, log, cb) {
   const options = {
     url: url,
-    form: {
-      grant_type: 'client_credentials',
-      client_id: clientCredentials.id,
-      client_secret: clientCredentials.secret
+    json: {
+      grant_type: 'client_credentials'
     },
-    json: true
+    headers: {
+      'Authorization': `Basic ${Buffer.from(`${clientCredentials.id}:${clientCredentials.secret}`).toString('base64')}`
+    }
   }
 
-  request('Magento:tokens').get(options, (err, res, body) => {
-    if (err) return cb(err)
-    if (res.statusCode >= 400) return cb(new Error(`Got error (${res.statusCode}) from magento: ${JSON.stringify(body)}`))
+  log.debug(`Sending: ${util.inspect(options, false, 3)} to magento auth endpoint`)
 
-    // TODO: check if body has the right format
-    cb(null, body)
+  request('Magento:tokens').post(options, (err, res, body) => {
+    if (err) return cb(err)
+    if (res.statusCode >= 400) return cb(new Error(`got error (${res.statusCode}) from magento: ${JSON.stringify(body)}`))
+
+    if (!(Array.isArray(body.success) && body.success.length === 1 && body.success[0].access_token)) {
+      cb(new Error(`received invalid response from magento: ${body}`))
+    }
+
+    const tokens = {
+      // TODO: this is hopefully subject to change!!!
+      accessToken: body.success[0].access_token
+    }
+
+    cb(null, tokens)
   })
 }
 
-module.exports = { getTokens }
+module.exports = getTokens
