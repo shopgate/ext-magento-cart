@@ -82,6 +82,7 @@ function getLabelsForOldConfigurationPair (characteristicId, characteristicValue
     if (characteristicId === oldCharacteristics[i].id) {
       for (let j in oldCharacteristics[i].values) {
         if (characteristicValueId === oldCharacteristics[i].values[j].id) {
+          // TODO: test if one is missing (in this case return null)
           return {
             characteristicLabel: oldCharacteristics[i].label,
             characteristicValueLabel: oldCharacteristics[i].values[j].label
@@ -103,6 +104,7 @@ function getConfigurationPairForLabels (characteristicLabel, characteristicValue
     if (characteristicLabel.toLocaleLowerCase() === newCharacteristic[i].label.toLocaleLowerCase()) {
       for (let j in newCharacteristic[i].values) {
         if (characteristicValueLabel.toLowerCase() === newCharacteristic[i].values[j].label.toLowerCase()) {
+          // TODO: test if one is missing (in this case return null)
           return {
             characteristicId: newCharacteristic[i].id,
             characteristicValueId: newCharacteristic[i].values[j].id

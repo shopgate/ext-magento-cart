@@ -2,7 +2,6 @@ const Buffer = require('buffer').Buffer
 const util = require('util')
 
 class TokenHandler {
-  // TODO: we may need all the storages since there will not just be a guest login
   constructor (credentials, authUrl, storages, log, request) {
     this.credentials = credentials
     this.authUrl = authUrl
@@ -26,7 +25,7 @@ class TokenHandler {
         return this.getTokensFromMagento((err, tokens) => {
           if (err) return cb(err)
 
-          this.storages['storage'].set(key, tokens, (err) => {
+          this.storages[storage].set(key, tokens, (err) => {
             if (err) return cb(err)
             cb(null, tokens)
           })
@@ -74,7 +73,7 @@ class TokenHandler {
       if (res.statusCode >= 400) return cb(new Error(`got error (${res.statusCode}) from magento: ${JSON.stringify(body)}`))
 
       if (!(Array.isArray(body.success) && body.success.length === 1 && body.success[0].access_token)) {
-        cb(new Error(`received invalid response from magento: ${body}`))
+        cb(new Error(`received invalid response from magento: ${JSON.stringify(body)}`))
       }
 
       // TODO: later there will be a refresh token as well

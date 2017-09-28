@@ -1,0 +1,167 @@
+const assert = require('assert')
+const TokenHandler = require('../../../../products/helpers/token')
+
+describe('token', () => {
+  const credentials = {
+    id: 'testId',
+    secret: 'testSecret'
+  }
+  const authUrl = 'http://authUrl.xyz/auth/token'
+  const storages = {
+    extension: {
+      get: () => {},
+      set: () => {}
+    }
+  }
+  const log = {
+    debug: () => {}
+  }
+  let request = () => {
+    return {
+      post: () => {}
+    }
+  }
+
+  beforeEach(() => {
+    storages.extension.get = () => {}
+    storages.extension.set = () => {}
+    request.post = () => {}
+  })
+
+  describe('getTokens', () => {
+    it('should get tokens from store', (done) => {
+      const resultingTokens = {accessToken: 'lol', refreshToken: 'rofl'}
+
+      storages.extension.get = (key, cb) => {
+        cb(null, resultingTokens)
+      }
+
+      const th = new TokenHandler(credentials, authUrl, storages, log, request)
+      th.getTokens(false, (err, tokens) => {
+        assert.ifError(err)
+        assert.deepEqual(resultingTokens, tokens)
+        done()
+      })
+    })
+
+    it('should return an error from the storage func', (done) => {
+      storages.extension.get = (key, cb) => {
+        cb(new Error('error'))
+      }
+
+      const th = new TokenHandler(credentials, authUrl, storages, log, request)
+      th.getTokens(false, (err) => {
+        assert.equal(err.message, 'error')
+        done()
+      })
+    })
+
+    it('should get tokens from magento', (done) => {
+      const resultingTokens = {accessToken: 'lol'}
+      const weirdMagentoResponse = {
+        success: [
+          {
+            access_token: 'lol'
+          }
+        ]
+      }
+
+      request = () => {
+        return {
+          post: (options, cb) => {
+            cb(null, {statusCode: 200}, weirdMagentoResponse)
+          }
+        }
+      }
+
+      storages.extension.set = (key, tokens, cb) => {
+        cb(null)
+      }
+
+      const th = new TokenHandler(credentials, authUrl, storages, log, request)
+      th.getTokens(true, (err, tokens) => {
+        assert.ifError(err)
+        assert.deepEqual(resultingTokens, tokens)
+        done()
+      })
+    })
+
+    it('should return an error because of magento fails', (done) => {
+      request = () => {
+        return {
+          post: (options, cb) => {
+            cb(new Error('error'))
+          }
+        }
+      }
+
+      const th = new TokenHandler(credentials, authUrl, storages, log, request)
+      th.getTokens(true, (err, tokens) => {
+        assert.equal(err.message, 'error')
+        done()
+      })
+    })
+  })
+
+  it('should return an error because storage fails', (done) => {
+    const weirdMagentoResponse = {
+      success: [
+        {
+          access_token: 'lol'
+        }
+      ]
+    }
+
+    request = () => {
+      return {
+        post: (options, cb) => {
+          cb(null, {statusCode: 200}, weirdMagentoResponse)
+        }
+      }
+    }
+
+    storages.extension.set = (key, tokens, cb) => {
+      cb(new Error('error'))
+    }
+
+    const th = new TokenHandler(credentials, authUrl, storages, log, request)
+    th.getTokens(true, (err, tokens) => {
+      assert.equal(err.message, 'error')
+      done()
+    })
+  })
+
+  describe('getTokensFromMagento', () => {
+    it('should return an error because the status code is >= 400', (done) => {
+      request = () => {
+        return {
+          post: (options, cb) => {
+            cb(null, {statusCode: 400}, {foo: 'err'})
+          }
+        }
+      }
+
+      const th = new TokenHandler(credentials, authUrl, storages, log, request)
+      th.getTokens(true, (err, tokens) => {
+        assert.equal(err.message, 'got error (400) from magento: {"foo":"err"}')
+        done()
+      })
+    })
+
+    it('should return an error because the magento response is invalid', (done) => {
+      request = () => {
+        return {
+          post: (options, cb) => {
+            cb(null, {statusCode: 200}, {foo: 'err'})
+          }
+        }
+      }
+
+      const th = new TokenHandler(credentials, authUrl, storages, log, request)
+      th.getTokens(true, (err, tokens) => {
+        assert.equal(err.message, 'received invalid response from magento: {"foo":"err"}')
+        done()
+      })
+    })
+  })
+})

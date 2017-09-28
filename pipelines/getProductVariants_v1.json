@@ -61,7 +61,7 @@
       },{
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/magento/requestParentProductFromMagento.js",
+        "path": "@shopgate/magento-cart/products/requestParentProductFromMagento.js",
         "input": [{"key": "productId", "id": "1"}],
         "output": [
           {"key": "product", "id": "50"}
@@ -69,7 +69,7 @@
       },{
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/magento/transformVariants.js",
+        "path": "@shopgate/magento-cart/products/transformVariants.js",
         "input": [
           {"key": "products", "id": "1000"},
           {"key": "characteristics", "id": "101"},

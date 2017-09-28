@@ -16,7 +16,8 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "mocha-jenkins-reporter": "^0.3.7",
-    "nock": "^9.0.13"
+    "nock": "^9.0.13",
+    "rewire": "^2.5.2"
   },
   "standard": {
     "ignore": [],

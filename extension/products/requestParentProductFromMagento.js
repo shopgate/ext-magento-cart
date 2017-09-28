@@ -15,20 +15,20 @@ module.exports = function (context, input, cb) {
   tokenHandler.getTokens(false, (err, tokens) => {
     if (err) return cb(err)
     log.debug(`getting product ${productId} from magento`)
-    requestParentProductFromMagento(context.tracedRequest, productId, tokens.accessToken, url, log, (err, product) => {
-      if (err) {
-        // Just an expired token, no big deal, try to get a new one without the
-        // "storage cache"
-        if (err.message.startsWith('Got error (401)')) { // TODO: look for right error
-          return tokenHandler.getTokens(true, (err, tokens) => {
-            if (err) return cb(err)
-            requestParentProductFromMagento(context.tracedRequest, productId, tokens.accessToken, url, log, (err, product) => {
-              if (err) return cb(err)
-              cb(null, product)
+    requestParentProductFromMagento(context.tracedRequest, productId, tokens.accessToken, url, log, (err2, product) => {
+      if (err2) {
+        // Just an expired token, no big deal, try to get a new one without the "storage cache"
+        if (err2.message.startsWith('Got error (401)')) { // TODO: look for right error
+          return tokenHandler.getTokens(true, (err3, tokens) => {
+            if (err3) return cb(err3)
+            requestParentProductFromMagento(context.tracedRequest, productId, tokens.accessToken, url, log, (err4, product2) => {
+              if (err4) return cb(err4)
+              return cb(null, {product: product2})
             })
           })
+        } else {
+          return cb(err2)
         }
-        return cb(err)
       }
       cb(null, {product})
     })
@@ -60,8 +60,10 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
     }
 
     // TODO: remove regex cleanup!!!
-    const regex = /<script.*<\/script>/g
-    body = JSON.parse(body.replace(regex, ''))
+    if (typeof body === 'string') {
+      const regex = /<script.*<\/script>/g
+      body = JSON.parse(body.replace(regex, ''))
+    }
 
     cb(null, body)
   })

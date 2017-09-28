@@ -53,7 +53,7 @@
       }, {
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/magento/requestParentProductFromMagento.js",
+        "path": "@shopgate/magento-cart/products/requestParentProductFromMagento.js",
         "input": [{"key": "productId", "id": "1"}],
         "output": [
           {"key": "product", "id": "40"}
