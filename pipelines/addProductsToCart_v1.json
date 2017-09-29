@@ -1,0 +1,58 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "addProductsToCart_v1",
+    "public": true,
+    "input": [
+      {"key": "products", "id": "1"}
+    ],
+    "output": [
+      {"key": "messages", "id": "100", "optional": true}
+    ],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/token/getMagentoToken.js",
+        "input": [],
+        "output": [
+          {"key": "tokens", "id": "10"}
+        ]
+      }, {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/createCartIfNecessary.js",
+        "input": [
+          {"key": "tokens", "id": "10"}
+        ],
+        "output": [
+          {"key": "cartId", "id": "2"}
+        ]
+      },
+      {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/transformProductsToAddRequestProducts.js",
+        "input": [
+          {"key": "porducts", "id": "1"}
+        ],
+        "output": [
+          {"key": "transformedProducts", "id": "3"}
+        ]
+      },
+      {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/addProductsToCart.js",
+        "input": [
+          {"key": "tokens", "id": "10"},
+          {"key": "transformedProducts", "id": "3"},
+          {"key": "cartId", "id": "2"}
+        ],
+        "output": [
+          {"key": "messages", "id": "100", "optional": true}
+        ]
+      }
+    ]
+  }
+}

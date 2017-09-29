@@ -58,15 +58,26 @@
         "path": "@shopgate/products/products/formatProductVariants.js",
         "input": [{"key": "products", "id": "200"}],
         "output": [{"key": "products", "id": "1000"}]
-      },{
+      }, {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/token/getMagentoToken.js",
+        "input": [],
+        "output": [
+          {"key": "tokens", "id": "40"}
+        ]
+      }, {
         "type": "extension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/products/requestParentProductFromMagento.js",
-        "input": [{"key": "productId", "id": "1"}],
+        "input": [
+          {"key": "productId", "id": "1"},
+          {"key": "tokens", "id": "40"}
+        ],
         "output": [
           {"key": "product", "id": "50"}
         ]
-      },{
+      }, {
         "type": "extension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/products/transformVariants.js",
