@@ -4,6 +4,8 @@
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
+  const accessToken = input.tokens.accessToken
+
   const storage = context.storage.device
   const cartUrl = context.config.cartUrl
   const request = context.tracedRequest
@@ -12,7 +14,7 @@ module.exports = function (context, input, cb) {
   storage.get(storage, key, (err, cartId) => {
     if (err) return cb(err)
     if (cartId) return cb(null, cartId)
-    createCart(request, cartUrl, (err2, cartId) => {
+    createCart(request, accessToken, cartUrl, (err2, cartId) => {
       if (err2) return cb(err2)
       storage.set(storage, key, cartId, (err3) => {
         if (err) return (err3)
@@ -22,6 +24,12 @@ module.exports = function (context, input, cb) {
   })
 }
 
-function createCart (request, cartUrl, cb) {
+/**
+ * @param {Request} request
+ * @param {string} accessToken
+ * @param {string} cartUrl
+ * @param {function} cb
+ */
+function createCart (request, accessToken, cartUrl, cb) {
 
 }

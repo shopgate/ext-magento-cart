@@ -13,7 +13,7 @@ module.exports = function (context, input, cb) {
 
   const tokenHandler = new TokenHandler(credentials, authUrl, storages, log, request)
 
-  tokenHandler.getTokens(false, (err, tokens) => {
+  tokenHandler.getTokens((err, tokens) => {
     if (err) return cb(err)
     return cb(null, {tokens})
   })

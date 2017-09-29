@@ -11,16 +11,15 @@ class TokenHandler {
   }
 
   /**
-   * @param {boolean} skipStorage
    * @param {function} cb
    */
-  getTokens (skipStorage, cb) {
+  getTokens (cb) {
     const key = `${this.credentials.id}-tokens`
     const storage = 'extension'
 
     this.log.debug('requesting tokens from/for magento shop plugin')
     // This will return null if the token is or is about to expire or if there is no token in the storage
-    this.getTokensFromStorage(storage, key, skipStorage, (err, tokens) => {
+    this.getTokensFromStorage(storage, key, (err, tokens) => {
       if (err) return cb(err)
       if (!tokens) {
         this.log.debug('getting tokens from magento directly')
@@ -42,13 +41,10 @@ class TokenHandler {
    * @param {boolean} skip
    * @param {function} cb
    */
-  getTokensFromStorage (storage, key, skip, cb) {
-    if (skip) {
-      this.log.debug('skipping getting tokens from cache')
-      return cb(null, null)
-    }
+  getTokensFromStorage (storage, key, cb) {
     this.storages[storage].get(key, (err, tokenData) => {
       if (err) return cb(err)
+      if (!tokenData) return cb()
       if (tokenData.expires < (new Date()).getTime() - 60 * 1000) {
         this.log.debug('token is expired or will expire within the next minute')
         return cb(null, null)

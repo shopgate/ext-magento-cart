@@ -8,7 +8,10 @@ function copy (stringifyable) {
 
 describe('requestParentProductFromMagento', () => {
   const input = {
-    productId: 'testProduct'
+    productId: 'testProduct',
+    tokens: {
+      accessToken: 'at'
+    }
   }
 
   let context = null
@@ -39,9 +42,6 @@ describe('requestParentProductFromMagento', () => {
   describe('step', () => {
     it('should get a parent product from magento', (done) => {
       const magentoProduct = copy(require('../data/magento-configurable-product.json'))
-      context.storage.extension.get = (key, cb) => {
-        cb(null, {accessToken: 'at'})
-      }
 
       context.tracedRequest = () => {
         return {
@@ -58,22 +58,7 @@ describe('requestParentProductFromMagento', () => {
       })
     })
 
-    it('should return an error because can not get tokens', (done) => {
-      context.storage.extension.get = (key, cb) => {
-        cb(new Error('error'))
-      }
-
-      step(context, input, (err) => {
-        assert.equal(err.message, 'error')
-        done()
-      })
-    })
-
-    it('should return an error because first requestParentProductFromMagento fails', (done) => {
-      context.storage.extension.get = (key, cb) => {
-        cb(null, {accessToken: 'at'})
-      }
-
+    it('should return an error because requestParentProductFromMagento fails', (done) => {
       context.tracedRequest = () => {
         return {
           get: (options, cb) => {
@@ -83,103 +68,6 @@ describe('requestParentProductFromMagento', () => {
       }
 
       step(context, input, (err) => {
-        assert.equal(err.message, 'error')
-        done()
-      })
-    })
-
-    it('should return a product after receiving a token from magento', (done) => {
-      const magentoProduct = copy(require('../data/magento-configurable-product.json'))
-
-      context.storage.extension.get = (key, cb) => {
-        cb(null, {accessToken: 'at'})
-      }
-
-      context.storage.extension.set = (key, value, cb) => {
-        cb(null)
-      }
-
-      let next = false
-      context.tracedRequest = () => {
-        return {
-          get: (options, cb) => {
-            if (!next) {
-              next = true
-              cb(new Error('Got error (401)'))
-            } else {
-              cb(null, {statusCode: 200}, magentoProduct)
-            }
-          },
-          post: (options, cb) => {
-            cb(null, {statusCode: 200}, {success: [{access_token: 'accessToken'}]})
-          }
-        }
-      }
-
-      step(context, input, (err, result) => {
-        assert.ifError(err)
-        assert.deepEqual(result.product, magentoProduct)
-        done()
-      })
-    })
-
-    it('should return an error after attemt to receive a token from magento', (done) => {
-      const magentoProduct = copy(require('../data/magento-configurable-product.json'))
-
-      context.storage.extension.get = (key, cb) => {
-        cb(null, {accessToken: 'at'})
-      }
-
-      let next = false
-      context.tracedRequest = () => {
-        return {
-          get: (options, cb) => {
-            if (!next) {
-              next = true
-              cb(new Error('Got error (401)'))
-            } else {
-              cb(null, {statusCode: 200}, magentoProduct)
-            }
-          },
-          post: (options, cb) => {
-            cb(new Error('error'))
-          }
-        }
-      }
-
-      step(context, input, (err, result) => {
-        assert.equal(err.message, 'error')
-        done()
-      })
-    })
-
-    it('should return an error after attemt to get a product from magento a second time', (done) => {
-      context.storage.extension.get = (key, cb) => {
-        cb(null, {accessToken: 'at'})
-      }
-
-      context.storage.extension.set = (key, value, cb) => {
-        cb(null)
-      }
-
-      let next = false
-      context.tracedRequest = () => {
-        return {
-          get: (options, cb) => {
-            if (!next) {
-              next = true
-              cb(new Error('Got error (401)'))
-            } else {
-              cb(new Error('error'))
-            }
-          },
-          post: (options, cb) => {
-            cb(null, {statusCode: 200}, {success: [{access_token: 'accessToken'}]})
-          }
-        }
-      }
-
-      step(context, input, (err, result) => {
         assert.equal(err.message, 'error')
         done()
       })
