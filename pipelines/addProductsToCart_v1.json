@@ -28,19 +28,17 @@
         "output": [
           {"key": "cartId", "id": "2"}
         ]
-      },
-      {
+      }, {
         "type": "extension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/transformProductsToAddRequestProducts.js",
         "input": [
-          {"key": "porducts", "id": "1"}
+          {"key": "products", "id": "1"}
         ],
         "output": [
           {"key": "transformedProducts", "id": "3"}
         ]
-      },
-      {
+      }, {
         "type": "extension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/addProductsToCart.js",

@@ -98,7 +98,7 @@ class TokenHandler {
       const tokenData = {
         // TODO: later there will be a refresh token as well
         // TODO: this is hopefully subject to change!!!
-        lifeSpan: body.success[0].expires,
+        lifeSpan: body.success[0].expires_in,
         tokens: {
           accessToken: body.success[0].access_token
         }
