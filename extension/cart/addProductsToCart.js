@@ -12,6 +12,7 @@ module.exports = function (context, input, cb) {
 
   addProductsToCart(request, accessToken, products, cartId, cartUrl, (err) => {
     if (err) return cb(err)
+    cb(null)
   })
 }
 
