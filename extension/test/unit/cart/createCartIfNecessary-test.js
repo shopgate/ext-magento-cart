@@ -20,6 +20,9 @@ describe('createCartIfNecessary', () => {
     },
     config: {
       magentoUrl: 'wowCool'
+    },
+    log: {
+      debug: () => {}
     }
   }
 
