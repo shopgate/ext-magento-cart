@@ -8,15 +8,20 @@ module.exports = function (context, input, cb) {
   const storage = context.storage.device
   const cartUrl = context.config.magentoUrl + '/carts'
   const request = context.tracedRequest
+  const log = context.log
   const key = 'cartId'
 
   storage.get(key, (err, cartId) => {
     if (err) return cb(err)
-    if (cartId) return cb(null, {cartId})
+    if (cartId) {
+      log.debug(`using cart with id: ${cartId}`)
+      return cb(null, {cartId})
+    }
     createCart(request, accessToken, cartUrl, (err2, cartId) => {
       if (err2) return cb(err2)
       storage.set(key, cartId, (err3) => {
         if (err3) return cb(err3)
+        log.debug(`created cart with id: ${cartId}`)
         return cb(null, {cartId})
       })
     })

@@ -1,5 +1,5 @@
-const SimpleProduct = require('../models/addProductsToCart/simpleProduct')
-const ConfigurableProduct = require('../models/addProductsToCart/configurableProduct')
+const SimpleProduct = require('../models/requestProducts/simpleProduct')
+const ConfigurableProduct = require('../models/requestProducts/configurableProduct')
 
 /**
  * @param {object} context

@@ -22,7 +22,7 @@ class TokenHandler {
     this.getTokensFromStorage(storage, key, (err, tokens) => {
       if (err) return cb(err)
       if (!tokens) {
-        this.log.debug('getting tokens from magento directly')
+        this.log.debug(`getting tokens from magento directly`)
         return this.getTokensFromMagento((err2, response) => {
           if (err2) return cb(err2)
           this.setTokenInStorage(storage, key, response.tokens, response.lifeSpan, (err3) => {
@@ -44,7 +44,7 @@ class TokenHandler {
   getTokensFromStorage (storage, key, cb) {
     this.storages[storage].get(key, (err, tokenData) => {
       if (err) return cb(err)
-      if (!tokenData) return cb()
+      if (!tokenData || !tokenData.expires) return cb(null, null)
       if (tokenData.expires < (new Date()).getTime() - 60 * 1000) {
         this.log.debug('token is expired or will expire within the next minute')
         return cb(null, null)
@@ -66,9 +66,9 @@ class TokenHandler {
       tokens: tokens,
       expires: (new Date()).getTime() + lifeSpan * 1000
     }
-    this.storages[storage].set(key, tokens, (err) => {
+    this.storages[storage].set(key, tokenData, (err) => {
       if (err) return cb(err)
-      cb(null, tokenData)
+      cb(null)
     })
   }
 

@@ -6,8 +6,10 @@ class SimpleProduct {
 
   toJSON () {
     return {
-      'product_id': this.productId,
-      'qty': this.quantity
+      product: {
+        'product_id': this.productId,
+        'qty': this.quantity
+      }
     }
   }
 }

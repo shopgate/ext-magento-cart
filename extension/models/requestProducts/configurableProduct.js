@@ -17,7 +17,7 @@ class ConfigurableProduct extends SimpleProduct {
 
   toJSON () {
     const obj = super.toJSON()
-    obj['super_attribute'] = this.superAttribute
+    obj.product['super_attribute'] = this.superAttribute
     return obj
   }
 }
