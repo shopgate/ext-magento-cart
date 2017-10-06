@@ -7,12 +7,10 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
   const accessToken = input.tokens.accessToken
-  const products = input.transformedProducts
   const cartId = input.cartId
 
-  addProductsToCart(request, accessToken, products, cartId, cartUrl, (err) => {
+  getCartFromMagento(request, accessToken, cartId, cartUrl, (err, cart) => {
     if (err) return cb(err)
-    // TODO: return message
     cb(null)
   })
 }
@@ -25,21 +23,19 @@ module.exports = function (context, input, cb) {
  * @param {string} cartUrl
  * @param {function} cb
  */
-function addProductsToCart (request, accessToken, products, cartId, cartUrl, cb) {
+function getCartFromMagento (request, accessToken, cartId, cartUrl, cb) {
   const options = {
-    url: `${cartUrl}/${cartId}/items`,
+    url: `${cartUrl}/${cartId}`,
     headers: {authorization: `Bearer ${accessToken}`},
-    json: products
+    json: true
   }
 
-  request('magento:addProductsToCart').post(options, (err, res, body) => {
+  request('magento:getCart').get(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode >= 400) {
       return cb(new Error(`Got error (${res.statusCode}) from magento: ${JSON.stringify(body)}`))
     }
 
-    console.log(body)
-
-    cb(null)
+    cb(null, {magentoCart: body})
   })
 }

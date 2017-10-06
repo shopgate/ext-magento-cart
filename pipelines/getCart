@@ -1,0 +1,77 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "getCart_v1",
+    "public": true,
+    "input": [],
+    "output": [
+      {"key": "cart", "id": "100", "optional": true}
+    ],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/token/getMagentoToken.js",
+        "input": [],
+        "output": [
+          {"key": "tokens", "id": "10"}
+        ]
+      }, {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/createCartIfNecessary.js",
+        "input": [
+          {"key": "tokens", "id": "10"}
+        ],
+        "output": [
+          {"key": "cartId", "id": "2"}
+        ]
+      }, {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/getCartFromMagento.js",
+        "input": [
+          {"key": "tokens", "id": "10"},
+          {"key": "cartId", "id": "2"}
+        ],
+        "output": [
+          {"key": "magentoCart", "id":"3"}
+        ]
+      }, {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/getShopgateProductIds.js",
+        "input": [
+          {"key": "magentoCart", "id": "3"}
+        ],
+        "output": [
+          {"key": "productIds", "id": "4"},
+          {"key": "limit", "id": "5"},
+          {"key": "offset", "id": "6"}
+        ]
+      }, {
+        "type": "pipeline",
+        "id": "getProducts_v1",
+        "input": [
+          {"key": "productIds", "id": "4"},
+          {"key": "limit", "id": "5"},
+          {"key": "offset", "id": "6"}
+        ],
+        "output": [
+          {"key": "products", "id": "7"}
+        ]
+      }, {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/transformToShopgateCart.js",
+        "input": [
+          {"key": "magentoCart", "id": "3"},
+          {"key": "shopgateProducts", "id": "7"}
+        ],
+        "output": [
+          {"key": "cart", "id": "100"}
+        ]
+      }
+    ]
+  }
+}
