@@ -6,8 +6,6 @@ const CartItem = require('../models/shopgate/cart/cartItem')
 const Total = require('../models/shopgate/cart/total')
 const Cart = require('../models/shopgate/cart/cart')
 
-const util = require('util')
-
 /**
  * @param {object} context
  * @param {object} input
@@ -49,10 +47,10 @@ function getCartItems (magentoCart, shopgateProducts) {
       let productId = magentoCart.items[i]['product_id']
       let productName = magentoCart.items[i]['name']
       let quantity = parseInt(magentoCart.items[i]['qty'])
-      const itemPrice = parseInt(magentoCart.items[i]['price']) // Check if that's the price
+      const itemPrice = parseInt(magentoCart.items[i]['price'])
 
       // If it's a variant, we need to transform it into a special shopgate
-      // variant id
+      // variant id and get the quantity from the parent item
       if (magentoCart.items[i]['parent_item_id']) {
         const parentElement = magentoCart.items.find((element) => {
           return element['item_id'] === magentoCart.items[i]['parent_item_id']
