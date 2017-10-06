@@ -9,9 +9,9 @@ module.exports = function (context, input, cb) {
   const accessToken = input.tokens.accessToken
   const cartId = input.cartId
 
-  getCartFromMagento(request, accessToken, cartId, cartUrl, (err, cart) => {
+  getCartFromMagento(request, accessToken, cartId, cartUrl, (err, magentoCart) => {
     if (err) return cb(err)
-    cb(null)
+    cb(null, {magentoCart})
   })
 }
 
@@ -36,6 +36,6 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, cb) {
       return cb(new Error(`Got error (${res.statusCode}) from magento: ${JSON.stringify(body)}`))
     }
 
-    cb(null, {magentoCart: body})
+    cb(null, body)
   })
 }

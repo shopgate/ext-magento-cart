@@ -3,7 +3,9 @@
   "pipeline": {
     "id": "getCart_v1",
     "public": true,
-    "input": [],
+    "input": [
+      {"key": "sgxsMeta", "id": "750"}
+    ],
     "output": [
       {"key": "cart", "id": "100", "optional": true}
     ],
@@ -47,15 +49,18 @@
         "output": [
           {"key": "productIds", "id": "4"},
           {"key": "limit", "id": "5"},
-          {"key": "offset", "id": "6"}
+          {"key": "offset", "id": "6"},
+          {"key": "characteristics", "id": "8"}
         ]
       }, {
         "type": "pipeline",
         "id": "getProducts_v1",
         "input": [
+          {"key": "sgxsMeta", "id": "750"},
           {"key": "productIds", "id": "4"},
           {"key": "limit", "id": "5"},
-          {"key": "offset", "id": "6"}
+          {"key": "offset", "id": "6"},
+          {"key": "characteristics", "id": "8"}
         ],
         "output": [
           {"key": "products", "id": "7"}

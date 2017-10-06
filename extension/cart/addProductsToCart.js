@@ -38,8 +38,6 @@ function addProductsToCart (request, accessToken, products, cartId, cartUrl, cb)
       return cb(new Error(`Got error (${res.statusCode}) from magento: ${JSON.stringify(body)}`))
     }
 
-    console.log(body)
-
     cb(null)
   })
 }
