@@ -1,0 +1,31 @@
+[
+  {
+    "id": "simple1",
+    "featuredImageUrl": "image",
+    "identifiers": {
+      "sku": "simple1"
+    }
+  },
+  {
+    "id": "parent1-child1",
+    "featuredImageUrl": "image",
+    "characteristics": [
+      { "name": "Farbe", "value": "rot" },
+      { "name": "Größe", "value": "L" }
+    ],
+    "identifiers": {
+      "sku": "child1"
+    }
+  },
+  {
+    "id": "parent1-child2",
+    "featuredImageUrl": "image",
+    "characteristics": [
+      { "name": "Farbe", "value": "Blau" },
+      { "name": "Größe", "value": "S" }
+    ],
+    "identifiers": {
+      "sku": "child2"
+    }
+  }
+]

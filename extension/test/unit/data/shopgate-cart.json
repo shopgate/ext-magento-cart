@@ -1,0 +1,63 @@
+{
+  "cartItems":[
+    {
+      "id": "cartItem1",
+      "quantity": 2,
+      "type": "product",
+      "messages": [],
+      "product": {
+        "id": "simple1",
+        "name": "simple product 1",
+        "featuredImageUrl": "image",
+        "price": { "unit": 1, "default": 2, "special": 2 },
+        "additionalInfo": [ { "label": "sku", "value": "simple1" } ],
+        "properties": [],
+        "appliedDiscounts": []
+      }
+    }, {
+      "id": "cartItem3",
+      "quantity": 3,
+      "type": "product",
+      "messages": [],
+      "product": {
+        "id": "parent1-child1",
+        "name": "child of parent 1",
+        "featuredImageUrl": "image",
+        "price": { "unit": 1, "default": 3, "special": 3 },
+        "additionalInfo": [ { "label": "sku", "value": "child1" } ],
+        "properties": [
+          { "type": "option", "value": "rot", "label": "Farbe" },
+          { "type": "option", "value": "L", "label": "Größe" }
+        ],
+        "appliedDiscounts": []
+      }
+    }, {
+      "id": "cartItem5",
+      "quantity": 6,
+      "type": "product",
+      "messages": [],
+      "product": {
+        "id": "parent1-child2",
+        "name": "other child of parent 1",
+        "featuredImageUrl": "image",
+        "price": { "unit": 1, "default": 6, "special": 6 },
+        "additionalInfo": [ { "label": "sku", "value": "child2" } ],
+        "properties": [
+          { "type": "option", "value": "Blau", "label": "Farbe" },
+          { "type": "option", "value": "S", "label": "Größe" }
+        ],
+        "appliedDiscounts": []
+      }
+    }
+  ],
+  "currency": "USD",
+  "totals": [
+    { "type": "subTotal", "label": "Sub Total", "amount": 1 },
+    { "type": "grandTotal", "label": "Total", "amount": 1 }
+  ],
+  "enableCoupons": false,
+  "messages": [],
+  "text": null,
+  "isTaxIncluded": null,
+  "isOrderable": true
+}

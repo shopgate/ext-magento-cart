@@ -6,6 +6,8 @@
 module.exports = function (context, input, cb) {
   const magentoCart = input.magentoCart
 
+  // TODO: return [] if cart is empty
+
   const productIds = getShopgateProductIds(magentoCart)
 
   // TODO: Limit and offset are used as a kind of workaround .

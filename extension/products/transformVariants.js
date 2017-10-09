@@ -4,7 +4,6 @@
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
-  // TODO: input validation
   const shopgateVariants = {products: input.products, characteristics: input.characteristics}
   const magentoParentProduct = input.magentoParentProduct
 
@@ -102,7 +101,7 @@ function getLabelsForOldConfigurationPair (characteristicId, characteristicValue
  */
 function getConfigurationPairForLabels (characteristicLabel, characteristicValueLabel, newCharacteristic) {
   for (let i in newCharacteristic) {
-    if (characteristicLabel.toLocaleLowerCase() === newCharacteristic[i].label.toLocaleLowerCase()) {
+    if (characteristicLabel.toLowerCase() === newCharacteristic[i].label.toLowerCase()) {
       for (let j in newCharacteristic[i].values) {
         if (characteristicValueLabel.toLowerCase() === newCharacteristic[i].values[j].label.toLowerCase()) {
           // TODO: test if one is missing (in this case return null)

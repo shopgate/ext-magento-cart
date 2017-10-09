@@ -47,7 +47,7 @@ function getCartItems (magentoCart, shopgateProducts) {
       let productId = magentoCart.items[i]['product_id']
       let productName = magentoCart.items[i]['name']
       let quantity = parseInt(magentoCart.items[i]['qty'])
-      const itemPrice = parseInt(magentoCart.items[i]['price'])
+      const itemPrice = parseFloat(magentoCart.items[i]['price'])
 
       // If it's a variant, we need to transform it into a special shopgate
       // variant id and get the quantity from the parent item
@@ -69,7 +69,6 @@ function getCartItems (magentoCart, shopgateProducts) {
       const product = new Product(productId, productName, shopgateProduct.featuredImageUrl, price)
       if (shopgateProduct.characteristics) {
         for (let j in shopgateProduct.characteristics) {
-          // TODO: Check if this is correct
           const property = new Property('option', shopgateProduct.characteristics[j].value)
           property.setLabel(shopgateProduct.characteristics[j].name)
           product.addProperty(property)

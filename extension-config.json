@@ -6,5 +6,30 @@
     "pipelines": "./pipelines/"
   },
   "steps": [],
-  "configuration": {}
+  "configuration": {
+    "enableCartCoupons" : {
+      "type" : "static",
+      "destination" : "backend",
+      "params" : {
+        "value" : false
+      }
+    },
+    "magentoUrl" : {
+      "type" : "static",
+      "destination" : "backend",
+      "params" : {
+        "value" : "http://team-pirate.localdev.cc:8000/shopping_carts/Magento/1.9.2.1/59c24b36620d4/shopgate/v2"
+      }
+    },
+    "credentials" : {
+      "type" : "static",
+      "destination" : "backend",
+      "params" : {
+        "value" : {
+          "id": "10014-34311998",
+          "secret": "784efc5fe02e2ecd8082"
+        }
+      }
+    }
+  }
 }

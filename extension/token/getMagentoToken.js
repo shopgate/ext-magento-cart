@@ -1,4 +1,4 @@
-const TokenHandler = require('../helpers/token')
+const TokenHandler = require('../helpers/tokenHandler')
 
 /**
  * @param {object} context

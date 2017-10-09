@@ -1,5 +1,5 @@
 const assert = require('assert')
-const TokenHandler = require('../../../helpers/token')
+const TokenHandler = require('../../../helpers/tokenHandler')
 
 describe('token', () => {
   const credentials = {

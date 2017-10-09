@@ -17,14 +17,14 @@ module.exports = function (context, input, cb) {
       // It may have to be split by '-' and only the first element of the resulting array is the productId
       transformedProduct = new ConfigurableProduct(products[i].productId, products[i].quantity)
       for (let j in products[i].properties) {
-        const characteristicId = products[i].properties[j].labelId  // TODO: this may not be implemented in frontend
-        const characteristicValueId = products[i].properties[j].valueId // TODO: this may not be implemented in frontend
+        const characteristicId = products[i].properties[j].id
+        const characteristicValueId = products[i].properties[j].value
         transformedProduct.addProdertyToSuperAttribure(characteristicId, characteristicValueId)
       }
     } else {
       transformedProduct = new SimpleProduct(products[i].productId, products[i].quantity)
     }
-    if (transformedProduct) transformedProducts.push(transformedProduct)
+    transformedProducts.push(transformedProduct)
   }
   cb(null, {transformedProducts})
 }

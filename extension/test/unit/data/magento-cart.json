@@ -1,0 +1,49 @@
+{
+  "quote_currency_code": "USD",
+  "grand_total": 1,
+  "subtotal": 1,
+  "items": [
+    {
+      "item_id": "cartItem1",
+      "product_id": "simple1",
+      "product_type": "simple",
+      "name": "simple product 1",
+      "qty": 2,
+      "price": 1.0
+    },
+    {
+      "item_id": "cartItem2",
+      "product_id": "parent1",
+      "product_type": "configurable",
+      "name": "parent 1",
+      "qty": 3,
+      "price": 1.0
+    },
+    {
+      "item_id": "cartItem3",
+      "product_id": "child1",
+      "product_type": "simple",
+      "parent_item_id": "cartItem2",
+      "name": "child of parent 1",
+      "qty": 1,
+      "price": 1.0
+    },
+    {
+      "item_id": "cartItem4",
+      "product_id": "parent1",
+      "product_type": "configurable",
+      "name": "parent 1",
+      "qty": 6,
+      "price": 1.0
+    },
+    {
+      "item_id": "cartItem5",
+      "product_id": "child2",
+      "product_type": "simple",
+      "parent_item_id": "cartItem4",
+      "name": "other child of parent 1",
+      "qty": 1,
+      "price": 1.0
+    }
+  ]
+}

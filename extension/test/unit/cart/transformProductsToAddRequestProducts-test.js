@@ -12,8 +12,8 @@ describe('transformProductsToAddRequestProducts', () => {
         productId: '2',
         quantity: 2,
         properties: [
-          {labelId: 'pl1', valueId: 'pv1'},
-          {labelId: 'pl2', valueId: 'pv2'}
+          {id: 'pl1', value: 'pv1'},
+          {id: 'pl2', value: 'pv2'}
         ]
       }
     ]
