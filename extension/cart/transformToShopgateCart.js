@@ -32,9 +32,8 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
 
 function getTotals (magentoCart) {
   const totals = []
-  totals.push(new Total('subTotal', 'Sub Total', magentoCart['subtotal']))
+  if (magentoCart['subtotal']) totals.push(new Total('subTotal', 'Sub Total', magentoCart['subtotal']))
   totals.push(new Total('grandTotal', 'Total', magentoCart['grand_total']))
-
   return totals
 }
 

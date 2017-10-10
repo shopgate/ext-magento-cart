@@ -97,17 +97,17 @@ function getLabelsForOldConfigurationPair (characteristicId, characteristicValue
  * It is expected, that the labels are equal in the magento parent and the shopgate variants
  * @param {string} characteristicLabel
  * @param {string} characteristicValueLabel
- * @param {Characteristic[]} newCharacteristic
+ * @param {Characteristic[]} newCharacteristics
  */
-function getConfigurationPairForLabels (characteristicLabel, characteristicValueLabel, newCharacteristic) {
-  for (let i in newCharacteristic) {
-    if (characteristicLabel.toLowerCase() === newCharacteristic[i].label.toLowerCase()) {
-      for (let j in newCharacteristic[i].values) {
-        if (characteristicValueLabel.toLowerCase() === newCharacteristic[i].values[j].label.toLowerCase()) {
+function getConfigurationPairForLabels (characteristicLabel, characteristicValueLabel, newCharacteristics) {
+  for (let i in newCharacteristics) {
+    if (characteristicLabel.toLowerCase() === newCharacteristics[i].label.toLowerCase()) {
+      for (let j in newCharacteristics[i].values) {
+        if (characteristicValueLabel.toLowerCase() === newCharacteristics[i].values[j].label.toLowerCase()) {
           // TODO: test if one is missing (in this case return null)
           return {
-            characteristicId: newCharacteristic[i].id,
-            characteristicValueId: newCharacteristic[i].values[j].id
+            characteristicId: newCharacteristics[i].id,
+            characteristicValueId: newCharacteristics[i].values[j].id
           }
         }
       }

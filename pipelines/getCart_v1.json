@@ -13,69 +13,30 @@
       {
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/token/getMagentoToken.js",
+        "path": "@shopgate/magento-cart/cart/getCartIdFromStorage.js",
         "input": [],
         "output": [
-          {"key": "tokens", "id": "10"}
+          {"key": "cartId", "id": "1"}
         ]
       }, {
-        "type": "extension",
-        "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/cart/createCartIfNecessary.js",
+        "type": "conditional",
         "input": [
-          {"key": "tokens", "id": "10"}
+          {"key": "cartId", "id": "1"},
+          {"key": "sgxsMeta", "id": "750"}
         ],
-        "output": [
-          {"key": "cartId", "id": "2"}
-        ]
-      }, {
-        "type": "extension",
-        "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/cart/getCartFromMagento.js",
-        "input": [
-          {"key": "tokens", "id": "10"},
-          {"key": "cartId", "id": "2"}
-        ],
-        "output": [
-          {"key": "magentoCart", "id":"3"}
-        ]
-      }, {
-        "type": "extension",
-        "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/cart/getShopgateProductIds.js",
-        "input": [
-          {"key": "magentoCart", "id": "3"}
-        ],
-        "output": [
-          {"key": "productIds", "id": "4"},
-          {"key": "limit", "id": "5"},
-          {"key": "offset", "id": "6"},
-          {"key": "characteristics", "id": "8"}
-        ]
-      }, {
-        "type": "pipeline",
-        "id": "getProducts_v1",
-        "input": [
-          {"key": "sgxsMeta", "id": "750"},
-          {"key": "productIds", "id": "4"},
-          {"key": "limit", "id": "5"},
-          {"key": "offset", "id": "6"},
-          {"key": "characteristics", "id": "8"}
-        ],
-        "output": [
-          {"key": "products", "id": "7"}
-        ]
-      }, {
-        "type": "extension",
-        "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/cart/transformToShopgateCart.js",
-        "input": [
-          {"key": "magentoCart", "id": "3"},
-          {"key": "shopgateProducts", "id": "7"}
-        ],
-        "output": [
-          {"key": "cart", "id": "100"}
-        ]
+        "expression": {"notnull": [{"name":"cartId"}]},
+        "then": {
+          "type": "pipeline",
+          "id": "getCart_int",
+          "input": [{"key": "cartId", "id": "1"}, {"key": "sgxsMeta", "id": "750"}],
+          "output": [{"key": "cart", "id": "100"}]
+        },
+        "else": {
+          "type": "staticValue",
+          "input": [],
+          "values": [{"key": "cart", "value": null}],
+          "output": [{"key": "cart", "id": "100"}]
+        }
       }
     ]
   }
