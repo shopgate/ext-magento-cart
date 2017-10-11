@@ -12,7 +12,7 @@ describe('transformToShopgateCart', () => {
 
     step(context, input, (err, result) => {
       assert.ifError(err)
-      assert.deepEqual(result, {cart: resultingCart})
+      assert.deepEqual(result, resultingCart)
       done()
     })
   })

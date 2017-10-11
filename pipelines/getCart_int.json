@@ -8,7 +8,14 @@
       {"key": "sgxsMeta", "id": "750"}
     ],
     "output": [
-      {"key": "cart", "id": "100", "optional": true}
+      {"key": "isOrderable", "id": "1010"},
+      {"key": "isTaxIncluded", "id": "1020"},
+      {"key": "currency", "id": "1030"},
+      {"key": "messages", "id": "1050"},
+      {"key": "text", "id": "1060"},
+      {"key": "cartItems", "id": "1070"},
+      {"key": "totals", "id": "1080"},
+      {"key": "enableCoupons", "id": "1090"}
     ],
     "steps": [
       {
@@ -65,7 +72,14 @@
           {"key": "shopgateProducts", "id": "7"}
         ],
         "output": [
-          {"key": "cart", "id": "100"}
+          {"key": "isOrderable", "id": "1010"},
+          {"key": "isTaxIncluded", "id": "1020"},
+          {"key": "currency", "id": "1030"},
+          {"key": "messages", "id": "1050"},
+          {"key": "text", "id": "1060"},
+          {"key": "cartItems", "id": "1070"},
+          {"key": "totals", "id": "1080"},
+          {"key": "enableCoupons", "id": "1090"}
         ]
       }
     ]
