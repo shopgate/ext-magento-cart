@@ -19,7 +19,7 @@ module.exports = function (context, input, cb) {
 /**
  * @param {Request} request
  * @param {string} accessToken
- * @param {object} product
+ * @param {object[]} products
  * @param {integer} cartId
  * @param {string} cartUrl
  * @param {function} cb

@@ -1,5 +1,6 @@
 /**
  * @param {object} context
+ * @param {object} input
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
@@ -19,9 +20,6 @@ module.exports = function (context, input, cb) {
 /**
  * @param {Request} request
  * @param {string} productId
- * @param {object} clientCredentials
- * @param {string} clientCredentials.id
- * @param {string} clientCredentials.secret
  * @param {string} accessToken
  * @param {string} url
  * @param {logger} log

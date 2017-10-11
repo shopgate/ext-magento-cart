@@ -5,17 +5,18 @@
  */
 module.exports = function (context, input, cb) {
   const magentoCart = input.magentoCart
-
-  // TODO: return [] if cart is empty
-
   const productIds = getShopgateProductIds(magentoCart)
 
-  // TODO: Limit and offset are used as a kind of workaround .
+  // TODO: Limit and offset are used as a kind of workaround.
   //       We should be able to ask for a unlimited count of products
+  //       This has to be supported by the product service first
   // TODO: These could also be excluded into a static step
   cb(null, {productIds, offset: 0, limit: 100, characteristics: true})
 }
 
+/**
+ * @param {object} magentoCart
+ */
 function getShopgateProductIds (magentoCart) {
   const productIds = []
 

@@ -21,6 +21,11 @@ module.exports = function (context, input, cb) {
   cb(null, {cart: shopgateCart})
 }
 
+/**
+ * @param {object} magentoCart
+ * @param {object} shopgateProducts
+ * @param {boolean} enableCoupons
+ */
 function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) {
   const cartItems = getCartItems(magentoCart, shopgateProducts)
   const totals = getTotals(magentoCart)
@@ -30,6 +35,9 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
   return cart
 }
 
+/**
+ * @param {object} magentoCart
+ */
 function getTotals (magentoCart) {
   const totals = []
   if (magentoCart['subtotal']) totals.push(new Total('subTotal', 'Sub Total', magentoCart['subtotal']))
@@ -37,6 +45,10 @@ function getTotals (magentoCart) {
   return totals
 }
 
+/**
+ * @param {object} magentoCart
+ * @param {object[]} shopgateProducts
+ */
 function getCartItems (magentoCart, shopgateProducts) {
   const cartItems = []
 

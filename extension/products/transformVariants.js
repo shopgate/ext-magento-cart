@@ -19,6 +19,8 @@ module.exports = function (context, input, cb) {
 }
 
 /**
+ * Gets the characteristics as needed for the shopgate variants from the
+ * magento parent product
  * @param {object} magentoParentProduct
  */
 function getNewCharacteristics (magentoParentProduct) {
@@ -42,77 +44,83 @@ function getNewCharacteristics (magentoParentProduct) {
 }
 
 /**
- * Iterates all the products variants and updates the characteristics to the
- * magento characteristics
+ * Iterates all the shopgate products variants and updates the characteristics
+ * to the magento characteristics
  * @param {object[]} shopgateVariants
  * @param {object} characteristics
  */
 function updateVariantsByLabelMapping (shopgateVariants, newCharacteristics) {
+  const idMap = createIdMap(shopgateVariants.characteristics)
+  const labelMap = createLabelMap(newCharacteristics)
+
   for (let i in shopgateVariants.products) {
-    const characteristics = shopgateVariants.products[i].characteristics
-    for (let key in characteristics) {
-      if (characteristics.hasOwnProperty(key)) {
+    const productCharacteristics = shopgateVariants.products[i].characteristics
+    for (let key in productCharacteristics) {
+      if (productCharacteristics.hasOwnProperty(key)) {
         const characteristicId = key
-        const characteristicValueId = characteristics[key]
+        const characteristicValueId = productCharacteristics[key]
 
         // Get labels of shopgate config (config is characteristic and characteristicValue)
-        const labels = getLabelsForOldConfigurationPair(characteristicId, characteristicValueId, shopgateVariants.characteristics)
+        const labels = idMap[`${characteristicId}-${characteristicValueId}`]
         if (!labels) throw new Error(`can't find labels for shopgate characteristicId "${characteristicId}" and characteristicValueId "${characteristicValueId}"`)
 
         // Get ids for the former extracted labels in the magento characteristics
-        const newConfigurationPair = getConfigurationPairForLabels(labels.characteristicLabel, labels.characteristicValueLabel, newCharacteristics)
+        const newConfigurationPair = labelMap[`${labels.characteristicLabel}-${labels.characteristicValueLabel}`]
         if (!newConfigurationPair) throw new Error(`can't find magento characteristicId and characteristicValueId for characteristicLabel "${labels.characteristicLabel}" and characteristicValueLabel "${labels.characteristicValueLabel}"`)
 
-        characteristics[newConfigurationPair.characteristicId] = newConfigurationPair.characteristicValueId
-        delete characteristics[key]
+        productCharacteristics[newConfigurationPair.characteristicId] = newConfigurationPair.characteristicValueId
+        delete productCharacteristics[key]
       }
     }
   }
 }
 
 /**
- * Retruns the labels for a shopgate variant configurations (characteristicId, characteristicValueId)
- * It is expected, that the labels are equal in magento parent and the shopgate variants
- * @param {string} characteristicId
- * @param {string} characteristicValueId
- * @param {Characteristic[]} oldCharacteristics
+ * Creates a map where keys are `${characteristicId}-${characteristicValueId}`
+ * and values are the {characteristicLabel, characteristicValueLabel}
+ * @param {object[]} shopgateCharacteristics
  */
-function getLabelsForOldConfigurationPair (characteristicId, characteristicValueId, oldCharacteristics) {
-  for (let i in oldCharacteristics) {
-    if (characteristicId === oldCharacteristics[i].id) {
-      for (let j in oldCharacteristics[i].values) {
-        if (characteristicValueId === oldCharacteristics[i].values[j].id) {
-          // TODO: test if one is missing (in this case return null)
-          return {
-            characteristicLabel: oldCharacteristics[i].label,
-            characteristicValueLabel: oldCharacteristics[i].values[j].label
-          }
-        }
+function createIdMap (shopgateCharacteristics) {
+  const map = {}
+
+  for (let i in shopgateCharacteristics) {
+    for (let j in shopgateCharacteristics[i].values) {
+      const characteristicId = shopgateCharacteristics[i].id
+      const characteristicValueId = shopgateCharacteristics[i].values[j].id
+
+      // TODO: test if one is missing
+      map[`${characteristicId}-${characteristicValueId}`] = {
+        characteristicLabel: shopgateCharacteristics[i].label,
+        characteristicValueLabel: shopgateCharacteristics[i].values[j].label
       }
     }
   }
+
+  return map
 }
 
 /**
- * It is expected, that the labels are equal in the magento parent and the shopgate variants
- * @param {string} characteristicLabel
- * @param {string} characteristicValueLabel
- * @param {Characteristic[]} newCharacteristics
+ * Creates a map where keys are `${characteristicLabel>}-${characteristicValueLabel}`
+ * and values are the {characteristicId, characteristicValueId}
+ * @param {*} newCharacteristics
  */
-function getConfigurationPairForLabels (characteristicLabel, characteristicValueLabel, newCharacteristics) {
+function createLabelMap (newCharacteristics) {
+  const map = {}
+
   for (let i in newCharacteristics) {
-    if (characteristicLabel.toLowerCase() === newCharacteristics[i].label.toLowerCase()) {
-      for (let j in newCharacteristics[i].values) {
-        if (characteristicValueLabel.toLowerCase() === newCharacteristics[i].values[j].label.toLowerCase()) {
-          // TODO: test if one is missing (in this case return null)
-          return {
-            characteristicId: newCharacteristics[i].id,
-            characteristicValueId: newCharacteristics[i].values[j].id
-          }
-        }
+    for (let j in newCharacteristics[i].values) {
+      const characteristicLabel = newCharacteristics[i].label
+      const characteristicValueLabel = newCharacteristics[i].values[j].label
+
+      // TODO: test if one is missing
+      map[`${characteristicLabel}-${characteristicValueLabel}`] = {
+        characteristicId: newCharacteristics[i].id,
+        characteristicValueId: newCharacteristics[i].values[j].id
       }
     }
   }
+
+  return map
 }
 
 class Characteristic {

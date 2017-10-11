@@ -38,7 +38,6 @@ class TokenHandler {
   /**
    * @param {string} storage
    * @param {string} key
-   * @param {boolean} skip
    * @param {function} cb
    */
   getTokensFromStorage (storage, key, cb) {
@@ -58,7 +57,7 @@ class TokenHandler {
    * @param {string} storage
    * @param {key} key
    * @param {object} tokens
-   * @param {number} expires
+   * @param {number} lifeSpan
    * @param {function} cb
    */
   setTokenInStorage (storage, key, tokens, lifeSpan, cb) {
