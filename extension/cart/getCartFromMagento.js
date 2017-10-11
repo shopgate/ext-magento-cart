@@ -7,7 +7,7 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
   const accessToken = input.tokens.accessToken
-  const cartId = input.cartId // TODO: skip if null
+  const cartId = input.cartId
 
   getCartFromMagento(request, accessToken, cartId, cartUrl, (err, magentoCart) => {
     if (err) return cb(err)
