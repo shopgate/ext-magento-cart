@@ -111,7 +111,7 @@ describe('createCartIfNecessary', () => {
       }
 
       createCart(context.tracedRequest, input.tokens.accessToken, context.config.magentoUrl, (err) => {
-        assert.equal(err.message, 'Got error (400) from magento: {"error":"error"}')
+        assert.equal(err.message, 'Got 400 from magento: {"error":"error"}')
         done()
       })
     })

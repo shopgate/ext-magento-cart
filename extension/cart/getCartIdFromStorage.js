@@ -9,6 +9,6 @@ module.exports = function (context, input, cb) {
   storage.get(key, (err, cartId) => {
     if (err) return cb(err)
     context.log.debug(`Got cartId ${cartId} from storage`)
-    return cb(null, {cartId})
+    return cb(null, {cartId: cartId || null})
   })
 }

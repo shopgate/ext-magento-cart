@@ -56,7 +56,7 @@ describe('getCartFromMagento', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.message, 'Got error (499) from magento: {"message":"mimimi"}')
+      assert.equal(err.message, 'Got 499 from magento: {"message":"mimimi"}')
       done()
     })
   })

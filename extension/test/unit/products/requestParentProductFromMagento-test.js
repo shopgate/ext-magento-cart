@@ -87,7 +87,7 @@ describe('requestParentProductFromMagento', () => {
       }
 
       requestParentProductFromMagento(context.tracedRequest, input.productId, 'at', context.config.productUrl, context.log, (err) => {
-        assert.equal(err.message, 'Got error (401) from magento: {"message":"unauthorized"}')
+        assert.equal(err.message, 'Got 401 from magento: {"message":"unauthorized"}')
         done()
       })
     })

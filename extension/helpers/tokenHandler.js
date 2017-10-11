@@ -88,14 +88,14 @@ class TokenHandler {
     this.log.debug(`sending: ${util.inspect(options, false, 3)} to magento auth endpoint`)
     this.request('Magento:tokens').post(options, (err, res, body) => {
       if (err) return cb(err)
-      if (res.statusCode >= 400) return cb(new Error(`got error (${res.statusCode}) from magento: ${JSON.stringify(body)}`))
+      if (res.statusCode !== 200) return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
 
       if (!(Array.isArray(body.success) && body.success.length === 1 && body.success[0].access_token)) {
         cb(new Error(`received invalid response from magento: ${JSON.stringify(body)}`))
       }
 
       const tokenData = {
-        // TODO: later there will contain a refresh token as well
+        // TODO: later this will contain a refresh token as well
         // TODO: this is hopefully subject to change!!!
         lifeSpan: body.success[0].expires_in,
         tokens: {

@@ -34,8 +34,8 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
 
   request('Magento:parentProduct').get(options, (err, res, body) => {
     if (err) return cb(err)
-    if (res.statusCode >= 400) {
-      return cb(new Error(`Got error (${res.statusCode}) from magento: ${JSON.stringify(body)}`))
+    if (res.statusCode !== 200) {
+      return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
     }
 
     // TODO: remove regex cleanup!!!

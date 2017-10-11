@@ -161,7 +161,7 @@ describe('token', () => {
 
       const th = new TokenHandler(credentials, authUrl, storages, log, request)
       th.getTokens((err, tokens) => {
-        assert.equal(err.message, 'got error (400) from magento: {"foo":"err"}')
+        assert.equal(err.message, 'Got 400 from magento: {"foo":"err"}')
         done()
       })
     })

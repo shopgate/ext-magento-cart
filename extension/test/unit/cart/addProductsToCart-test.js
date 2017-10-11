@@ -66,7 +66,7 @@ describe('addProductsToCart', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.message, 'Got error (400) from magento: {"foo":"bar"}')
+      assert.equal(err.message, 'Got 400 from magento: {"foo":"bar"}')
       done()
     })
   })
