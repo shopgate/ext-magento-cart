@@ -18,6 +18,8 @@ module.exports = function (context, input, cb) {
 
   const shopgateCart = transformToShopgateCart(magentoCart, shopgateProducts, enableCoupons)
 
+  context.log.debug(shopgateCart)
+
   cb(null, {
     isOrderable: shopgateCart.isOrderable,
     isTaxIncluded: shopgateCart.isTaxIncluded,
@@ -26,7 +28,7 @@ module.exports = function (context, input, cb) {
     text: shopgateCart.text,
     cartItems: shopgateCart.cartItems,
     totals: shopgateCart.totals,
-    enableCoupons: shopgateCart.enableCoupons
+    enableCoupons: shopgateCart.enableCoupons || false
   })
 }
 
