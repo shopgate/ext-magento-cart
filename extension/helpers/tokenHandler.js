@@ -14,8 +14,8 @@ class TokenHandler {
    * @param {function} cb
    */
   getTokens (cb) {
-    const key = `${this.credentials.id}-tokens`
-    const storage = 'extension'
+    const key = `tokens`
+    const storage = 'device'
 
     this.log.debug('requesting tokens from/for magento shop plugin')
     // This will return null if the token is or is about to expire or if there is no token in the storage
