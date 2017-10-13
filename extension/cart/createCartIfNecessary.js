@@ -4,7 +4,7 @@
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
-  const accessToken = input.tokens.accessToken
+  const accessToken = input.token
   const storage = context.storage.device
   const cartUrl = context.config.magentoUrl + '/carts'
   const request = context.tracedRequest

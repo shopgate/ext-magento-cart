@@ -5,7 +5,8 @@
     "public": true,
     "input": [
       {"key": "productId", "id": "1"},
-      {"key": "showInactive", "id": "2", "optional": true}
+      {"key": "showInactive", "id": "2", "optional": true},
+      {"key": "sgxsMeta", "id": "750"}
     ],
     "output": [
       {"key": "products", "id": "2000"},
@@ -59,12 +60,13 @@
         "input": [{"key": "products", "id": "200"}],
         "output": [{"key": "products", "id": "1000"}]
       }, {
-        "type": "extension",
-        "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/token/getMagentoToken.js",
-        "input": [],
+        "type": "pipeline",
+        "id": "getToken_v1",
+        "input": [
+          {"key": "sgxsMeta", "id": "750"}
+        ],
         "output": [
-          {"key": "tokens", "id": "40"}
+          {"key": "token", "id": "40"}
         ]
       }, {
         "type": "extension",
@@ -72,7 +74,7 @@
         "path": "@shopgate/magento-cart/products/requestParentProductFromMagento.js",
         "input": [
           {"key": "productId", "id": "1"},
-          {"key": "tokens", "id": "40"}
+          {"key": "token", "id": "40"}
         ],
         "output": [
           {"key": "product", "id": "50"}
