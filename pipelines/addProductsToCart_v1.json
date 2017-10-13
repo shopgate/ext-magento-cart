@@ -25,7 +25,8 @@
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/createCartIfNecessary.js",
         "input": [
-          {"key": "token", "id": "10"}
+          {"key": "token", "id": "10"},
+          {"key": "sgxsMeta", "id": "750"}
         ],
         "output": [
           {"key": "cartId", "id": "2"}

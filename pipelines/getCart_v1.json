@@ -23,7 +23,8 @@
         "path": "@shopgate/magento-cart/cart/getCartIdFromStorage.js",
         "input": [],
         "output": [
-          {"key": "cartId", "id": "1"}
+          {"key": "cartId", "id": "1"},
+          {"key": "sgxsMeta", "id": "750"}
         ]
       }, {
         "type": "conditional",
