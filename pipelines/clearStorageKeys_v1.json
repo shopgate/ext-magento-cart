@@ -1,0 +1,22 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "clearStorageKeys_v1",
+    "public": true,
+    "input": [
+      {"key": "deletions", "id": "1"}
+    ],
+    "output": [],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-user/helper/clearStorageKeys.js",
+        "input": [
+          {"key": "deletions", "id": "1"}
+        ],
+        "output": []
+      }
+    ]
+  }
+}
