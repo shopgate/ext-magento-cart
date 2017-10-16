@@ -14,6 +14,7 @@
       {
         "type": "pipeline",
         "id": "getToken_v1",
+        "trusted": true,
         "input": [
           {"key": "sgxsMeta", "id": "750"}
         ],

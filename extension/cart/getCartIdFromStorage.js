@@ -6,10 +6,12 @@ const CARTID_KEY = 'cartId'
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
-  const isLoggedIn = !!input.sgxsMeta.userId
+  const isLoggedIn = !!context.meta.userId
 
   let storageName = isLoggedIn ? 'user' : 'device'
   const storage = context.storage[storageName]
+
+  // TODO: return 'me' if user is logged in
 
   storage.get(CARTID_KEY, (err, cartId) => {
     if (err) return cb(err)

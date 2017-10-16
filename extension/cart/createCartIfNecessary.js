@@ -10,7 +10,7 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const log = context.log
   const accessToken = input.token
-  const isLoggedIn = !!input.sgxsMeta.userId
+  const isLoggedIn = !!context.meta.userId
 
   let storageName = isLoggedIn ? 'user' : 'device'
   const storage = context.storage[storageName]
