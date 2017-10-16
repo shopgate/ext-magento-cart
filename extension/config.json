@@ -1,8 +1,4 @@
 {
-  "credentials": {
-    "id": "1013573-30943",
-    "secret": "94464b67c25b103494e1"
-  },
   "magentoUrl": "https://team-pirate-sg-cloud.shopgatedev.com/shopping_carts/Magento/1.9.2.1/59c24b36620d4/shopgate/v2",
   "enableCoupons": false
 }
