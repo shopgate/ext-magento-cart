@@ -23,7 +23,8 @@ describe('createCartIfNecessary', () => {
     },
     log: {
       debug: () => {}
-    }
+    },
+    meta: {}
   }
 
   beforeEach(() => {

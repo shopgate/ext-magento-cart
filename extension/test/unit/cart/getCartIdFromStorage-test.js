@@ -10,7 +10,8 @@ describe('getCartIdFromStorage', () => {
     },
     log: {
       debug: () => {}
-    }
+    },
+    meta: {}
   }
 
   it('should return the cart id from storage', (done) => {
