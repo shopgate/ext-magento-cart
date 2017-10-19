@@ -1,3 +1,5 @@
+const util = require('util')
+
 /**
  * @param {object} context
  * @param {object} input
@@ -6,11 +8,12 @@
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
-  const accessToken = input.tokens.accessToken
+  const log = context.log
+  const accessToken = input.token
   const products = input.transformedProducts
   const cartId = input.cartId
 
-  addProductsToCart(request, accessToken, products, cartId, cartUrl, (err) => {
+  addProductsToCart(request, accessToken, products, cartId, cartUrl, log, (err) => {
     if (err) return cb(err)
     cb(null, {messages: null})
   })
@@ -24,13 +27,14 @@ module.exports = function (context, input, cb) {
  * @param {string} cartUrl
  * @param {function} cb
  */
-function addProductsToCart (request, accessToken, products, cartId, cartUrl, cb) {
+function addProductsToCart (request, accessToken, products, cartId, cartUrl, log, cb) {
   const options = {
     url: `${cartUrl}/${cartId}/items`,
     headers: {authorization: `Bearer ${accessToken}`},
     json: products
   }
 
+  log.debug(`addToCart with ${util.inspect(options)}`)
   request('magento:addProductsToCart').post(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {

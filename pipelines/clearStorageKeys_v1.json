@@ -11,7 +11,7 @@
       {
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-user/helper/clearStorageKeys.js",
+        "path": "@shopgate/magento-cart/helpers/clearStorageKeys.js",
         "input": [
           {"key": "deletions", "id": "1"}
         ],

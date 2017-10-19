@@ -1,17 +1,21 @@
+const CARTID_KEY = 'cartId'
+
 /**
  * @param {object} context
  * @param {object} input
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
-  const accessToken = input.tokens.accessToken
-  const storage = context.storage.device
   const cartUrl = context.config.magentoUrl + '/carts'
   const request = context.tracedRequest
   const log = context.log
-  const key = 'cartId'
+  const accessToken = input.token
+  const isLoggedIn = !!context.meta.userId
 
-  storage.get(key, (err, cartId) => {
+  let storageName = isLoggedIn ? 'user' : 'device'
+  const storage = context.storage[storageName]
+
+  storage.get(CARTID_KEY, (err, cartId) => {
     if (err) return cb(err)
     if (cartId) {
       log.debug(`using cart with id: ${cartId}`)
@@ -19,7 +23,7 @@ module.exports = function (context, input, cb) {
     }
     createCart(request, accessToken, cartUrl, (err2, cartId) => {
       if (err2) return cb(err2)
-      storage.set(key, cartId, (err3) => {
+      storage.set(CARTID_KEY, cartId, (err3) => {
         if (err3) return cb(err3)
         log.debug(`created cart with id: ${cartId}`)
         return cb(null, {cartId})

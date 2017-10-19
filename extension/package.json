@@ -11,7 +11,9 @@
     "url": "ssh://git@stash.localdev.cc:7999/sgx/magento-cart.git"
   },
   "license": "UNLICENSED",
-  "dependencies": {},
+  "dependencies": {
+    "neo-async": "^2.5.0"
+  },
   "devDependencies": {
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",

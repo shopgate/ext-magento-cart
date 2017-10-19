@@ -5,13 +5,13 @@
  */
 module.exports = function (context, input, cb) {
   const productId = input.productId
-  const tokens = input.tokens
+  const accessToken = input.token
 
   const url = context.config.magentoUrl + '/products'
   const request = context.tracedRequest
   const log = context.log
 
-  requestParentProductFromMagento(request, productId, tokens.accessToken, url, log, (err, product) => {
+  requestParentProductFromMagento(request, productId, accessToken, url, log, (err, product) => {
     if (err) return cb(err)
     cb(null, {product})
   })

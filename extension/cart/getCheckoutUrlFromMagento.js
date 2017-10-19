@@ -1,4 +1,5 @@
 /**
+ *
  * @param {object} context
  * @param {object} input
  * @param {function} cb
@@ -9,27 +10,20 @@ module.exports = function (context, input, cb) {
   const accessToken = input.token
   const cartId = input.cartId
 
-  getCartFromMagento(request, accessToken, cartId, cartUrl, (err, magentoCart) => {
+  getCheckoutUrlFromMagento(request, accessToken, cartId, cartUrl, (err, result) => {
     if (err) return cb(err)
-    cb(null, {magentoCart})
+    cb(null, {expires: result['expires_in'], url: result.url})
   })
 }
 
-/**
- * @param {Request} request
- * @param {string} accessToken
- * @param {integer} cartId
- * @param {string} cartUrl
- * @param {function} cb
- */
-function getCartFromMagento (request, accessToken, cartId, cartUrl, cb) {
+function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, cb) {
   const options = {
-    url: `${cartUrl}/${cartId}`,
+    url: `${cartUrl}/${cartId}/checkoutUrl`,
     headers: {authorization: `Bearer ${accessToken}`},
     json: true
   }
 
-  request('magento:getCart').get(options, (err, res, body) => {
+  request('magento:getCheckoutUrl').get(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
