@@ -10,7 +10,11 @@ describe('addProductsToCart', () => {
     },
     config: {
       magentoUrl: 'greatWow'
-    }
+    },
+    log: {
+      debug: () => {}
+    },
+    meta: {}
   }
 
   const input = {
