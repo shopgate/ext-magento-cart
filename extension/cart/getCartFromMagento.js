@@ -35,6 +35,9 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, cb) {
       return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
     }
 
+    console.log('HELP', body)
+    console.log('HELP2')
+
     cb(null, body)
   })
 }

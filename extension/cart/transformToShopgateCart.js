@@ -41,6 +41,9 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
 
   const cart = new Cart(cartItems, magentoCart['quote_currency_code'], totals, enableCoupons)
   cart.setIsOrderable(true) // isOrderable is always true in magento (if the cart exists)
+  if (magentoCart.totals && magentoCart.totals.tax) {
+    cart.setIsTaxIncluded(parseInt(magentoCart.totals.tax.value) > 0)
+  }
   return cart
 }
 
@@ -49,8 +52,7 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
  */
 function getTotals (magentoCart) {
   const totals = []
-  if (magentoCart['subtotal']) totals.push(new Total('subTotal', 'Sub Total', magentoCart['subtotal']))
-  totals.push(new Total('grandTotal', 'Total', magentoCart['grand_total']))
+  for (let key in magentoCart.totals) totals.push(new Total(magentoCart.totals[key].code, magentoCart.totals[key].title, magentoCart.totals[key].value))
   return totals
 }
 
@@ -99,7 +101,7 @@ function getCartItems (magentoCart, shopgateProducts) {
       product.addAdditionalInfo(skuInfo)
 
       const cartItem = new CartItem(cartItemId, quantity, 'product', product)
-      // TODO: add messages here if necessary
+      // TODO: Add messages here if necessary
 
       cartItems.push(cartItem)
     }

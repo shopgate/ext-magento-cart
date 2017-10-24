@@ -2,6 +2,18 @@
   "quote_currency_code": "USD",
   "grand_total": 1,
   "subtotal": 1,
+  "totals": [
+    {
+      "code": "subTotal",
+      "title": "Sub Total",
+      "value": 1
+    },
+    {
+      "code": "grandTotal",
+      "title": "Total",
+      "value": 1
+    }
+  ],
   "items": [
     {
       "item_id": "cartItem1",
