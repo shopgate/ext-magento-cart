@@ -10,12 +10,21 @@ module.exports = function (context, input, cb) {
   const accessToken = input.token
   const cartId = input.cartId
 
+  if (!input.cartId) { cb(new Error('cart id missing')) }
+
   getCheckoutUrlFromMagento(request, accessToken, cartId, cartUrl, (err, result) => {
     if (err) return cb(err)
     cb(null, {expires: result['expires_in'], url: result.url})
   })
 }
 
+/**
+ * @param {object} request
+ * @param {string} accessToken
+ * @param {string} cartId
+ * @param {string} cartUrl
+ * @param {function} cb
+ */
 function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, cb) {
   const options = {
     url: `${cartUrl}/${cartId}/checkoutUrl`,
