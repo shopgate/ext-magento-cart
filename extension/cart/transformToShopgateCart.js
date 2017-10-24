@@ -52,7 +52,7 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
  */
 function getTotals (magentoCart) {
   const totals = []
-  for (let key in magentoCart.totals) totals.push(new Total(magentoCart.totals[key].code, magentoCart.totals[key].title, magentoCart.totals[key].value))
+  for (let key in magentoCart.totals) totals.push(new Total(magentoCart.totals[key].code, magentoCart.totals[key].title, parseFloat(magentoCart.totals[key].value)))
   return totals
 }
 
