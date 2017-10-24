@@ -1,0 +1,44 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "updateProductsInCart_v1",
+    "public": true,
+    "input": [
+      {"key": "cartItems", "id": "1010"}
+    ],
+    "output": [
+      {"key": "messages", "id": "1100", "optional": true}
+    ],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/getCartIdFromStorage.js",
+        "input": [],
+        "output": [
+          {"key": "cartId", "id": "1"}
+        ]
+      }, {
+        "type": "pipeline",
+        "id": "getToken_v1",
+        "trusted": true,
+        "input": [],
+        "output": [
+          {"key": "token", "id": "10"}
+        ]
+      }, {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/updateProductsInCart.js",
+        "input": [
+          {"key": "cartItems", "id": "1010"},
+          {"key": "token", "id": "10"},
+          {"key": "cartId", "id": "1"}
+        ],
+        "output": [
+          {"key": "messages", "id": "1100", "optional": true}
+        ]
+      }
+    ]
+  }
+}
