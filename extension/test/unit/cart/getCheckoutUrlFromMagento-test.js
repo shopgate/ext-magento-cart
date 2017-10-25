@@ -39,7 +39,18 @@ describe('getCheckoutUrlFromMagento', () => {
     })
   })
 
-  it('should return an error because the request failed', (done) => {
+  it('should return an error because the request failed (client)', (done) => {
+    request.get = (options, cb) => {
+      cb(new Error('error'))
+    }
+
+    step(context, input, (err, result) => {
+      assert.equal(err.message, 'error')
+      done()
+    })
+  })
+
+  it('should return an error because the request failed (server)', (done) => {
     request.get = (options, cb) => {
       cb(null, {statusCode: 456}, {foo: 'bar'})
     }
