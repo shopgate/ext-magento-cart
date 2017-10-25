@@ -59,5 +59,10 @@
   "messages": [],
   "text": null,
   "isTaxIncluded": null,
-  "isOrderable": true
+  "isOrderable": true,
+  "flags": {
+    "coupons": false,
+    "orderable": true,
+    "taxIncluded": null
+  }
 }

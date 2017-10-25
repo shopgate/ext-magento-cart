@@ -51,9 +51,6 @@ function createCart (request, accessToken, cartUrl, cb) {
       return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
     }
 
-    // TODO: this is hopefully subject to change
-    const cartId = body.success[0].cartId
-
-    cb(null, cartId)
+    cb(null, body.cartId)
   })
 }

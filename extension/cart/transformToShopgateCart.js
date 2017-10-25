@@ -26,7 +26,8 @@ module.exports = function (context, input, cb) {
     text: shopgateCart.text,
     cartItems: shopgateCart.cartItems,
     totals: shopgateCart.totals,
-    enableCoupons: shopgateCart.enableCoupons || false
+    enableCoupons: shopgateCart.enableCoupons || false,
+    flags: shopgateCart.flags
   })
 }
 

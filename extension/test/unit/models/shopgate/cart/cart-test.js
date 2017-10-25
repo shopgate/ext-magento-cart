@@ -24,11 +24,14 @@ describe('Cart', () => {
     assert.deepEqual(cart.cartItems, [cartItem])
     assert.equal(cart.currency, 'USD')
     assert.deepEqual(cart.totals, [total])
-    assert.equal(cart.enableCoupons, true)
+    assert.equal(cart.enableCoupons, true) // Backwards compatibility
+    assert.equal(cart.flags.coupons, true)
     assert.deepEqual(cart.messages, [message])
     assert.deepEqual(cart.text, text)
-    assert.equal(cart.isTaxIncluded, true)
-    assert.equal(cart.isOrderable, true)
+    assert.equal(cart.isTaxIncluded, true) // Backwards compatibility
+    assert.equal(cart.flags.taxIncluded, true)
+    assert.equal(cart.isOrderable, true) // Backwards compatibility
+    assert.equal(cart.flags.orderable, true)
     done()
   })
 })
