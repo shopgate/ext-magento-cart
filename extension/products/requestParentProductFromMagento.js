@@ -38,12 +38,6 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
       return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
     }
 
-    // TODO: remove regex cleanup!!!
-    if (typeof body === 'string') {
-      const regex = /<script.*<\/script>/g
-      body = JSON.parse(body.replace(regex, ''))
-    }
-
     cb(null, body)
   })
 }
