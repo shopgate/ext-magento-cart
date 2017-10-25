@@ -10,6 +10,21 @@ describe('getCartFromMagento', () => {
     },
     config: {
       magentoUrl: 'http://someUrl'
+    },
+    meta: {
+      userId: null
+    },
+    storage: {
+      device: {
+        get: null,
+        set: null
+      },
+      user: {
+        set: {
+          get: null,
+          set: null
+        }
+      }
     }
   }
 
@@ -24,12 +39,19 @@ describe('getCartFromMagento', () => {
     request = {
       get: () => {}
     }
+    context.meta.userId = null
+    context.storage.device.set = () => {}
+    context.storage.user.set = () => {}
   })
 
   it('should get a cart from magento', (done) => {
     const cart = {cart: 'cart'}
     request.get = (options, cb) => {
       cb(null, {statusCode: 200}, cart)
+    }
+
+    context.storage.device.set = (key, value, cb) => {
+      cb(null)
     }
 
     step(context, input, (err, result) => {
