@@ -28,8 +28,6 @@ function deleteProductsFromCart (request, accessToken, cartId, cartItemIds, cart
     json: true
   }
 
-  console.log(require('util').inspect(options, false, 5))
-
   request('magento:deleteItemsFromCart').delete(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
