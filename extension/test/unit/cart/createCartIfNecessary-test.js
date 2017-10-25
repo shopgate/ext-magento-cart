@@ -63,7 +63,7 @@ describe('createCartIfNecessary', () => {
       context.storage.device.set = (key, value, cb) => cb(null)
 
       request.post = (options, cb) => {
-        const weirdResponse = {success: [{ cartId: 'cId1' }]}
+        const weirdResponse = { cartId: 'cId1' }
         cb(null, {statusCode: 200}, weirdResponse)
       }
 
