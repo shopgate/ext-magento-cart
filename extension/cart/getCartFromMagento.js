@@ -1,3 +1,5 @@
+const CartStorageHandler = require('../helpers/cartStorageHandler')
+
 /**
  * @param {object} context
  * @param {object} input
@@ -11,7 +13,12 @@ module.exports = function (context, input, cb) {
 
   getCartFromMagento(request, accessToken, cartId, cartUrl, (err, magentoCart) => {
     if (err) return cb(err)
-    cb(null, {magentoCart})
+
+    const csh = new CartStorageHandler(context.storage)
+    csh.set(magentoCart, !!context.meta.userId, (err) => {
+      if (err) return cb(err)
+      cb(null, {magentoCart})
+    })
   })
 }
 
