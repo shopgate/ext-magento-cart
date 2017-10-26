@@ -22,13 +22,13 @@ describe('getCheckoutUrlFromMagento', () => {
 
   beforeEach(() => {
     input.cartId = 'c1'
-    request.get = () => {}
+    request.post = () => {}
   })
 
   it('should return the checkout url', (done) => {
     const responseBody = {'expires_in': 3600, url: 'http://some.url/2'}
 
-    request.get = (options, cb) => {
+    request.post = (options, cb) => {
       cb(null, {statusCode: 200}, responseBody)
     }
 
@@ -41,7 +41,7 @@ describe('getCheckoutUrlFromMagento', () => {
   })
 
   it('should return an error because the request failed (client)', (done) => {
-    request.get = (options, cb) => {
+    request.post = (options, cb) => {
       cb(new Error('error'))
     }
 
@@ -52,7 +52,7 @@ describe('getCheckoutUrlFromMagento', () => {
   })
 
   it('should return an error because the request failed (server)', (done) => {
-    request.get = (options, cb) => {
+    request.post = (options, cb) => {
       cb(null, {statusCode: 456}, {foo: 'bar'})
     }
 
