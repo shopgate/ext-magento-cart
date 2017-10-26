@@ -53,16 +53,17 @@
   "currency": "USD",
   "totals": [
     { "type": "subTotal", "label": "Sub Total", "amount": 1 },
-    { "type": "grandTotal", "label": "Total", "amount": 1 }
+    { "type": "grandTotal", "label": "Total", "amount": 1 },
+    { "amount": 1, "label": "Tax", "type": "tax" }
   ],
   "enableCoupons": false,
   "messages": [],
   "text": null,
-  "isTaxIncluded": null,
+  "isTaxIncluded": true,
   "isOrderable": true,
   "flags": {
     "coupons": false,
     "orderable": true,
-    "taxIncluded": null
+    "taxIncluded": true
   }
 }

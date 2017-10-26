@@ -42,8 +42,13 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
 
   const cart = new Cart(cartItems, magentoCart['quote_currency_code'], totals, enableCoupons)
   cart.setIsOrderable(true) // isOrderable is always true in magento (if the cart exists)
-  if (magentoCart.totals && magentoCart.totals.tax) {
-    cart.setIsTaxIncluded(parseInt(magentoCart.totals.tax.value) > 0)
+  if (magentoCart.totals) {
+    const taxTotal = magentoCart.totals.find((element) => element.code === 'tax')
+
+    let taxIncluded = false
+    if (taxTotal) taxIncluded = parseInt(taxTotal.value) > 0
+
+    cart.setIsTaxIncluded(taxIncluded)
   }
   return cart
 }

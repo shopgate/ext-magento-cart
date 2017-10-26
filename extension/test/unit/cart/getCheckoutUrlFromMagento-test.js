@@ -17,10 +17,11 @@ describe('getCheckoutUrlFromMagento', () => {
 
   const input = {
     token: 'a1',
-    cartId: 'c1'
+    cartId: null
   }
 
   beforeEach(() => {
+    input.cartId = 'c1'
     request.get = () => {}
   })
 
@@ -57,6 +58,15 @@ describe('getCheckoutUrlFromMagento', () => {
 
     step(context, input, (err, result) => {
       assert.equal(err.message, 'Got 456 from magento: {"foo":"bar"}')
+      done()
+    })
+  })
+
+  it('should return an error because cart id is missing', (done) => {
+    input.cartId = null
+
+    step(context, input, (err, result) => {
+      assert.equal(err.message, 'cart id missing')
       done()
     })
   })

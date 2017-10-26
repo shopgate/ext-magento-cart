@@ -12,6 +12,11 @@
       "code": "grandTotal",
       "title": "Total",
       "value": 1
+    },
+    {
+      "code": "tax",
+      "title": "Tax",
+      "value": 1
     }
   ],
   "items": [

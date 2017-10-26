@@ -82,4 +82,20 @@ describe('getCartFromMagento', () => {
       done()
     })
   })
+
+  it('should return an error because setting cart in storage failes', (done) => {
+    const cart = {cart: 'cart'}
+    request.get = (options, cb) => {
+      cb(null, {statusCode: 200}, cart)
+    }
+
+    context.storage.device.set = (key, value, cb) => {
+      cb(new Error('error'))
+    }
+
+    step(context, input, (err, result) => {
+      assert.equal(err.message, 'error')
+      done()
+    })
+  })
 })
