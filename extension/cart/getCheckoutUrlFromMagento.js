@@ -29,10 +29,10 @@ function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, cb) {
   const options = {
     url: `${cartUrl}/${cartId}/checkoutUrl`,
     headers: {authorization: `Bearer ${accessToken}`},
-    json: true
+    json: {}
   }
 
-  request('magento:getCheckoutUrl').get(options, (err, res, body) => {
+  request('magento:getCheckoutUrl').post(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
