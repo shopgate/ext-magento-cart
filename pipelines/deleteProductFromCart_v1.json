@@ -4,7 +4,7 @@
     "id": "deleteProductsFromCart_v1",
     "public": true,
     "input": [
-      {"key": "cartItemIds", "id": "1000"}
+      {"key": "CartItemIds", "id": "1000"}
     ],
     "output": [
       {"key": "messages", "id": "1100", "optional": true}
