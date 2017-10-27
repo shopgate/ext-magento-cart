@@ -11,8 +11,6 @@ module.exports = function (context, input, cb) {
   let storageName = isLoggedIn ? 'user' : 'device'
   const storage = context.storage[storageName]
 
-  // TODO: return 'me' if user is logged in
-
   storage.get(CARTID_KEY, (err, cartId) => {
     if (err) return cb(err)
     context.log.debug(`Got cartId ${cartId} from storage`)

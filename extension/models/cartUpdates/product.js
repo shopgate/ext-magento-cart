@@ -15,7 +15,7 @@ class Product {
       return {
         cartItemId: this.cartItemId,
         product: {
-          productId: this.productId,
+          'product_id': this.productId,
           qty: this.quantity
         }
       }

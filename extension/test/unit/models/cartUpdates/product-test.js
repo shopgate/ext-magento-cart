@@ -28,7 +28,7 @@ describe('Product (cartUpdates)', () => {
     const result = {
       cartItemId: 'cartItemId',
       product: {
-        productId: 'productId',
+        'product_id': 'productId',
         qty: 1
       }
     }

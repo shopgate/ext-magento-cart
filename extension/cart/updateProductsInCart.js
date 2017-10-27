@@ -88,7 +88,7 @@ function transformToUpdateItems (cartItems, magentoCart) {
 }
 
 /**
- *
+ * TODO: ERROR Cases
  * @param {object} cartItem contains: cartItemId and quantity
  * @param {object} magentoCart
  */
