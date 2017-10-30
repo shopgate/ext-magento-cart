@@ -31,7 +31,7 @@
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/updateProductsInCart.js",
         "input": [
-          {"key": "cartItem", "id": "1010"},
+          {"key": "CartItem", "id": "1010"},
           {"key": "token", "id": "10"},
           {"key": "cartId", "id": "1"}
         ],

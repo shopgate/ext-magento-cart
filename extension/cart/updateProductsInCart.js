@@ -9,7 +9,7 @@ const Product = require('../models/cartUpdates/product')
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
-  const cartItems = [input.CartItem]
+  const cartItems = input.CartItem
   const accessToken = input.token
   const cartId = input.cartId
 
@@ -79,7 +79,6 @@ function createCartItemMap (magentoCart) {
  */
 function transformToUpdateItems (cartItems, magentoCart) {
   const cartItemMap = createCartItemMap(magentoCart)
-
   const updateItems = []
   for (let i = 0; i < cartItems.length; i++) {
     updateItems.push(transformToUpdateItem(cartItems[i], cartItemMap))
@@ -89,11 +88,11 @@ function transformToUpdateItems (cartItems, magentoCart) {
 
 /**
  * TODO: ERROR Cases
- * @param {object} cartItem contains: cartItemId and quantity
+ * @param {object} cartItem contains: CartItemId and quantity
  * @param {object} magentoCart
  */
 function transformToUpdateItem (cartItem, cartItemMap) {
-  const magentoCartItem = cartItemMap[cartItem.cartItemId]
+  const magentoCartItem = cartItemMap[cartItem.CartItemId]
   let parentProduct = null
 
   if (magentoCartItem['parent_item_id']) {
@@ -101,7 +100,7 @@ function transformToUpdateItem (cartItem, cartItemMap) {
     parentProduct = new Product(magentoCartItemParent['item_id'], magentoCartItemParent['product_id'])
   }
 
-  const product = new Product(cartItem.cartItemId, magentoCartItem['product_id'], cartItem.quantity, parentProduct)
+  const product = new Product(cartItem.CartItemId, magentoCartItem['product_id'], cartItem.quantity, parentProduct)
 
   return product.transformToUpdateProductItem()
 }
