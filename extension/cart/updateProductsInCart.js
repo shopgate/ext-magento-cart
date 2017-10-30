@@ -9,7 +9,7 @@ const Product = require('../models/cartUpdates/product')
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
-  const cartItems = input.cartItems
+  const cartItems = [input.CartItem]
   const accessToken = input.token
   const cartId = input.cartId
 

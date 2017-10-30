@@ -31,10 +31,10 @@ describe('updateProductsInCart', () => {
   }
 
   const input = {
-    cartItems: [{
+    CartItem: {
       cartItemId: 'cartItem1',
       quantity: 2
-    }],
+    },
     accessToken: 'a1',
     cartId: null
   }

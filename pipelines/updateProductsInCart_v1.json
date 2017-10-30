@@ -4,7 +4,7 @@
     "id": "updateProductsInCart_v1",
     "public": true,
     "input": [
-      {"key": "cartItems", "id": "1010"}
+      {"key": "CartItem", "id": "1010"}
     ],
     "output": [
       {"key": "messages", "id": "1100", "optional": true}
@@ -31,7 +31,7 @@
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/updateProductsInCart.js",
         "input": [
-          {"key": "cartItems", "id": "1010"},
+          {"key": "cartItem", "id": "1010"},
           {"key": "token", "id": "10"},
           {"key": "cartId", "id": "1"}
         ],

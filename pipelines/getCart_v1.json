@@ -61,7 +61,7 @@
             {"key": "cartItems", "value": []},
             {"key": "totals", "value": []},
             {"key": "enableCoupons", "value": false},
-            {"key": "enableCoupons", "value": {
+            {"key": "flags", "value": {
               "orderable": false,
               "taxIncluded": false,
               "coupons": false
