@@ -9,7 +9,7 @@
         "id": "simple1",
         "name": "simple product 1",
         "featuredImageUrl": "image",
-        "price": { "unit": 1, "default": 2, "special": 2 },
+        "price": { "unit": 1, "default": 2, "special": null },
         "additionalInfo": [ { "label": "sku", "value": "simple1" } ],
         "properties": [],
         "appliedDiscounts": []
@@ -23,7 +23,7 @@
         "id": "parent1-child1",
         "name": "child of parent 1",
         "featuredImageUrl": "image",
-        "price": { "unit": 1, "default": 3, "special": 3 },
+        "price": { "unit": 1, "default": 3, "special": null },
         "additionalInfo": [ { "label": "sku", "value": "child1" } ],
         "properties": [
           { "type": "option", "value": "rot", "label": "Farbe" },
@@ -40,7 +40,7 @@
         "id": "parent1-child2",
         "name": "other child of parent 1",
         "featuredImageUrl": "image",
-        "price": { "unit": 1, "default": 6, "special": 6 },
+        "price": { "unit": 1, "default": 6, "special": null },
         "additionalInfo": [ { "label": "sku", "value": "child2" } ],
         "properties": [
           { "type": "option", "value": "Blau", "label": "Farbe" },

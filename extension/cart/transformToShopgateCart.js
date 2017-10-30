@@ -61,11 +61,28 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
 }
 
 /**
+ * @param {string} magentoType
+ */
+function mapTotalTypes (magentoType) {
+  // enum: ["subTotal", "shipping", "tax", "payment", "discount", "grandTotal"]
+  switch (magentoType) {
+    case 'subtotal':
+      return 'subTotal'
+    case 'grand_total':
+      return 'grandTotal'
+    default:
+      return magentoType
+  }
+}
+
+/**
  * @param {object} magentoCart
  */
 function getTotals (magentoCart) {
   const totals = []
-  for (let key in magentoCart.totals) totals.push(new Total(magentoCart.totals[key].code, magentoCart.totals[key].title, parseFloat(magentoCart.totals[key].value)))
+  for (let key in magentoCart.totals) {
+    totals.push(new Total(mapTotalTypes(magentoCart.totals[key].code), magentoCart.totals[key].title, parseFloat(magentoCart.totals[key].value)))
+  }
   return totals
 }
 
@@ -99,7 +116,7 @@ function getCartItems (magentoCart, shopgateProducts) {
       })
 
       // TODO: Coupon information is needed for the special price
-      const price = new Price(itemPrice, itemPrice * quantity, itemPrice * quantity)
+      const price = new Price(itemPrice, itemPrice * quantity, null)
 
       const product = new Product(productId, productName, shopgateProduct.featuredImageUrl, price)
       if (shopgateProduct.characteristics) {
