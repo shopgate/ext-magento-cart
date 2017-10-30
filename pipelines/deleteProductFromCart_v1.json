@@ -36,7 +36,7 @@
           {"key": "cartItemIds", "id": "1000"}
         ],
         "output": [
-          {"key": "messages", "id": "100", "optional": true}
+          {"key": "messages", "id": "1100", "optional": true}
         ]
       }
     ]
