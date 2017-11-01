@@ -21,7 +21,13 @@ module.exports = function (context, input, cb) {
     if (!magentoCart) return cb(new Error('missing cart information'))
     if (cartId !== parseInt(magentoCart['entity_id'])) return cb(new Error('invalid cart'))
 
-    const updateItems = transformToUpdateItems(cartItems, magentoCart)
+    let updateItems = []
+
+    try {
+      updateItems = transformToUpdateItems(cartItems, magentoCart)
+    } catch (e) {
+      return cb(e)
+    }
 
     updateProductsInCart(request, updateItems, cartId, accessToken, cartUrl, (err, result) => {
       if (err) return cb(err)
@@ -94,6 +100,8 @@ function transformToUpdateItems (cartItems, magentoCart) {
 function transformToUpdateItem (cartItem, cartItemMap) {
   const magentoCartItem = cartItemMap[cartItem.CartItemId]
   let parentProduct = null
+
+  if (cartItem.quantity < 0) throw new Error(`cartItem ${cartItem.CartItemId} has a negative quantity (${cartItem.quantity})`)
 
   if (magentoCartItem['parent_item_id']) {
     const magentoCartItemParent = cartItemMap[magentoCartItem['parent_item_id']]
