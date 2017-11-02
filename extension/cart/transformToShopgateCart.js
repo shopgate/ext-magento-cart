@@ -3,6 +3,7 @@ const Price = require('../models/shopgate/cart/price')
 const Property = require('../models/shopgate/cart/property')
 const Product = require('../models/shopgate/cart/product')
 const CartItem = require('../models/shopgate/cart/cartItem')
+const Message = require('../models/shopgate/cart/message')
 const Total = require('../models/shopgate/cart/total')
 const Cart = require('../models/shopgate/cart/cart')
 
@@ -40,6 +41,8 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
   const cartItems = getCartItems(magentoCart, shopgateProducts)
   const totals = getTotals(magentoCart)
 
+  console.log(magentoCart)
+
   const cart = new Cart(cartItems, magentoCart['quote_currency_code'], totals, enableCoupons)
   cart.setIsOrderable(true) // isOrderable is always true in magento (if the cart exists)
   if (magentoCart.totals) {
@@ -64,6 +67,7 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
  * @param {string} magentoType
  */
 function mapTotalTypes (magentoType) {
+  // From Swagger (2017-11-02)
   // enum: ["subTotal", "shipping", "tax", "payment", "discount", "grandTotal"]
   switch (magentoType) {
     case 'subtotal':
@@ -131,7 +135,12 @@ function getCartItems (magentoCart, shopgateProducts) {
       product.addAdditionalInfo(skuInfo)
 
       const cartItem = new CartItem(cartItemId, quantity, 'product', product)
-      // TODO: Add messages here if necessary
+
+      if (magentoCart.items[i]['has_error']) {
+        for (let key in magentoCart.items[i]['errors']) {
+          cartItem.addMessage(new Message('error', magentoCart.items[i]['errors'][key]))
+        }
+      }
 
       cartItems.push(cartItem)
     }
