@@ -4,7 +4,13 @@
       "id": "cartItem1",
       "quantity": 2,
       "type": "product",
-      "messages": [],
+      "messages": [
+        {
+          "code": null,
+          "message": "error",
+          "type": "error"
+        }
+      ],
       "product": {
         "id": "simple1",
         "name": "simple product 1",

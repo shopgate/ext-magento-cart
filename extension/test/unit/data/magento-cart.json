@@ -27,7 +27,9 @@
       "product_type": "simple",
       "name": "simple product 1",
       "qty": 2,
-      "price": 1.0
+      "price": 1.0,
+      "has_error": true,
+      "errors": ["error"]
     },
     {
       "item_id": "cartItem2",

@@ -11,6 +11,8 @@ describe('transformToShopgateCart', () => {
     const context = {config: {enableCoupons: false}}
 
     step(context, input, (err, result) => {
+      console.log(result)
+
       assert.ifError(err)
       assert.deepEqual(result, resultingCart)
       done()
