@@ -12,13 +12,13 @@ module.exports = function (context, input, cb) {
 
   if (!input.cartId) { cb(new Error('cart id missing')) }
 
-  deleteProductsFromCart(request, accessToken, cartId, cartItemIds, cartUrl, (err) => {
+  deleteItemsFromCart(request, accessToken, cartId, cartItemIds, cartUrl, (err) => {
     if (err) return cb(err)
     cb(null, {})
   })
 }
 
-function deleteProductsFromCart (request, accessToken, cartId, cartItemIds, cartUrl, cb) {
+function deleteItemsFromCart(request, accessToken, cartId, cartItemIds, cartUrl, cb) {
   const options = {
     url: `${cartUrl}/${cartId}/items`,
     headers: {authorization: `Bearer ${accessToken}`},

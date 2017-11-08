@@ -1,5 +1,5 @@
 const assert = require('assert')
-const step = require('../../../cart/deleteProductsFromCart')
+const step = require('../../../cart/deleteItemsFromCart')
 
 describe('deleteProductsFromCart', () => {
   const request = {
