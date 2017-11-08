@@ -1,7 +1,7 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "getCart_int_v1",
+    "id": "setCartCustomer_int_v1",
     "public": false,
     "input": [
       {"key": "cartId", "id": "1"},
