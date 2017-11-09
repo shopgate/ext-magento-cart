@@ -7,8 +7,16 @@ const util = require('util')
  */
 module.exports = function (context, input, cb) {
   const cartUrl = context.config.magentoUrl + '/carts'
+  const cartId = input.cartId
 
-  setCartCustomer(context.tracedRequest, input.token, input.cartId, cartUrl, context.log, (err) => {
+  // cart must exist to be able to assign a customer for it
+  if (!cartId) {
+    // this can happen pretty ragularly, as guest carts are only created if products are added
+    context.log.debug('setCartCustomer is skipped, because no valid cartId was given')
+    return cb()
+  }
+
+  assignCartCustomer(context.tracedRequest, input.token, cartId, cartUrl, context.log, (err) => {
     if (err) return cb(err)
     cb(null, {messages: null})
   })
@@ -23,7 +31,7 @@ module.exports = function (context, input, cb) {
  * @param {function} log
  * @param {function} cb
  */
-function setCartCustomer (request, accessToken, cartId, cartUrl, log, cb) {
+function assignCartCustomer (request, accessToken, cartId, cartUrl, log, cb) {
   const options = {
     url: `${cartUrl}/${cartId}/customer`,
     headers: {authorization: `Bearer ${accessToken}`},
