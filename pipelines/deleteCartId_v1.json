@@ -1,0 +1,33 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "deleteCartId_v1",
+    "public": true,
+    "input": [],
+    "output": [],
+    "steps": [
+      {
+        "type": "staticValue",
+        "input": [],
+        "values": [
+          {
+            "key": "deletions",
+            "value": [
+              {"storage": "device", "key": "cartId"},
+              {"storage": "user", "key": "cartId"}
+            ]
+          }
+        ],
+        "output": [{"key": "deletions", "id": "1"}]
+      }, {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/helpers/clearStorageKeys.js",
+        "input": [
+          {"key": "deletions", "id": "1"}
+        ],
+        "output": []
+      }
+    ]
+  }
+}
