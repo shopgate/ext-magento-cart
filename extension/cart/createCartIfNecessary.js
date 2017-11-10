@@ -12,6 +12,15 @@ module.exports = function (context, input, cb) {
   const accessToken = input.token
   const isLoggedIn = !!context.meta.userId
 
+  // logged in users already have a cart and the id is not necessary to know, as it changes unexpectedly
+  if (isLoggedIn) {
+    let cartId = 'me'
+    log.debug(
+      `User is logged in. Using "${cartId}" as cartId instead of creating a cart and saving into the user storage.`
+    )
+    return cb(null, {cartId})
+  }
+
   let storageName = isLoggedIn ? 'user' : 'device'
   const storage = context.storage[storageName]
 
