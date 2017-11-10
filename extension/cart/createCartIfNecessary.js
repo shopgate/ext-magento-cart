@@ -18,7 +18,7 @@ module.exports = function (context, input, cb) {
     log.debug(
       `User is logged in. Using "${cartId}" as cartId instead of creating a cart and saving into the user storage.`
     )
-    return cb(null, {cartId})
+    return cb(null, {cartId: cartId})
   }
 
   let storageName = isLoggedIn ? 'user' : 'device'
