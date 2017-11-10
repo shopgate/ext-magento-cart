@@ -21,7 +21,7 @@ describe('addProductsToCart', () => {
     tokens: {
       accessToken: 'a1'
     },
-    transformedProducts: [
+    transformedItems: [
       {
         'product_id': '1',
         'qty': 1
