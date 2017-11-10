@@ -35,7 +35,7 @@
       {
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/cart/transformCouponsToAddRequestCoupons.js",
+        "path": "@shopgate/magento-cart/cart/createCouponCartItemList.js",
         "input": [
           {"key": "coupons", "id": "1010"}
         ],
