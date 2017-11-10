@@ -5,8 +5,7 @@
     "public": true,
     "input": [
       {"key": "productId", "id": "1"},
-      {"key": "showInactive", "id": "2", "optional": true},
-      {"key": "sgxsMeta", "id": "750"}
+      {"key": "showInactive", "id": "2", "optional": true}
     ],
     "output": [
       {"key": "products", "id": "2000"},
@@ -63,9 +62,7 @@
         "type": "pipeline",
         "id": "getToken_v1",
         "trusted": true,
-        "input": [
-          {"key": "sgxsMeta", "id": "750"}
-        ],
+        "input": [],
         "output": [
           {"key": "token", "id": "40"}
         ]

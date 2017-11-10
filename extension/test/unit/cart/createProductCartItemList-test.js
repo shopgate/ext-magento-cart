@@ -1,8 +1,8 @@
 const assert = require('assert')
-const step = require('../../../cart/transformProductsToAddRequestProducts')
+const step = require('../../../cart/createProductCartItemList')
 
-describe('transformProductsToAddRequestProducts', () => {
-  it('should transform frontend products to magentoAddToCart-products', (done) => {
+describe('createProductCartItemList', () => {
+  it('should create a Magento product cart item list out of the given Shopgate add-to-cart-product-list', (done) => {
     const products = [
       {
         productId: '1',
