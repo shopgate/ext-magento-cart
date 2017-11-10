@@ -1,14 +1,14 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "addProductsToCart_v1",
+    "id": "addCouponsToCart_v1",
     "public": true,
     "input": [
-      {"key": "products", "id": "1"},
+      {"key": "couponCodes", "id": "1010"},
       {"key": "sgxsMeta", "id": "750"}
     ],
     "output": [
-      {"key": "messages", "id": "100", "optional": true}
+      {"key": "messages", "id": "1100", "optional": true}
     ],
     "steps": [
       {
@@ -19,7 +19,8 @@
         "output": [
           {"key": "token", "id": "10"}
         ]
-      }, {
+      },
+      {
         "type": "extension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/createCartIfNecessary.js",
@@ -30,27 +31,29 @@
         "output": [
           {"key": "cartId", "id": "2"}
         ]
-      }, {
+      },
+      {
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/cart/transformProductsToAddRequestProducts.js",
+        "path": "@shopgate/magento-cart/cart/createCouponCartItemList.js",
         "input": [
-          {"key": "products", "id": "1"}
+          {"key": "coupons", "id": "1010"}
         ],
         "output": [
-          {"key": "transformedProducts", "id": "3"}
+          {"key": "transformedCoupons", "id": "3"}
         ]
-      }, {
+      },
+      {
         "type": "extension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/addCartItems.js",
         "input": [
+          {"key": "cartId", "id": "2"},
           {"key": "token", "id": "10"},
-          {"key": "transformedItems", "id": "3"},
-          {"key": "cartId", "id": "2"}
+          {"key": "transformedItems", "id": "3"}
         ],
         "output": [
-          {"key": "messages", "id": "100", "optional": true}
+          {"key": "messages", "id": "1100", "optional": true}
         ]
       }
     ]
