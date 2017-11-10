@@ -29,7 +29,7 @@
       }, {
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/cart/deleteProductsFromCart.js",
+        "path": "@shopgate/magento-cart/cart/deleteItemsFromCart.js",
         "input": [
           {"key": "cartId", "id": "1"},
           {"key": "token", "id": "10"},

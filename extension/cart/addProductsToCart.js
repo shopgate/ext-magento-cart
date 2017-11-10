@@ -23,8 +23,9 @@ module.exports = function (context, input, cb) {
  * @param {Request} request
  * @param {string} accessToken
  * @param {object[]} products
- * @param {integer} cartId
+ * @param {int} cartId
  * @param {string} cartUrl
+ * @param {object} log
  * @param {function} cb
  */
 function addProductsToCart (request, accessToken, products, cartId, cartUrl, log, cb) {
