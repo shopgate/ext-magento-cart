@@ -43,10 +43,10 @@
       }, {
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/cart/addProductsToCart.js",
+        "path": "@shopgate/magento-cart/cart/addCartItems.js",
         "input": [
           {"key": "token", "id": "10"},
-          {"key": "transformedProducts", "id": "3"},
+          {"key": "transformedItems", "id": "3"},
           {"key": "cartId", "id": "2"}
         ],
         "output": [

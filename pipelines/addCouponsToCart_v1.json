@@ -46,11 +46,11 @@
       {
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/cart/addCouponsToCart.js",
+        "path": "@shopgate/magento-cart/cart/addCartItems.js",
         "input": [
           {"key": "cartId", "id": "2"},
           {"key": "token", "id": "10"},
-          {"key": "transformedCoupons", "id": "3"}
+          {"key": "transformedItems", "id": "3"}
         ],
         "output": [
           {"key": "messages", "id": "1100", "optional": true}
