@@ -1,62 +1,84 @@
 {
   "products": [
     {
+      "characteristics": {
+        "1": "1-1",
+        "2": "2-1"
+      },
       "id": "p1-c1",
-      "characteristics": {
-        "a1": "a1o1",
-        "a2": "a2o1"
+      "metadata": {
+        "selectedAttributes": [
+          {
+            "attributeId": "a1",
+            "optionId": "a1o1"
+          },
+          {
+            "attributeId": "a2",
+            "optionId": "a2o1"
+          }
+        ],
+        "type": "configurable"
       }
     },
     {
+      "characteristics": {
+        "1": "1-1",
+        "2": "2-2"
+      },
       "id": "p1-c2",
-      "characteristics": {
-        "a1": "a1o1",
-        "a2": "a2o2"
+      "metadata": {
+        "selectedAttributes": [
+          {
+            "attributeId": "a1",
+            "optionId": "a1o1"
+          },
+          {
+            "attributeId": "a2",
+            "optionId": "a2o2"
+          }
+        ],
+        "type": "configurable"
       }
     },
     {
+      "characteristics": {
+        "1": "1-2",
+        "2": "2-1"
+      },
       "id": "p1-c3",
-      "characteristics": {
-        "a1": "a1o2",
-        "a2": "a2o1"
+      "metadata": {
+        "selectedAttributes": [
+          {
+            "attributeId": "a1",
+            "optionId": "a1o2"
+          },
+          {
+            "attributeId": "a2",
+            "optionId": "a2o1"
+          }
+        ],
+        "type": "configurable"
       }
     },
     {
+      "characteristics": {
+        "1": "1-2",
+        "2": "2-2"
+      },
       "id": "p1-c4",
-      "characteristics": {
-        "a1": "a1o2",
-        "a2": "a2o2"
+      "metadata": {
+        "selectedAttributes": [
+          {
+            "attributeId": "a1",
+            "optionId": "a1o2"
+          },
+          {
+            "attributeId": "a2",
+            "optionId": "a2o2"
+          }
+        ],
+        "type": "configurable"
       }
-    }
-  ],
-  "characteristics": [
-    {
-      "id": "a1",
-      "label": "Color",
-      "values": [
-        {
-          "id": "a1o1",
-          "label": "Rot"
-        },
-        {
-          "id": "a1o2",
-          "label": "Blau"
-        }
-      ]
-    },
-    {
-      "id": "a2",
-      "label": "Size",
-      "values": [
-        {
-          "id": "a2o1",
-          "label": "S"
-        },
-        {
-          "id": "a2o2",
-          "label": "M"
-        }
-      ]
     }
   ]
 }
