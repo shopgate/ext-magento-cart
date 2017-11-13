@@ -2,6 +2,7 @@ const AdditionalInfo = require('../models/shopgate/cart/additionalInfo')
 const Price = require('../models/shopgate/cart/price')
 const Property = require('../models/shopgate/cart/property')
 const Product = require('../models/shopgate/cart/product')
+const AppliedDiscount = require('../models/shopgate/cart/appliedDiscount')
 const CartItem = require('../models/shopgate/cart/cartItem')
 const Message = require('../models/shopgate/cart/message')
 const Total = require('../models/shopgate/cart/total')
@@ -40,8 +41,6 @@ module.exports = function (context, input, cb) {
 function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) {
   const cartItems = getCartItems(magentoCart, shopgateProducts)
   const totals = getTotals(magentoCart)
-
-  console.log(magentoCart)
 
   const cart = new Cart(cartItems, magentoCart['quote_currency_code'], totals, enableCoupons)
   cart.setIsOrderable(true) // isOrderable is always true in magento (if the cart exists)
@@ -144,6 +143,16 @@ function getCartItems (magentoCart, shopgateProducts) {
 
       cartItems.push(cartItem)
     }
+  }
+
+  if (magentoCart.coupon_code !== null) {
+    const amount = magentoCart.totals.discount.value
+    const appliedDiscount = new AppliedDiscount(amount)
+    appliedDiscount.code = magentoCart.coupon_code
+    appliedDiscount.label = magentoCart.totals.discount.title
+    const couponCartItem = new CartItem(magentoCart.coupon_code, 1, 'coupon', appliedDiscount)
+
+    cartItems.push(couponCartItem)
   }
 
   return cartItems

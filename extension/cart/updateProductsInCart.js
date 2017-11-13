@@ -95,7 +95,7 @@ function transformToUpdateItems (cartItems, magentoCart) {
 /**
  * TODO: ERROR Cases
  * @param {object} cartItem contains: CartItemId and quantity
- * @param {object} magentoCart
+ * @param {object} cartItemMap
  */
 function transformToUpdateItem (cartItem, cartItemMap) {
   const magentoCartItem = cartItemMap[cartItem.CartItemId]
