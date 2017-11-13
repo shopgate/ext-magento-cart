@@ -11,14 +11,18 @@
       "type" : "static",
       "destination" : "backend",
       "params" : {
-        "value" : false
+        "value" : true
       }
     },
     "magentoUrl" : {
-      "type" : "static",
+      "type": "bigApi",
       "destination" : "backend",
-      "params" : {
-        "value" : "https://team-pirate-sg-cloud.shopgatedev.com/shopping_carts/Magento/1.9.2.1/59c24b36620d4/shopgate/v2"
+      "default": null,
+      "params": {
+        "method":  "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/checkout_web_checkout_shopify?parsed=true",
+        "key": "value.backend.magentoUrl"
       }
     }
   }
