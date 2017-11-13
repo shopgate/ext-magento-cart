@@ -33,7 +33,7 @@
       }, {
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/cart/transformProductsToAddRequestProducts.js",
+        "path": "@shopgate/magento-cart/cart/createProductCartItemList.js",
         "input": [
           {"key": "products", "id": "1"}
         ],

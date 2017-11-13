@@ -5,8 +5,7 @@
     "public": true,
     "input": [
       {"key": "productId", "id": "1"},
-      {"key": "showInactive", "id": "2", "optional": true},
-      {"key": "sgxsMeta", "id": "750"}
+      {"key": "showInactive", "id": "2", "optional": true}
     ],
     "output": [
       {"key": "products", "id": "2000"},
@@ -62,9 +61,8 @@
       }, {
         "type": "pipeline",
         "id": "getToken_v1",
-        "input": [
-          {"key": "sgxsMeta", "id": "750"}
-        ],
+        "trusted": true,
+        "input": [],
         "output": [
           {"key": "token", "id": "40"}
         ]
@@ -82,21 +80,19 @@
       }, {
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/products/transformVariants.js",
+        "path": "@shopgate/magento-cart/products/appendProductVariantsMetadata.js",
         "input": [
           {"key": "products", "id": "1000"},
-          {"key": "characteristics", "id": "101"},
           {"key": "magentoParentProduct", "id": "50"}
         ],
         "output": [
-          {"key": "products", "id": "2000"},
-          {"key": "characteristics", "id": "102"}
+          {"key": "products", "id": "2000"}
         ]
       }, {
         "type": "extension",
         "id": "@shopgate/products",
         "path": "@shopgate/products/products/sortCharacteristics.js",
-        "input": [{"key": "characteristics", "id": "102"}],
+        "input": [{"key": "characteristics", "id": "101"}],
         "output": [{"key": "characteristics", "id": "1002"}]
       }
     ]
