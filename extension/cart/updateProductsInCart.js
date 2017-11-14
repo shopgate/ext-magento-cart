@@ -13,7 +13,7 @@ module.exports = function (context, input, cb) {
   const accessToken = input.token
   const cartId = input.cartId
 
-  if (!input.cartId) { cb(new Error('cart id missing')) }
+  if (!cartId) { cb(new Error('cart id missing')) }
 
   const csh = new CartStorageHandler(context.storage)
   csh.get(!!context.meta.userId, (err, magentoCart) => {
@@ -21,7 +21,7 @@ module.exports = function (context, input, cb) {
     if (!magentoCart) return cb(new Error('missing cart information'))
 
     // check if returned guest cart matches to the one that is currently cached
-    if (cartId !== 'me' && cartId !== parseInt(magentoCart['entity_id'])) {
+    if (cartId.toString().toLowerCase() !== 'me' && cartId !== parseInt(magentoCart['entity_id'])) {
       return cb(new Error('invalid cart'))
     }
 
