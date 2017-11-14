@@ -19,7 +19,11 @@ module.exports = function (context, input, cb) {
   csh.get(!!context.meta.userId, (err, magentoCart) => {
     if (err) return cb(err)
     if (!magentoCart) return cb(new Error('missing cart information'))
-    if (cartId !== parseInt(magentoCart['entity_id'])) return cb(new Error('invalid cart'))
+
+    // check if returned guest cart matches to the one that is currently cached
+    if (cartId !== 'me' && cartId !== parseInt(magentoCart['entity_id'])) {
+      return cb(new Error('invalid cart'))
+    }
 
     let updateItems = []
 
