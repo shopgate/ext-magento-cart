@@ -1,3 +1,5 @@
+const _ = require('underscore')
+
 /**
  * @param {object} context
  * @param {object} input
@@ -16,7 +18,10 @@ module.exports = function (context, input, cb) {
 
   // We need the ability to get couponCodes here from the pipeline call
   if ((!input.cartItemIds || input.cartItemIds.length <= 0) && (input.couponCodes && input.couponCodes.length > 0)) {
-    cartItemIds = input.couponCodes
+    cartItemIds = []
+    _.each(input.couponCodes, function(couponCode) {
+      cartItemIds.push('COUPON_' + couponCode)
+    })
   }
 
   if (!input.cartId) { cb(new Error('cart id missing')) }

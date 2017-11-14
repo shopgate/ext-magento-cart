@@ -19,7 +19,8 @@
     "mocha": "^3.2.0",
     "mocha-jenkins-reporter": "^0.3.7",
     "nock": "^9.0.13",
-    "rewire": "^2.5.2"
+    "rewire": "^2.5.2",
+    "underscore": "1.8.3"
   },
   "standard": {
     "ignore": [],
