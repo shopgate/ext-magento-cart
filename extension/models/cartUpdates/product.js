@@ -11,16 +11,13 @@ class Product {
    * magento understands the update request
    */
   transformToUpdateProductItem () {
-    if (!this.parent) {
-      return {
-        cartItemId: this.cartItemId,
-        product: {
-          'product_id': this.productId,
-          qty: this.quantity
-        }
+    return {
+      cartItemId: this.cartItemId,
+      product: {
+        'product_id': this.productId,
+        'qty': this.quantity
       }
     }
-    throw new Error('Configurable product is currently not supported')
   }
 }
 
