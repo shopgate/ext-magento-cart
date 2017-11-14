@@ -13,7 +13,7 @@ module.exports = function (context, input, cb) {
   const accessToken = input.token
   const cartId = input.cartId
 
-  if (!input.cartId) { cb(new Error('cart id missing')) }
+  if (!cartId) { cb(new Error('cart id missing')) }
 
   const csh = new CartStorageHandler(context.storage)
   csh.get(!!context.meta.userId, (err, magentoCart) => {
