@@ -21,7 +21,7 @@ module.exports = function (context, input, cb) {
     if (!magentoCart) return cb(new Error('missing cart information'))
 
     // check if returned guest cart matches to the one that is currently cached
-    if (cartId !== 'me' && cartId !== parseInt(magentoCart['entity_id'])) {
+    if (cartId.toString().toLowerCase() !== 'me' && cartId !== parseInt(magentoCart['entity_id'])) {
       return cb(new Error('invalid cart'))
     }
 
