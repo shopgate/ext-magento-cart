@@ -1,6 +1,12 @@
+const _ = require('underscore')
+
 /**
  * @param {object} context
  * @param {object} input
+ * @param {string} input.token
+ * @param {string} input.cartId
+ * @param {array} input.cartItemIds
+ * @param {array} input.couponCodes
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
@@ -8,7 +14,15 @@ module.exports = function (context, input, cb) {
   const cartUrl = context.config.magentoUrl + '/carts'
   const accessToken = input.token
   const cartId = input.cartId
-  const cartItemIds = input.cartItemIds
+  let cartItemIds = input.cartItemIds
+
+  // We need the ability to get couponCodes here from the pipeline call
+  if ((!input.cartItemIds || input.cartItemIds.length <= 0) && (input.couponCodes && input.couponCodes.length > 0)) {
+    cartItemIds = []
+    _.each(input.couponCodes, function(couponCode) {
+      cartItemIds.push('COUPON_' + couponCode)
+    })
+  }
 
   if (!input.cartId) { cb(new Error('cart id missing')) }
 

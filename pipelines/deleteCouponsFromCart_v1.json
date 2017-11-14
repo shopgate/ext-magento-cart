@@ -4,7 +4,7 @@
     "id": "deleteCouponsFromCart_v1",
     "public": true,
     "input": [
-      {"key": "CartItemIds", "id": "1000"}
+      {"key": "couponCodes", "id": "1000"}
     ],
     "output": [
       {"key": "messages", "id": "1100", "optional": true}
@@ -33,7 +33,7 @@
         "input": [
           {"key": "cartId", "id": "1"},
           {"key": "token", "id": "10"},
-          {"key": "cartItemIds", "id": "1000"}
+          {"key": "couponCodes", "id": "1000"}
         ],
         "output": [
           {"key": "messages", "id": "1100", "optional": true}
