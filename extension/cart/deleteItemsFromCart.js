@@ -14,7 +14,7 @@ module.exports = function (context, input, cb) {
   const cartId = input.cartId
   let cartItemIds = input.cartItemIds
 
-  // We need to get couponCodes here from the pipeline call
+  // We need the ability to get couponCodes here from the pipeline call
   if ((!input.cartItemIds || input.cartItemIds.length <= 0) && (input.couponCodes && input.couponCodes.length > 0)) {
     cartItemIds = input.couponCodes
   }
