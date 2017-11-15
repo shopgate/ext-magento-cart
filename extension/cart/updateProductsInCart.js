@@ -105,7 +105,9 @@ function transformToUpdateItem (cartItem, cartItemMap) {
   const magentoCartItem = cartItemMap[cartItem.CartItemId]
   let parentProduct = null
 
-  if (cartItem.quantity < 0) throw new Error(`cartItem ${cartItem.CartItemId} has a negative quantity (${cartItem.quantity})`)
+  if (cartItem.quantity < 0) {
+    throw new Error(`cartItem ${cartItem.CartItemId} has a negative quantity (${cartItem.quantity})`)
+  }
 
   if (magentoCartItem['parent_item_id']) {
     const magentoCartItemParent = cartItemMap[magentoCartItem['parent_item_id']]
