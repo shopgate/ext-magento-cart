@@ -20,6 +20,8 @@ module.exports = function (context, input, cb) {
           products[i].metadata.selectedAttributes[j].optionId
         )
       }
+    } else if (isSimpleProduct(products[i].productId)) {
+      throw new Error(`Failed to add product '${products[i].productId}'. Required field "metadata" is missing.`)
     } else {
       transformedProduct = new SimpleProduct(products[i].productId, products[i].quantity)
     }
@@ -37,4 +39,15 @@ module.exports = function (context, input, cb) {
 function getProductId ($combinedId) {
   const idList = $combinedId.toString().split('-')
   return Array.isArray(idList) ? idList[0].toString() : $combinedId.toString()
+}
+
+/**
+ * Takes a Shopgate-uid and checks if the uid refers to a simple product or not
+ *
+ * @param $combinedId
+ * @return {boolean}
+ */
+function isSimpleProduct ($combinedId) {
+  const idList = $combinedId.toString().split('-')
+  return Array.isArray(idList) && idList.length > 1
 }
