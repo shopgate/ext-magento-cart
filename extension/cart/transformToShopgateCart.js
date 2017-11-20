@@ -91,11 +91,27 @@ function getTotals (magentoCart) {
 
 /**
  * @param {object} magentoCart
+ * @param {object} magentoCartItem
+ * @param {Price} price
+ */
+function setParentPrice (magentoCart, magentoCartItem, price) {
+  for (let i in magentoCart.items) {
+    if (magentoCart.items[i]['item_id'] === magentoCartItem.parent_item_id) {
+      const parentItem = magentoCart.items[i]
+      const itemPrice = parseFloat(parentItem['price'])
+      const itemBaseRowTotalPrice = parseFloat(parentItem['base_row_total'])
+      price.setUnit(itemPrice)
+      price.setDefaultValue(itemBaseRowTotalPrice)
+    }
+  }
+}
+
+/**
+ * @param {object} magentoCart
  * @param {object[]} shopgateProducts
  */
 function getCartItems (magentoCart, shopgateProducts) {
   const cartItems = []
-
   for (let i in magentoCart.items) {
     if (magentoCart.items[i]['product_type'] === 'simple') {
       const cartItemId = magentoCart.items[i]['item_id']
@@ -103,6 +119,7 @@ function getCartItems (magentoCart, shopgateProducts) {
       let productName = magentoCart.items[i]['name']
       let quantity = parseInt(magentoCart.items[i]['qty'])
       const itemPrice = parseFloat(magentoCart.items[i]['price'])
+      const itemBaseRowTotalPrice = parseFloat(magentoCart.items[i]['base_row_total'])
 
       // If it's a variant, we need to transform it into a special shopgate
       // variant id and get the quantity from the parent item
@@ -119,7 +136,14 @@ function getCartItems (magentoCart, shopgateProducts) {
       })
 
       // TODO: Coupon information is needed for the special price
-      const price = new Price(itemPrice, itemPrice * quantity, null)
+      // TODO: Allow setParentPrice in the config for special behaviors / extensions
+      let price = new Price(0, 0, null)
+      if (magentoCart.items[i]['parent_item_id']) {
+        setParentPrice(magentoCart, magentoCart.items[i], price)
+      } else {
+        price.setUnit(itemPrice)
+        price.setDefaultValue(itemBaseRowTotalPrice)
+      }
 
       const product = new Product(productId, productName, shopgateProduct.featuredImageUrl, price)
       if (shopgateProduct.characteristics) {
