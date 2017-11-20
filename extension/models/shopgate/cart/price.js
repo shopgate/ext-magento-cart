@@ -13,7 +13,7 @@ class Price {
   /**
    * @param int value
    */
-  setDefaultValue (value) {
+  setDefault (value) {
     this.default = value
   }
   /**

@@ -101,7 +101,7 @@ function setParentPrice (magentoCart, magentoCartItem, price) {
       const itemPrice = parseFloat(parentItem['price'])
       const itemBaseRowTotalPrice = parseFloat(parentItem['base_row_total'])
       price.setUnit(itemPrice)
-      price.setDefaultValue(itemBaseRowTotalPrice)
+      price.setDefault(itemBaseRowTotalPrice)
     }
   }
 }
@@ -142,7 +142,7 @@ function getCartItems (magentoCart, shopgateProducts) {
         setParentPrice(magentoCart, magentoCart.items[i], price)
       } else {
         price.setUnit(itemPrice)
-        price.setDefaultValue(itemBaseRowTotalPrice)
+        price.setDefault(itemBaseRowTotalPrice)
       }
 
       const product = new Product(productId, productName, shopgateProduct.featuredImageUrl, price)
