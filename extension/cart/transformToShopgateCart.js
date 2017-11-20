@@ -90,23 +90,14 @@ function getTotals (magentoCart) {
 }
 
 /**
- * @param {object} magentoCart
  * @param {object} magentoCartItem
- * @param {Price} price
  */
-function setParentPrice (magentoCart, price) {
-  for (let i in magentoCart.items) {
-    if (magentoCart.items[i]['parent_item_id']) {
-      const parentElement = magentoCart.items.find((element) => {
-        return element['item_id'] === magentoCart.items[i]['parent_item_id']
-      })
-      const itemPrice = parseFloat(parentElement['price'])
-      const itemBaseRowTotalPrice = parseFloat(parentElement['base_row_total'])
-      price.setUnit(itemPrice)
-      price.setDefault(itemBaseRowTotalPrice)
-      continue
-    }
-  }
+function getPrice (magentoCartItem) {
+  const itemPrice = parseFloat(magentoCartItem.price)
+  const itemBaseRowTotalPrice = parseFloat(magentoCartItem.base_row_total)
+
+  // TODO: Coupon information is needed for the special price
+  return new Price(itemPrice, itemBaseRowTotalPrice, null)
 }
 
 /**
@@ -121,8 +112,7 @@ function getCartItems (magentoCart, shopgateProducts) {
       let productId = magentoCart.items[i]['product_id']
       let productName = magentoCart.items[i]['name']
       let quantity = parseInt(magentoCart.items[i]['qty'])
-      const itemPrice = parseFloat(magentoCart.items[i]['price'])
-      const itemBaseRowTotalPrice = parseFloat(magentoCart.items[i]['base_row_total'])
+      let price = 0
 
       // If it's a variant, we need to transform it into a special shopgate
       // variant id and get the quantity from the parent item
@@ -132,21 +122,14 @@ function getCartItems (magentoCart, shopgateProducts) {
         })
         productId = `${parentElement['product_id']}-${productId}`
         quantity = parentElement['qty']
+        price = getPrice(parentElement)
+      } else {
+        price = getPrice(magentoCart.items[i])
       }
 
       const shopgateProduct = shopgateProducts.find((element) => {
         return element.id === productId
       })
-
-      // TODO: Coupon information is needed for the special price
-      // TODO: Allow setParentPrice in the config for special behaviors / extensions
-      let price = new Price(0, 0, null)
-      if (magentoCart.items[i]['parent_item_id']) {
-        setParentPrice(magentoCart, price)
-      } else {
-        price.setUnit(itemPrice)
-        price.setDefault(itemBaseRowTotalPrice)
-      }
 
       const product = new Product(productId, productName, shopgateProduct.featuredImageUrl, price)
       if (shopgateProduct.characteristics) {
