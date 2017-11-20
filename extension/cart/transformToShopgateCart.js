@@ -94,14 +94,17 @@ function getTotals (magentoCart) {
  * @param {object} magentoCartItem
  * @param {Price} price
  */
-function setParentPrice (magentoCart, magentoCartItem, price) {
+function setParentPrice (magentoCart, price) {
   for (let i in magentoCart.items) {
-    if (magentoCart.items[i]['item_id'] === magentoCartItem.parent_item_id) {
-      const parentItem = magentoCart.items[i]
-      const itemPrice = parseFloat(parentItem['price'])
-      const itemBaseRowTotalPrice = parseFloat(parentItem['base_row_total'])
+    if (magentoCart.items[i]['parent_item_id']) {
+      const parentElement = magentoCart.items.find((element) => {
+        return element['item_id'] === magentoCart.items[i]['parent_item_id']
+      })
+      const itemPrice = parseFloat(parentElement['price'])
+      const itemBaseRowTotalPrice = parseFloat(parentElement['base_row_total'])
       price.setUnit(itemPrice)
       price.setDefault(itemBaseRowTotalPrice)
+      continue
     }
   }
 }
@@ -139,7 +142,7 @@ function getCartItems (magentoCart, shopgateProducts) {
       // TODO: Allow setParentPrice in the config for special behaviors / extensions
       let price = new Price(0, 0, null)
       if (magentoCart.items[i]['parent_item_id']) {
-        setParentPrice(magentoCart, magentoCart.items[i], price)
+        setParentPrice(magentoCart, price)
       } else {
         price.setUnit(itemPrice)
         price.setDefault(itemBaseRowTotalPrice)
