@@ -90,19 +90,29 @@ function getTotals (magentoCart) {
 }
 
 /**
+ * @param {object} magentoCartItem
+ */
+function getPrice (magentoCartItem) {
+  const itemPrice = parseFloat(magentoCartItem.price)
+  const itemBaseRowTotalPrice = parseFloat(magentoCartItem.base_row_total)
+
+  // TODO: Coupon information is needed for the special price
+  return new Price(itemPrice, itemBaseRowTotalPrice, null)
+}
+
+/**
  * @param {object} magentoCart
  * @param {object[]} shopgateProducts
  */
 function getCartItems (magentoCart, shopgateProducts) {
   const cartItems = []
-
   for (let i in magentoCart.items) {
     if (magentoCart.items[i]['product_type'] === 'simple') {
       const cartItemId = magentoCart.items[i]['item_id']
       let productId = magentoCart.items[i]['product_id']
       let productName = magentoCart.items[i]['name']
       let quantity = parseInt(magentoCart.items[i]['qty'])
-      const itemPrice = parseFloat(magentoCart.items[i]['price'])
+      let priceItem = magentoCart.items[i]
 
       // If it's a variant, we need to transform it into a special shopgate
       // variant id and get the quantity from the parent item
@@ -112,16 +122,14 @@ function getCartItems (magentoCart, shopgateProducts) {
         })
         productId = `${parentElement['product_id']}-${productId}`
         quantity = parentElement['qty']
+        priceItem = parentElement
       }
 
       const shopgateProduct = shopgateProducts.find((element) => {
         return element.id === productId
       })
 
-      // TODO: Coupon information is needed for the special price
-      const price = new Price(itemPrice, itemPrice * quantity, null)
-
-      const product = new Product(productId, productName, shopgateProduct.featuredImageUrl, price)
+      const product = new Product(productId, productName, shopgateProduct.featuredImageUrl, getPrice(priceItem))
       if (shopgateProduct.characteristics) {
         for (let j in shopgateProduct.characteristics) {
           const property = new Property('option', shopgateProduct.characteristics[j].value)

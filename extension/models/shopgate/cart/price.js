@@ -4,6 +4,6 @@ class Price {
     this.default = defaultValue
     this.special = special
   }
- }
+}
 
 module.exports = Price
