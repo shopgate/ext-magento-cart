@@ -1,0 +1,21 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "checkoutFinished_v1",
+    "public": true,
+    "input": [
+      {"key": "orderId", "id": "1"}
+    ],
+    "output": [],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/checkoutFinished.js",
+        "input": [
+          {"key": "orderId", "id": "1"}
+        ]
+      }
+    ]
+  }
+}
