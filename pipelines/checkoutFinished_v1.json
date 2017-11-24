@@ -14,7 +14,8 @@
         "path": "@shopgate/magento-cart/cart/checkoutFinished.js",
         "input": [
           {"key": "orderId", "id": "1"}
-        ]
+        ],
+        "output": []
       }
     ]
   }
