@@ -19,7 +19,6 @@ module.exports = function (context, input, cb) {
 
   storage.get(CARTID_KEY, (err, cartId) => {
     if (err) return cb(err)
-    context.log.debug(`Got cartId ${cartId} from storage`)
     return cb(null, {cartId: cartId || null})
   })
 }
