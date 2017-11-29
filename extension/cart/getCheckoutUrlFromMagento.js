@@ -14,7 +14,11 @@ module.exports = function (context, input, cb) {
 
   getCheckoutUrlFromMagento(request, accessToken, cartId, cartUrl, (err, result) => {
     if (err) return cb(err)
-    cb(null, {expires: result['expires_in'], url: result.url})
+
+    // Add additional query parameters for Google Analytics in Webcheckout
+    const checkoutUrl = result.url + "utm_source/shopgate/utm_medium/app/utm_campaign/web-checkout"
+
+    cb(null, {expires: result['expires_in'], url: checkoutUrl})
   })
 }
 
