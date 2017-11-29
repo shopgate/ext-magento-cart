@@ -1,0 +1,34 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "createNewCartForCustomer",
+    "public": true,
+    "input": [
+      {"key": "orderId", "id": "1"},
+      {"key": "sgxsMeta", "id": "750"}
+    ],
+    "output": [],
+    "steps": [
+      {
+        "type": "pipeline",
+        "id": "getToken_v1",
+        "trusted": true,
+        "input": [],
+        "output": [
+          {"key": "token", "id": "10"}
+        ]
+      },
+      {
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/createNewCartForCustomer.js",
+        "input": [
+          {"key": "orderId", "id": "1"},
+          {"key": "token", "id": "10"},
+          {"key": "sgxsMeta", "id": "750"}
+        ],
+        "output": []
+      }
+    ]
+  }
+}
