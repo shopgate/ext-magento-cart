@@ -26,7 +26,7 @@ module.exports = function (context, input, cb) {
     context.storage['user'].set(CARTID_KEY, cartId, (err) => {
       if (err) return cb(err)
       log.debug(`Created cart with id: ${cartId}`)
-      return cb(null, {cartId: cartId})
+      return cb(null, {"success": true})
     })
   })
 }
