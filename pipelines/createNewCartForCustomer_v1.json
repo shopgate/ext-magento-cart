@@ -7,7 +7,9 @@
       {"key": "orderId", "id": "1"},
       {"key": "sgxsMeta", "id": "750"}
     ],
-    "output": [],
+    "output": [
+      {"key": "success", "id": "20"}
+    ],
     "steps": [
       {
         "type": "pipeline",
@@ -27,7 +29,9 @@
           {"key": "token", "id": "10"},
           {"key": "sgxsMeta", "id": "750"}
         ],
-        "output": []
+        "output": [
+          {"key": "success", "id": "20"}
+        ]
       }
     ]
   }
