@@ -1,3 +1,5 @@
+const UtmParameters = require('../models/utmParameters/utmParameters')
+
 /**
  *
  * @param {object} context
@@ -16,7 +18,11 @@ module.exports = function (context, input, cb) {
     if (err) return cb(err)
 
     // Add additional query parameters for Google Analytics in Webcheckout
-    const checkoutUrl = result.url + "utm_source/shopgate/utm_medium/app/utm_campaign/web-checkout"
+    const WebCheckoutUrlUtmParameters = new UtmParameters()
+    WebCheckoutUrlUtmParameters.source = 'shopgate'
+    WebCheckoutUrlUtmParameters.medium = 'app'
+    WebCheckoutUrlUtmParameters.campaign = 'web-checkout'
+    const checkoutUrl = result.url + WebCheckoutUrlUtmParameters.getQueryParameters()
 
     cb(null, {expires: result['expires_in'], url: checkoutUrl})
   })
