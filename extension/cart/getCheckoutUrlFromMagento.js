@@ -1,4 +1,5 @@
 const UtmParameters = require('../models/utmParameters/utmParameters')
+const SgAppParameters = require('../models/sgAppParameters/sgAppParameters')
 
 /**
  *
@@ -22,7 +23,12 @@ module.exports = function (context, input, cb) {
     WebCheckoutUrlUtmParameters.source = 'shopgate'
     WebCheckoutUrlUtmParameters.medium = 'app'
     WebCheckoutUrlUtmParameters.campaign = 'web-checkout'
-    const checkoutUrl = result.url + WebCheckoutUrlUtmParameters.getQueryParameters()
+
+    // Add additional query parameters for SG App call
+    const WebCheckoutUrlSgAppParameters = new SgAppParameters()
+    WebCheckoutUrlSgAppParameters.sgcloudInapp = 1
+
+    const checkoutUrl = result.url + WebCheckoutUrlSgAppParameters.getQueryParameters() + WebCheckoutUrlUtmParameters.getQueryParameters()
 
     cb(null, {expires: result['expires_in'], url: checkoutUrl})
   })
@@ -47,7 +53,6 @@ function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, cb) {
     if (res.statusCode !== 200) {
       return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
     }
-
     cb(null, body)
   })
 }
