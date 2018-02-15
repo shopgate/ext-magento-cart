@@ -19,7 +19,6 @@ module.exports = function (context, input, cb) {
   const enableCoupons = context.config.enableCoupons
 
   const shopgateCart = transformToShopgateCart(magentoCart, shopgateProducts, enableCoupons)
-
   cb(null, {
     isOrderable: shopgateCart.isOrderable,
     isTaxIncluded: shopgateCart.isTaxIncluded,
@@ -35,7 +34,7 @@ module.exports = function (context, input, cb) {
 
 /**
  * @param {object} magentoCart
- * @param {object} shopgateProducts
+ * @param {Array} shopgateProducts
  * @param {boolean} enableCoupons
  */
 function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) {
@@ -43,7 +42,6 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
   const totals = getTotals(magentoCart)
 
   const cart = new Cart(cartItems, magentoCart['quote_currency_code'], totals, enableCoupons)
-  cart.setIsOrderable(true) // isOrderable is always true in magento (if the cart exists)
   if (magentoCart.totals) {
     let taxTotal
 
@@ -59,6 +57,9 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
 
     cart.setIsTaxIncluded(taxIncluded)
   }
+
+  cart.isOrderable = magentoCart.isOrderable
+
   return cart
 }
 
@@ -143,7 +144,12 @@ function getCartItems (magentoCart, shopgateProducts) {
 
       const cartItem = new CartItem(cartItemId, quantity, 'product', product)
 
+      magentoCart.isOrderable = true
       if (magentoCart.items[i]['has_error']) {
+
+        // If an item has an error, the cart isn't orderable
+        magentoCart.isOrderable = false
+
         for (let key in magentoCart.items[i]['errors']) {
           cartItem.addMessage(new Message('error', magentoCart.items[i]['errors'][key]))
         }

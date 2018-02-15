@@ -1,4 +1,4 @@
 {
-  "magentoUrl": "https://team-pirate-sg-cloud.shopgatedev.com/shopping_carts/Magento/1.9.2.1/59c24b36620d4/shopgate/v2",
-  "enableCoupons": false
+  "enableCartCoupons": true,
+  "magentoUrl": "https://team-pirate-sg-cloud.shopgatedev.com/shopping_carts/Magento/1.9.2.1/59c24b36620d4/shopgate/v2"
 }
