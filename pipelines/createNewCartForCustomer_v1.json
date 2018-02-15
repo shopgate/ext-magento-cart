@@ -1,7 +1,7 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "createNewCartForCustomer",
+    "id": "createNewCartForCustomer_v1",
     "public": true,
     "input": [
       {"key": "orderId", "id": "1"},
