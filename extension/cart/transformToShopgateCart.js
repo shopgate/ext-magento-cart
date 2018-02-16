@@ -34,8 +34,9 @@ module.exports = function (context, input, cb) {
 
 /**
  * @param {object} magentoCart
- * @param {Array} shopgateProducts
+ * @param {[Object]} shopgateProducts
  * @param {boolean} enableCoupons
+ * @returns {Cart}
  */
 function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) {
   const cartItems = getCartItems(magentoCart, shopgateProducts)
