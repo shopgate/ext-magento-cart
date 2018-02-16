@@ -11,12 +11,6 @@ module.exports = function (context, input, cb) {
   const accessToken = input.token
   const cartId = input.cartId
 
-  console.log('##################################')
-  console.log('##################################')
-  console.log(cartId)
-  console.log('##################################')
-  console.log('##################################')
-
   getCartFromMagento(request, accessToken, cartId, cartUrl, (err, magentoCart) => {
     if (err) return cb(err)
 
