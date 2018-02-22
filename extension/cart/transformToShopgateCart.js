@@ -92,11 +92,34 @@ function getTotals (magentoCart) {
 }
 
 /**
+ * @typedef {object} magentoCartItem
+ * @property {string} base_row_total
+ * @property {string} price_incl_tax
+ * @property {string} base_row_total_incl_tax
+ *
  * @param {object} magentoCartItem
+ * @param {string} cartPriceDisplaySetting
  */
-function getPrice (magentoCartItem) {
-  const itemPrice = parseFloat(magentoCartItem.price)
-  const itemBaseRowTotalPrice = parseFloat(magentoCartItem.base_row_total)
+function getPrice (magentoCartItem, cartPriceDisplaySetting) {
+
+  let itemPrice = 0
+  let itemBaseRowTotalPrice = 0
+
+  // There're three possible settings for this (1,2,3), but the third one is actually not supported by GMD-Theme
+  switch (cartPriceDisplaySetting) {
+    case '1':
+      itemPrice = parseFloat(magentoCartItem.price)
+      itemBaseRowTotalPrice = parseFloat(magentoCartItem.base_row_total)
+      break
+    case '2':
+      itemPrice = parseFloat(magentoCartItem.price_incl_tax)
+      itemBaseRowTotalPrice = parseFloat(magentoCartItem.base_row_total_incl_tax)
+      break
+    default:
+      itemPrice = parseFloat(magentoCartItem.price_incl_tax)
+      itemBaseRowTotalPrice = parseFloat(magentoCartItem.base_row_total_incl_tax)
+      break
+  }
 
   // TODO: Coupon information is needed for the special price
   return new Price(itemPrice, itemBaseRowTotalPrice, null)
@@ -131,7 +154,14 @@ function getCartItems (magentoCart, shopgateProducts) {
         return element.id === productId
       })
 
-      const product = new Product(productId, productName, shopgateProduct.featuredImageUrl, getPrice(priceItem))
+      const price = getPrice(priceItem, magentoCart.cart_price_display_settings)
+      const product = new Product(
+        productId,
+        productName,
+        shopgateProduct.featuredImageUrl,
+        price
+      )
+
       if (shopgateProduct.characteristics) {
         for (let j in shopgateProduct.characteristics) {
           const property = new Property('option', shopgateProduct.characteristics[j].value)
