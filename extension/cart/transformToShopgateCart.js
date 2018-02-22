@@ -39,6 +39,9 @@ module.exports = function (context, input, cb) {
  * @returns {Cart}
  */
 function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) {
+
+  // Setting up the default value. If the cart has products (without any errors) this value is set to true
+  magentoCart.isOrderable = false
   const cartItems = getCartItems(magentoCart, shopgateProducts)
   const totals = getTotals(magentoCart)
 
