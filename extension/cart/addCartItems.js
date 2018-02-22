@@ -1,5 +1,5 @@
 const util = require('util')
-const errorHandler = require('../helpers/mageErrorHandler')
+const InternalError = require('../models/Errors/InternalError')
 
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest
@@ -26,7 +26,7 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, cb) 
   request('magento:addItemsToCart').post(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      return cb(new Error(errorHandler.getDescription(body)))
+      return cb(new InternalError(body))
     }
 
     cb(null)
