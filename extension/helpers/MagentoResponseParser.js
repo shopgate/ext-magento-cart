@@ -13,7 +13,7 @@ class MagentoErrorParser {
    *
    * @param {Error} error
    * @param {MagentoResponseBody} body
-   * @returns {Error}
+   * @returns {Error} Mutates the message property of the original class
    */
   static build (error, body) {
     error.message = MagentoErrorParser.extractMagentoError(body)

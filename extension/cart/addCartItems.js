@@ -1,7 +1,7 @@
 const util = require('util')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const InvalidItemError = require('../models/Errors/InvalidItemError')
-const ResponseParser = require('../helpers/magentoResponseParser')
+const ResponseParser = require('../helpers/MagentoResponseParser')
 
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest
