@@ -14,6 +14,8 @@ describe('addCartItems', () => {
     },
     log: {
       debug: () => {
+      },
+      error: () => {
       }
     },
     meta: {}
