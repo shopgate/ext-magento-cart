@@ -20,7 +20,7 @@ module.exports = function (context, input, cb) {
 function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, cb) {
   const options = {
     url: `${cartUrl}/${cartId}/items`,
-    headers: {authorization: `Bearer ${accessToken}`},
+    auth: {bearer: accessToken},
     json: items
   }
 
