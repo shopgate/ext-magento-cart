@@ -58,6 +58,7 @@ describe('addCartItems', () => {
       }
     }
 
+    // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
       assert.ifError(err)
       done()
@@ -71,6 +72,7 @@ describe('addCartItems', () => {
       }
     }
 
+    // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
       assert.equal(err.message, 'error')
       done()
@@ -84,6 +86,7 @@ describe('addCartItems', () => {
       }
     }
 
+    // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
       assert.equal(err.message, '')
       done()
@@ -99,6 +102,7 @@ describe('addCartItems', () => {
       }
     }
 
+    // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
       assert.equal(err.message, errorMessage)
       assert.equal(err.constructor.name, 'InvalidItemError')
@@ -113,8 +117,9 @@ describe('addCartItems', () => {
       }
     }
 
+    // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, errorMessage)
+      assert.equal(err.message, 'An internal error occurred.')
       assert.equal(err.constructor.name, 'MagentoEndpointError')
       done()
     })

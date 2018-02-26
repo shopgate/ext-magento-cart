@@ -3,6 +3,11 @@ const MagentoError = require('../models/Errors/MagentoEndpointError')
 const InvalidItemError = require('../models/Errors/InvalidItemError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 
+/**
+ * @param {StepContext} context
+ * @param {object} input
+ * @param {function} cb
+ */
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
@@ -17,6 +22,15 @@ module.exports = function (context, input, cb) {
   })
 }
 
+/**
+ * @param {Request} request
+ * @param {string} accessToken
+ * @param {object} items
+ * @param {string} cartId
+ * @param {string} cartUrl
+ * @param {Logger} log
+ * @param {function} cb
+ */
 function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, cb) {
   const options = {
     url: `${cartUrl}/${cartId}/items`,
@@ -33,7 +47,7 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, cb) 
       if (res.statusCode >= 400 && res.statusCode < 500) {
         return cb(ResponseParser.build(new InvalidItemError(), body))
       }
-      return cb(ResponseParser.build(new MagentoError(), body))
+      return cb(new MagentoError())
     }
 
     cb(null)
