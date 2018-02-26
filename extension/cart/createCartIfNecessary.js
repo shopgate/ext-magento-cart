@@ -1,7 +1,9 @@
 const CARTID_KEY = 'cartId'
+const MagentoError = require('../models/Errors/MagentoEndpointError')
+const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
- * @param {object} context
+ * @param {StepContext} context
  * @param {object} input
  * @param {function} cb
  */
@@ -30,7 +32,7 @@ module.exports = function (context, input, cb) {
       log.debug(`using cart with id: ${cartId}`)
       return cb(null, {cartId: cartId})
     }
-    createCart(request, accessToken, cartUrl, (err2, cartId) => {
+    createCart(request, accessToken, cartUrl, log, (err2, cartId) => {
       if (err2) return cb(err2)
       storage.set(CARTID_KEY, cartId, (err3) => {
         if (err3) return cb(err3)
@@ -45,9 +47,10 @@ module.exports = function (context, input, cb) {
  * @param {Request} request
  * @param {string} accessToken
  * @param {string} cartUrl
+ * @param {Logger} log
  * @param {function} cb
  */
-function createCart (request, accessToken, cartUrl, cb) {
+function createCart (request, accessToken, cartUrl, log, cb) {
   const options = {
     url: cartUrl,
     headers: {authorization: `Bearer ${accessToken}`},
@@ -57,7 +60,8 @@ function createCart (request, accessToken, cartUrl, cb) {
   request('magento:createCart').post(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
+      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(body)}`)
+      return cb(new MagentoError())
     }
 
     cb(null, body.cartId)

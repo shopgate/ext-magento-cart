@@ -22,7 +22,10 @@ describe('createCartIfNecessary', () => {
       magentoUrl: 'wowCool'
     },
     log: {
-      debug: () => {}
+      debug: () => {
+      },
+      error: () => {
+      }
     },
     meta: {}
   }
@@ -111,8 +114,8 @@ describe('createCartIfNecessary', () => {
         cb(null, {statusCode: 400}, {error: 'error'})
       }
 
-      createCart(context.tracedRequest, input.tokens.accessToken, context.config.magentoUrl, (err) => {
-        assert.equal(err.message, 'Got 400 from magento: {"error":"error"}')
+      createCart(context.tracedRequest, input.tokens.accessToken, context.config.magentoUrl, context.log, (err) => {
+        assert.equal(err.message, 'An internal error occurred.')
         done()
       })
     })
