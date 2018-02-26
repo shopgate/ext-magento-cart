@@ -1,4 +1,7 @@
 const util = require('util')
+const MagentoError = require('../models/Errors/MagentoEndpointError')
+const InvalidItemError = require('../models/Errors/InvalidItemError')
+const ResponseParser = require('../helpers/MagentoResponseParser')
 
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest
@@ -17,7 +20,7 @@ module.exports = function (context, input, cb) {
 function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, cb) {
   const options = {
     url: `${cartUrl}/${cartId}/items`,
-    headers: {authorization: `Bearer ${accessToken}`},
+    auth: {bearer: accessToken},
     json: items
   }
 
@@ -25,7 +28,12 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, cb) 
   request('magento:addItemsToCart').post(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
+      log.error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`)
+
+      if (res.statusCode >= 400 && res.statusCode < 500) {
+        return cb(ResponseParser.build(new InvalidItemError(), body))
+      }
+      return cb(ResponseParser.build(new MagentoError(), body))
     }
 
     cb(null)

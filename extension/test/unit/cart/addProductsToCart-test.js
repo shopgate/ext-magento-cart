@@ -1,8 +1,9 @@
 const assert = require('assert')
-const step = require('../../../cart/addProductsToCart')
+const step = require('../../../cart/addCartItems')
 
-describe('addProductsToCart', () => {
+describe('addCartItems', () => {
   let request = null
+  let errorMessage = 'Some error message'
 
   const context = {
     tracedRequest: () => {
@@ -12,7 +13,10 @@ describe('addProductsToCart', () => {
       magentoUrl: 'greatWow'
     },
     log: {
-      debug: () => {}
+      debug: () => {
+      },
+      error: () => {
+      }
     },
     meta: {}
   }
@@ -30,9 +34,20 @@ describe('addProductsToCart', () => {
     cartId: 1234
   }
 
+  const mageErrorResponse = {
+    messages: {
+      error: [
+        {
+          message: errorMessage
+        }
+      ]
+    }
+  }
+
   beforeEach(() => {
     request = {
-      post: () => {}
+      post: () => {
+      }
     }
   })
 
@@ -62,7 +77,7 @@ describe('addProductsToCart', () => {
     })
   })
 
-  it('should return an error because the statusCode of the resonse is >= 400', (done) => {
+  it('unknown error structure returned by Magento should produce an empty result', (done) => {
     request = {
       post: (options, cb) => {
         cb(null, {statusCode: 400}, {foo: 'bar'})
@@ -70,7 +85,37 @@ describe('addProductsToCart', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.message, 'Got 400 from magento: {"foo":"bar"}')
+      assert.equal(err.message, '')
+      done()
+    })
+  })
+
+  it('should return an InvalidItemError because the statusCode of the response is >= 400 && < 500', (done) => {
+    let errorMessage = 'Some error message'
+    request = {
+      post: (options, cb) => {
+        cb(null, {statusCode: 400}, mageErrorResponse
+        )
+      }
+    }
+
+    step(context, input, (err) => {
+      assert.equal(err.message, errorMessage)
+      assert.equal(err.constructor.name, 'InvalidItemError')
+      done()
+    })
+  })
+
+  it('should return an MagentoEndpointError because the statusCode of the response is != 200 && >= 500', (done) => {
+    request = {
+      post: (options, cb) => {
+        cb(null, {statusCode: 500}, mageErrorResponse)
+      }
+    }
+
+    step(context, input, (err) => {
+      assert.equal(err.message, errorMessage)
+      assert.equal(err.constructor.name, 'MagentoEndpointError')
       done()
     })
   })
