@@ -3,6 +3,11 @@
   "quote_currency_code": "USD",
   "grand_total": 1,
   "subtotal": 1,
+  "cart_price_display_settings": "1",
+  "has_errors": false,
+  "flags": {
+    "orderable": true
+  },
   "totals": [
     {
       "code": "subTotal",
@@ -27,7 +32,8 @@
       "product_type": "simple",
       "name": "simple product 1",
       "qty": 2,
-      "price": 1.0,
+      "price": 2.0,
+      "base_row_total": 1.0,
       "has_error": true,
       "errors": ["error"]
     },
@@ -37,7 +43,8 @@
       "product_type": "configurable",
       "name": "parent 1",
       "qty": 3,
-      "price": 1.0
+      "price": 1.0,
+      "base_row_total": 3.0
     },
     {
       "item_id": "cartItem3",
@@ -54,7 +61,8 @@
       "product_type": "configurable",
       "name": "parent 1",
       "qty": 6,
-      "price": 1.0
+      "price": 1.0,
+      "base_row_total": 6.0
     },
     {
       "item_id": "cartItem5",

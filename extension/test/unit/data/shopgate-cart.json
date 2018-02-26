@@ -15,7 +15,7 @@
         "id": "simple1",
         "name": "simple product 1",
         "featuredImageUrl": "image",
-        "price": { "unit": 1, "default": 2, "special": null },
+        "price": { "unit": 2, "default": 1, "special": null },
         "additionalInfo": [ { "label": "sku", "value": "simple1" } ],
         "properties": [],
         "appliedDiscounts": []
