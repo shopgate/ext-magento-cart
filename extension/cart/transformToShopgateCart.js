@@ -44,7 +44,7 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
 
   const cart = new Cart(cartItems, magentoCart['quote_currency_code'], totals, enableCoupons)
   // Checking if the cart has an error and set the isOrderable flag for this cart
-  cart.setIsOrderable(magentoCart.isOrderable)
+  cart.setIsOrderable(!magentoCart.has_error)
   if (magentoCart.totals) {
     let taxTotal
 

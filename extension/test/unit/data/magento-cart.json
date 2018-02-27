@@ -5,9 +5,6 @@
   "subtotal": 1,
   "cart_price_display_settings": "1",
   "has_errors": false,
-  "flags": {
-    "orderable": true
-  },
   "totals": [
     {
       "code": "subTotal",
@@ -33,9 +30,7 @@
       "name": "simple product 1",
       "qty": 2,
       "price": 2.0,
-      "base_row_total": 1.0,
-      "has_error": true,
-      "errors": ["error"]
+      "base_row_total": 1.0
     },
     {
       "item_id": "cartItem2",
