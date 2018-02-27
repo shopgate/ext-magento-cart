@@ -39,12 +39,12 @@ module.exports = function (context, input, cb) {
  * @returns {Cart}
  */
 function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) {
-  // Checking if the cart has an error and set the isOrderable flag for this cart
-  magentoCart.isOrderable = !magentoCart.has_error
   const cartItems = getCartItems(magentoCart, shopgateProducts)
   const totals = getTotals(magentoCart)
 
   const cart = new Cart(cartItems, magentoCart['quote_currency_code'], totals, enableCoupons)
+  // Checking if the cart has an error and set the isOrderable flag for this cart
+  cart.setIsOrderable(magentoCart.isOrderable)
   if (magentoCart.totals) {
     let taxTotal
 
@@ -61,8 +61,6 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
     cart.setIsTaxIncluded(taxIncluded)
   }
 
-  cart.isOrderable = magentoCart.isOrderable
-  cart.flags.orderable = magentoCart.isOrderable
 
   return cart
 }
