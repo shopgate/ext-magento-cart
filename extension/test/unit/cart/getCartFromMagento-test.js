@@ -20,10 +20,14 @@ describe('getCartFromMagento', () => {
         set: null
       },
       user: {
-        set: {
-          get: null,
-          set: null
-        }
+        set: null,
+        get: null
+      }
+    },
+    log: {
+      debug: () => {
+      },
+      error: () => {
       }
     }
   }
@@ -54,6 +58,7 @@ describe('getCartFromMagento', () => {
       cb(null)
     }
 
+    // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
       assert.ifError(err)
       assert.deepEqual(result.magentoCart, cart)
@@ -66,6 +71,7 @@ describe('getCartFromMagento', () => {
       cb(new Error('error'))
     }
 
+    // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
       assert.equal(err.message, 'error')
       done()
@@ -77,13 +83,15 @@ describe('getCartFromMagento', () => {
       cb(null, {statusCode: 499}, {message: 'mimimi'})
     }
 
+    // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'Got 499 from magento: {"message":"mimimi"}')
+      assert.equal(err.message, 'An internal error occurred.')
+      assert.equal(err.constructor.name, 'MagentoEndpointError')
       done()
     })
   })
 
-  it('should return an error because setting cart in storage failes', (done) => {
+  it('should return an error because setting cart in storage fails', (done) => {
     const cart = {cart: 'cart'}
     request.get = (options, cb) => {
       cb(null, {statusCode: 200}, cart)
@@ -93,7 +101,8 @@ describe('getCartFromMagento', () => {
       cb(new Error('error'))
     }
 
-    step(context, input, (err, result) => {
+    // noinspection JSCheckFunctionSignatures
+    step(context, input, (err) => {
       assert.equal(err.message, 'error')
       done()
     })
