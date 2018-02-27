@@ -1,12 +1,16 @@
 const CARTID_KEY = 'cartId'
+const MagentoError = require('../models/Errors/MagentoEndpointError')
+const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
- * @param {object} context
- * @param {object} input
- * @param {function} cb
- *
- * @typedef {object} input
+ * @typedef {object} MagentoCartInput
  * @property {string} orderId
+ * @property {string} token
+ * @property {object} sgxsMeta
+ *
+ * @param {StepContext} context
+ * @param {MagentoCartInput} input
+ * @param {StepCallback} cb
  */
 module.exports = function (context, input, cb) {
   const orderId = input.orderId
@@ -16,17 +20,17 @@ module.exports = function (context, input, cb) {
   const cartUrl = context.config.magentoUrl + '/carts'
 
   if (!orderId) {
-    return cb(null, {"message": "Input orderId was empty"})
+    return cb(new Error('Output key "orderId" is missing'))
   }
 
   log.debug(`Got orderId ${orderId} from app, creating new cart for customer.`)
 
-  createCart(request, accessToken, cartUrl, (err, cartId) => {
+  createCart(request, accessToken, cartUrl, log, (err, cartId) => {
     if (err) return cb(err)
     context.storage['user'].set(CARTID_KEY, cartId, (err) => {
       if (err) return cb(err)
       log.debug(`Created cart with id: ${cartId}`)
-      return cb(null, {"success": true})
+      return cb(null, {'success': true})
     })
   })
 }
@@ -35,19 +39,21 @@ module.exports = function (context, input, cb) {
  * @param {Request} request
  * @param {string} accessToken
  * @param {string} cartUrl
- * @param {function} cb
+ * @param {Logger} log
+ * @param {StepCallback} cb
  */
-function createCart (request, accessToken, cartUrl, cb) {
+function createCart (request, accessToken, cartUrl, log, cb) {
   const options = {
     url: cartUrl,
-    headers: {authorization: `Bearer ${accessToken}`},
+    auth: {bearer: accessToken},
     json: {}
   }
 
   request('magento:createCart').post(options, (err, res, body) => {
     if (err) return cb(err)
-    if (res.statusCode !== 200) {
-      return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
+    if (res.statusCode !== 200 || !body.cartId) {
+      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(body)}`)
+      return cb(new MagentoError())
     }
 
     cb(null, body.cartId)
