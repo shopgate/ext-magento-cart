@@ -178,10 +178,6 @@ function getCartItems (magentoCart, shopgateProducts) {
 
       const cartItem = new CartItem(cartItemId, quantity, 'product', product)
 
-      if (magentoCart.isOrderable) {
-
-      }
-
       if (magentoCart.items[i]['has_error']) {
         for (let key in magentoCart.items[i]['errors']) {
           cartItem.addMessage(new Message('error', magentoCart.items[i]['errors'][key]))
