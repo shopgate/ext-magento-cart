@@ -1,7 +1,7 @@
 const assert = require('assert')
 const step = require('../../../cart/deleteItemsFromCart')
 
-describe('deleteProductsFromCart', () => {
+describe('deleteItemsFromCart', () => {
   const request = {
     delete: null
   }
@@ -12,17 +12,24 @@ describe('deleteProductsFromCart', () => {
     },
     config: {
       magentoUrl: 'http://some.url'
+    },
+    log: {
+      debug: () => {
+      },
+      error: () => {
+      }
     }
   }
 
   const input = {
     token: 'a1',
-    cartId: 'c1',
     cartItemIds: ['ci1', 'ci2']
   }
 
   beforeEach(() => {
-    request.delete = () => {}
+    request.delete = () => {
+    }
+    input.cartId = 'c1'
   })
 
   it('should delete products from the cart', (done) => {
@@ -30,9 +37,21 @@ describe('deleteProductsFromCart', () => {
       cb(null, {statusCode: 200}, {})
     }
 
+    // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
       assert.ifError(err)
       assert.deepEqual(result, {})
+      done()
+    })
+  })
+
+  it('should return an error because cartId is missing from input', (done) => {
+    input.cartId = null
+
+    // noinspection JSCheckFunctionSignatures
+    step(context, input, (err) => {
+      assert.equal(err.code, undefined)
+      assert.equal(err.message, 'An internal error has occurred.')
       done()
     })
   })
@@ -42,7 +61,8 @@ describe('deleteProductsFromCart', () => {
       cb(new Error('error'))
     }
 
-    step(context, input, (err, result) => {
+    // noinspection JSCheckFunctionSignatures
+    step(context, input, (err) => {
       assert.equal(err.message, 'error')
       done()
     })
@@ -53,8 +73,11 @@ describe('deleteProductsFromCart', () => {
       cb(null, {statusCode: 456}, {foo: 'bar'})
     }
 
-    step(context, input, (err, result) => {
-      assert.equal(err.message, 'Got 456 from magento: {"foo":"bar"}')
+    // noinspection JSCheckFunctionSignatures
+    step(context, input, (err) => {
+      assert.equal(err.constructor.name, 'MagentoEndpointError')
+      assert.equal(err.message, 'An internal error occurred.')
+      assert.equal(err.code, 'EINTERNAL')
       done()
     })
   })
