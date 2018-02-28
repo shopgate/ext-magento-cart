@@ -4,7 +4,7 @@ const ConfigurableProduct = require('../../../../models/requestProducts/configur
 describe('ConfigurableProduct', () => {
   it('should create a simple product', (done) => {
     const cp = new ConfigurableProduct('1', 1)
-    cp.addProdertyToSuperAttribure('foo', 'bar')
+    cp.addPropertyToSuperAttribute('foo', 'bar')
 
     assert.equal(cp.productId, '1')
     assert.equal(cp.quantity, 1)
@@ -14,7 +14,7 @@ describe('ConfigurableProduct', () => {
 
   it('should return a transformed json object', (done) => {
     const cp = new ConfigurableProduct('1', 1)
-    cp.addProdertyToSuperAttribure('foo', 'bar')
+    cp.addPropertyToSuperAttribute('foo', 'bar')
 
     const jsonObj = cp.toJSON()
     assert.equal(jsonObj.product['product_id'], cp.productId)

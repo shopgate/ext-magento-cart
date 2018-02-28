@@ -11,15 +11,19 @@ describe('createProductCartItemList', () => {
       {
         productId: '2',
         quantity: 2,
-        properties: [
-          {id: 'pl1', value: 'pv1'},
-          {id: 'pl2', value: 'pv2'}
-        ]
+        metadata: {
+          type: 'configurable',
+          selectedAttributes: [
+            {attributeId: 'pl1', optionId: 'pv1'},
+            {attributeId: 'pl2', optionId: 'pv2'}
+          ]
+        }
       }
     ]
 
     const input = {products}
 
+    // noinspection JSCheckFunctionSignatures
     step(null, input, (err, result) => {
       assert.ifError(err)
       assert.equal(result.transformedProducts[0].productId, products[0].productId)

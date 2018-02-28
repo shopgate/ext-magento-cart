@@ -10,7 +10,7 @@ class ConfigurableProduct extends SimpleProduct {
    * @param {string} key
    * @param {string} value
    */
-  addProdertyToSuperAttribure (key, value) {
+  addPropertyToSuperAttribute (key, value) {
     this.superAttribute[key] = value
     return this
   }
