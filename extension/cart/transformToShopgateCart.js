@@ -194,8 +194,8 @@ function getCartItems (magentoCart, shopgateProducts) {
   }
 
   if (magentoCart.coupon_code !== null) {
-    const amount = magentoCart.totals.discount.value
-    const appliedDiscount = new AppliedDiscount(amount)
+    const amount = Math.abs(parseFloat(magentoCart.totals.discount.value))
+    const appliedDiscount = new AppliedDiscount(amount, 'fixed')
     appliedDiscount.code = magentoCart.coupon_code
     appliedDiscount.label = magentoCart.totals.discount.title
     const couponCartItem = new CartItem(magentoCart.coupon_code, 1, 'coupon', appliedDiscount)
