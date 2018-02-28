@@ -19,9 +19,10 @@ class CartStorageHandler {
   }
 
   /**
-   *
    * @param {boolean} isLoggedIn
    * @param {StepCallback} cb
+   * @param {Error|null} cb.err
+   * @param {MagentoResponseCart} cb.result
    */
   get (isLoggedIn, cb) {
     const storage = isLoggedIn ? 'user' : 'device'

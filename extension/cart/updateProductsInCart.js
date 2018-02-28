@@ -1,19 +1,38 @@
 const CartStorageHandler = require('../helpers/cartStorageHandler')
 const Product = require('../models/cartUpdates/product')
+const MagentoError = require('../models/Errors/MagentoEndpointError')
+const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
- * @param {object} context
- * @param {object} input
- * @param {function} cb
+ * @typedef {object} UpdateProductsInCartInput
+ * @property {(string|number)} cartId - could be 'me' or actual cart id
+ * @property {string} token
+ * @property {UpdateProductsInCartInputCartItems[]} CartItem
+ */
+/**
+ * @typedef {object} UpdateProductsInCartInputCartItems
+ * @property {string} CartItemId - cart item id to modify, e.g. "15"
+ * @property {number} quantity - update item to this quantity, e.g. 2
+ */
+/**
+ * @param {StepContext} context
+ * @param {UpdateProductsInCartInput} input
+ * @param {StepCallback} cb
+ * @param {Error|null=} cb.err
+ *
+ * @return {StepCallback}
  */
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
+  const log = context.log
   const cartItems = input.CartItem
   const accessToken = input.token
   const cartId = input.cartId
 
-  if (!cartId) { cb(new Error('cart id missing')) }
+  if (!cartId) {
+    return cb(new Error('Output key "cartId" is missing'))
+  }
 
   const csh = new CartStorageHandler(context.storage)
   csh.get(!!context.meta.userId, (err, magentoCart) => {
@@ -33,7 +52,7 @@ module.exports = function (context, input, cb) {
       return cb(e)
     }
 
-    updateProductsInCart(request, updateItems, cartId, accessToken, cartUrl, (err, result) => {
+    updateProductsInCart(request, updateItems, cartId, accessToken, cartUrl, log, (err) => {
       if (err) return cb(err)
       cb()
     })
@@ -41,33 +60,37 @@ module.exports = function (context, input, cb) {
 }
 
 /**
- * @param {object} request
- * @param {object[]} updateItems
- * @param {string} cartId
+ * @param {Request} request
+ * @param {MagentoRequestUpdateItem[]} updateItems
+ * @param {(string|number)} cartId
  * @param {string} accessToken
  * @param {string} cartUrl
- * @param {function} cb
+ * @param {Logger} log
+ * @param {StepCallback} cb
  */
-function updateProductsInCart (request, updateItems, cartId, accessToken, cartUrl, cb) {
+function updateProductsInCart (request, updateItems, cartId, accessToken, cartUrl, log, cb) {
   const options = {
-    url: `${cartUrl}/${cartId}/items`,
-    headers: {authorization: `Bearer ${accessToken}`},
+    baseUrl: cartUrl,
+    uri: cartId + '/items',
+    auth: {bearer: accessToken},
     json: updateItems
   }
 
   request('magento:updateProductsInCart').post(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
+      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(body)}`)
+      return cb(new MagentoError())
     }
 
-    cb(null, body)
+    cb(null)
   })
 }
 
 /**
+ * @param {MagentoResponseCart} magentoCart
  *
- * @param {object} magentoCart
+ * @return {object[]}
  */
 function createCartItemMap (magentoCart) {
   const cartItemMap = {}
@@ -83,9 +106,11 @@ function createCartItemMap (magentoCart) {
 }
 
 /**
+ * @param {UpdateProductsInCartInputCartItems[]} cartItems
+ * @param {MagentoResponseCart} magentoCart
  *
- * @param {object[]} cartItems
- * @param {object} magentoCart
+ * @return {Array<MagentoRequestUpdateItem>}
+ * @throws {Error}
  */
 function transformToUpdateItems (cartItems, magentoCart) {
   const cartItemMap = createCartItemMap(magentoCart)
@@ -97,9 +122,12 @@ function transformToUpdateItems (cartItems, magentoCart) {
 }
 
 /**
- * TODO: ERROR Cases
+ * @todo-sg: defined all error cases
  * @param {object} cartItem contains: CartItemId and quantity
- * @param {object} cartItemMap
+ * @param {object[]} cartItemMap
+ *
+ * @return {MagentoRequestUpdateItem}
+ * @throws {Error}
  */
 function transformToUpdateItem (cartItem, cartItemMap) {
   const magentoCartItem = cartItemMap[cartItem.CartItemId]
