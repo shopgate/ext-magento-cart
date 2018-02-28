@@ -19,7 +19,7 @@ module.exports = function (context, input, cb) {
   // We need the ability to get couponCodes here from the pipeline call
   if ((!input.cartItemIds || input.cartItemIds.length <= 0) && (input.couponCodes && input.couponCodes.length > 0)) {
     cartItemIds = []
-    _.each(input.couponCodes, function(couponCode) {
+    _.each(input.couponCodes, function (couponCode) {
       cartItemIds.push('COUPON_' + couponCode)
     })
   }
@@ -32,7 +32,7 @@ module.exports = function (context, input, cb) {
   })
 }
 
-function deleteItemsFromCart(request, accessToken, cartId, cartItemIds, cartUrl, cb) {
+function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl, cb) {
   const options = {
     url: `${cartUrl}/${cartId}/items`,
     headers: {authorization: `Bearer ${accessToken}`},
