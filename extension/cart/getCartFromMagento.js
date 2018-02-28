@@ -5,7 +5,7 @@ const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
  * @typedef {object} getCartFromMagentoInput
- * @property {string} cartId
+ * @property {integer} cartId
  * @property {string} token
  *
  * @param {StepContext} context

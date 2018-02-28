@@ -6,7 +6,7 @@ const ResponseParser = require('../helpers/MagentoResponseParser')
 /**
  * @typedef {object} DeleteItemsFromCartInput
  * @property {string} token
- * @property {string} cartId
+ * @property {integer} cartId
  * @property {string[]} cartItemIds
  * @property {string[]} couponCodes
  *
@@ -44,7 +44,7 @@ module.exports = function (context, input, cb) {
 /**
  * @param {Request} request
  * @param {string} accessToken
- * @param {string} cartId
+ * @param {integer} cartId
  * @param {string[]} cartItemIds
  * @param {string} cartUrl
  * @param {Logger} log

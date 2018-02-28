@@ -3,13 +3,13 @@ const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
- * @typedef {object} MagentoCartInput
+ * @typedef {object} CreateNewCartForCustomerInput
  * @property {string} orderId
  * @property {string} token
  * @property {object} sgxsMeta
  *
  * @param {StepContext} context
- * @param {MagentoCartInput} input
+ * @param {CreateNewCartForCustomerInput} input
  * @param {StepCallback} cb
  */
 module.exports = function (context, input, cb) {
