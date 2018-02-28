@@ -39,13 +39,12 @@ module.exports = function (context, input, cb) {
  * @returns {Cart}
  */
 function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) {
-
-  // Setting up the default value. If the cart has products (without any errors) this value is set to true
-  magentoCart.isOrderable = false
   const cartItems = getCartItems(magentoCart, shopgateProducts)
   const totals = getTotals(magentoCart)
 
   const cart = new Cart(cartItems, magentoCart['quote_currency_code'], totals, enableCoupons)
+  // Checking if the cart has an error and set the isOrderable flag for this cart
+  cart.setIsOrderable(!magentoCart.has_error)
   if (magentoCart.totals) {
     let taxTotal
 
@@ -61,8 +60,6 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
 
     cart.setIsTaxIncluded(taxIncluded)
   }
-
-  cart.isOrderable = magentoCart.isOrderable
 
   return cart
 }
@@ -104,7 +101,6 @@ function getTotals (magentoCart) {
  * @param {string} cartPriceDisplaySetting
  */
 function getPrice (magentoCartItem, cartPriceDisplaySetting) {
-
   let itemPrice = 0
   let itemBaseRowTotalPrice = 0
 
@@ -178,12 +174,7 @@ function getCartItems (magentoCart, shopgateProducts) {
 
       const cartItem = new CartItem(cartItemId, quantity, 'product', product)
 
-      magentoCart.isOrderable = true
       if (magentoCart.items[i]['has_error']) {
-
-        // If an item has an error, the cart isn't orderable
-        magentoCart.isOrderable = false
-
         for (let key in magentoCart.items[i]['errors']) {
           cartItem.addMessage(new Message('error', magentoCart.items[i]['errors'][key]))
         }
@@ -193,7 +184,7 @@ function getCartItems (magentoCart, shopgateProducts) {
     }
   }
 
-  if (magentoCart.coupon_code !== null) {
+  if (magentoCart.coupon_code !== null && magentoCart.totals.discount) {
     const amount = magentoCart.totals.discount.value
     const appliedDiscount = new AppliedDiscount(amount)
     appliedDiscount.code = magentoCart.coupon_code

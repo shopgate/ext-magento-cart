@@ -11,7 +11,7 @@ module.exports = function (context, input, cb) {
 
   // cart must exist to be able to assign a customer for it
   if (!cartId) {
-    // this can happen pretty ragularly, as guest carts are only created if products are added
+    // this can happen pretty regularly, as guest carts are only created if products are added
     context.log.debug('setCartCustomer is skipped, because no valid cartId was given')
     return cb()
   }
