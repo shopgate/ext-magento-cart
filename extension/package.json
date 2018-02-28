@@ -12,6 +12,7 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
+    "lodash": "^4.17.5",
     "neo-async": "^2.5.0"
   },
   "devDependencies": {
