@@ -1,21 +1,32 @@
 const UtmParameters = require('../models/utmParameters/utmParameters')
 const SgAppParameters = require('../models/sgAppParameters/sgAppParameters')
+const MagentoError = require('../models/Errors/MagentoEndpointError')
+const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
+ * @typedef {object} getCheckoutUrlFromMagentoInput
+ * @property {integer} cartId
+ * @property {string} token
  *
- * @param {object} context
- * @param {object} input
- * @param {function} cb
+ * @param {StepContext} context
+ * @param {getCheckoutUrlFromMagentoInput} input
+ *
+ * @param {StepCallback} cb
+ * @param {(Error|null)} cb.error
+ * @param {{expires: string, url: string}} cb.result
  */
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
+  const log = context.log
   const accessToken = input.token
   const cartId = input.cartId
 
-  if (!input.cartId) { cb(new Error('cart id missing')) }
+  if (!cartId) {
+    return cb(new Error('Output key "cartId" is missing'))
+  }
 
-  getCheckoutUrlFromMagento(request, accessToken, cartId, cartUrl, (err, result) => {
+  getCheckoutUrlFromMagento(request, accessToken, cartId, cartUrl, log, (err, result) => {
     if (err) return cb(err)
 
     // Add additional query parameters for Google Analytics in Webcheckout
@@ -35,23 +46,26 @@ module.exports = function (context, input, cb) {
 }
 
 /**
- * @param {object} request
+ * @param {Request} request
  * @param {string} accessToken
- * @param {string} cartId
+ * @param {integer} cartId
  * @param {string} cartUrl
- * @param {function} cb
+ * @param {Logger} log
+ * @param {StepCallback} cb
  */
-function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, cb) {
+function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, cb) {
   const options = {
-    url: `${cartUrl}/${cartId}/checkoutUrl`,
-    headers: {authorization: `Bearer ${accessToken}`},
+    baseUrl: cartUrl,
+    uri: cartId + '/checkoutUrl',
+    auth: {bearer: accessToken},
     json: {}
   }
 
   request('magento:getCheckoutUrl').post(options, (err, res, body) => {
     if (err) return cb(err)
-    if (res.statusCode !== 200) {
-      return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
+    if (res.statusCode !== 200 || !body.url) {
+      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(body)}`)
+      return cb(new MagentoError())
     }
     cb(null, body)
   })

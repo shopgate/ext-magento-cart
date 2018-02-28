@@ -12,30 +12,54 @@ describe('getCheckoutUrlFromMagento', () => {
     },
     config: {
       magentoUrl: 'http://some.url'
+    },
+    log: {
+      debug: () => {
+      },
+      error: () => {
+      }
     }
   }
 
   const input = {
-    token: 'a1',
-    cartId: null
+    token: 'a1'
   }
 
   beforeEach(() => {
-    input.cartId = 'c1'
-    request.post = () => {}
+    input.cartId = 123
+    request.post = () => {
+    }
   })
 
   it('should return the checkout url', (done) => {
-    const responseBody = {'expires_in': 3600, url: 'http://some.url/2'}
+    const responseBody = {'expires_in': 3600, url: 'http://some.url/2/'}
+    const params = 'sgcloud_inapp/1/utm_source/shopgate/utm_medium/app/utm_campaign/web-checkout/'
 
     request.post = (options, cb) => {
       cb(null, {statusCode: 200}, responseBody)
     }
 
+    // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
       assert.ifError(err)
       assert.equal(result.expires, responseBody['expires_in'])
-      assert.equal(result.url, responseBody.url)
+      assert.equal(result.url, responseBody.url + params)
+      done()
+    })
+  })
+
+  it('should throw an error despite code 200 and if url is not returned', (done) => {
+    const responseBody = {'expires_in': 3600}
+
+    request.post = (options, cb) => {
+      cb(null, {statusCode: 200}, responseBody)
+    }
+
+    // noinspection JSCheckFunctionSignatures
+    step(context, input, (err) => {
+      assert.equal(err.constructor.name, 'MagentoEndpointError')
+      assert.equal(err.message, 'An internal error occurred.')
+      assert.equal(err.code, 'EINTERNAL')
       done()
     })
   })
@@ -45,7 +69,8 @@ describe('getCheckoutUrlFromMagento', () => {
       cb(new Error('error'))
     }
 
-    step(context, input, (err, result) => {
+    // noinspection JSCheckFunctionSignatures
+    step(context, input, (err) => {
       assert.equal(err.message, 'error')
       done()
     })
@@ -56,8 +81,11 @@ describe('getCheckoutUrlFromMagento', () => {
       cb(null, {statusCode: 456}, {foo: 'bar'})
     }
 
-    step(context, input, (err, result) => {
-      assert.equal(err.message, 'Got 456 from magento: {"foo":"bar"}')
+    // noinspection JSCheckFunctionSignatures
+    step(context, input, (err) => {
+      assert.equal(err.constructor.name, 'MagentoEndpointError')
+      assert.equal(err.message, 'An internal error occurred.')
+      assert.equal(err.code, 'EINTERNAL')
       done()
     })
   })
@@ -65,8 +93,9 @@ describe('getCheckoutUrlFromMagento', () => {
   it('should return an error because cart id is missing', (done) => {
     input.cartId = null
 
-    step(context, input, (err, result) => {
-      assert.equal(err.message, 'cart id missing')
+    // noinspection JSCheckFunctionSignatures
+    step(context, input, (err) => {
+      assert.equal(err.message, 'Output key "cartId" is missing')
       done()
     })
   })
