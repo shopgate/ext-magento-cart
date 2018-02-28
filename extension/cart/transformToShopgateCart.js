@@ -3,6 +3,7 @@ const Price = require('../models/shopgate/cart/price')
 const Property = require('../models/shopgate/cart/property')
 const Product = require('../models/shopgate/cart/product')
 const AppliedDiscount = require('../models/shopgate/cart/appliedDiscount')
+const SavedPrice = require('../models/shopgate/cart/savedPrice')
 const CartItem = require('../models/shopgate/cart/cartItem')
 const Message = require('../models/shopgate/cart/message')
 const Total = require('../models/shopgate/cart/total')
@@ -195,7 +196,7 @@ function getCartItems (magentoCart, shopgateProducts) {
 
   if (magentoCart.coupon_code !== null) {
     const amount = Math.abs(parseFloat(magentoCart.totals.discount.value))
-    const appliedDiscount = new AppliedDiscount(amount, 'fixed')
+    const appliedDiscount = new AppliedDiscount(new SavedPrice(amount, 'fixed'))
     appliedDiscount.code = magentoCart.coupon_code
     appliedDiscount.label = magentoCart.totals.discount.title
     const couponCartItem = new CartItem(magentoCart.coupon_code, 1, 'coupon', appliedDiscount)

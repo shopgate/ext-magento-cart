@@ -1,8 +1,6 @@
 class AppliedDiscount {
-  constructor (savedPrice, type) {
-    this.savedPrice = {}
-    this.savedPrice.value = savedPrice
-    this.savedPrice.type = type
+  constructor (savedPrice) {
+    this.savedPrice = savedPrice
     this.code = null
     this.description = null
     this.label = null
