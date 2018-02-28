@@ -41,8 +41,8 @@ module.exports = function (context, input, cb) {
           products[i].metadata.selectedAttributes[j].optionId
         )
       }
-    } else if (isSimpleProduct(products[i].productId)) {
-      throw new Error(`Failed to add product '${products[i].productId}'. Required field "metadata" is missing.`)
+    } else if (!isSimpleProduct(products[i].productId)) {
+      return cb(new Error(`Failed to add product '${products[i].productId}'. Required field "metadata" is missing.`))
     } else {
       transformedProduct = new SimpleProduct(products[i].productId, products[i].quantity)
     }
@@ -54,7 +54,7 @@ module.exports = function (context, input, cb) {
 /**
  * Takes a Shopgate-uid and returns the Magento product id part of it
  *
- * @param {string} combinedId - e.g. "175-53" will return 175 (the parent)
+ * @param {string} combinedId - e.g. a configurable product id of "175-53" will return 175 (the parent), 53 being the child
  * @return {string}
  */
 function getProductId (combinedId) {
@@ -65,10 +65,10 @@ function getProductId (combinedId) {
 /**
  * Takes a Shopgate-uid and checks if the uid refers to a simple product or not
  *
- * @param {string} combinedId
+ * @param {string} combinedId - a simple product would have one id, e.g. "175"
  * @return {boolean}
  */
 function isSimpleProduct (combinedId) {
   const idList = combinedId.toString().split('-')
-  return Array.isArray(idList) && idList.length > 1
+  return Array.isArray(idList) && idList.length === 1
 }
