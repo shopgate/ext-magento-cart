@@ -19,6 +19,10 @@ module.exports = function (context, input, cb) {
   const log = context.log
   const cartId = input.cartId
 
+  if (!cartId) {
+    return cb(new Error('Output key "cartId" is missing'))
+  }
+
   getCartFromMagento(request, accessToken, cartId, cartUrl, log, (err, magentoCart) => {
     if (err) return cb(err)
 
@@ -41,7 +45,7 @@ module.exports = function (context, input, cb) {
 function getCartFromMagento (request, accessToken, cartId, cartUrl, log, cb) {
   const options = {
     baseUrl: cartUrl,
-    uri: cartId,
+    uri: cartId.toString(),
     auth: {bearer: accessToken},
     json: {}
   }
