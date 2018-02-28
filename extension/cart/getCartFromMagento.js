@@ -5,12 +5,15 @@ const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
  * @typedef {object} getCartFromMagentoInput
- * @property {integer} cartId
+ * @property {string|number} cartId - could be integer of cart ID for guest or "me" for customer
  * @property {string} token
- *
+ */
+/**
  * @param {StepContext} context
  * @param {getCartFromMagentoInput} input
  * @param {StepCallback} cb
+ * @param {(Error|null)} cb.err
+ * @param {MagentoResponseCart} cb.magentoCart
  */
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest
@@ -37,7 +40,7 @@ module.exports = function (context, input, cb) {
 /**
  * @param {Request} request
  * @param {string} accessToken
- * @param {(string|int)} cartId - could be 'me' or cart id
+ * @param {(string|number)} cartId - could be 'me' or cart id
  * @param {string} cartUrl - endpoint url
  * @param {Logger} log
  * @param {StepCallback} cb

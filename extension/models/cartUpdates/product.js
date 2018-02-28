@@ -9,6 +9,8 @@ class Product {
   /**
    * Transforms the product to an update item so the shopgate plugin for
    * magento understands the update request
+   *
+   * @return {MagentoRequestUpdateItem}
    */
   transformToUpdateProductItem () {
     return {

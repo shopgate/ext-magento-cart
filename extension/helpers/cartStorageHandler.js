@@ -8,7 +8,7 @@ class CartStorageHandler {
   /**
    * @param {object} cart
    * @param {boolean} isLoggedIn
-   * @param {function} cb
+   * @param {StepCallback} cb
    */
   set (cart, isLoggedIn, cb) {
     const storage = isLoggedIn ? 'user' : 'device'
@@ -21,7 +21,7 @@ class CartStorageHandler {
   /**
    *
    * @param {boolean} isLoggedIn
-   * @param {function} cb
+   * @param {StepCallback} cb
    */
   get (isLoggedIn, cb) {
     const storage = isLoggedIn ? 'user' : 'device'

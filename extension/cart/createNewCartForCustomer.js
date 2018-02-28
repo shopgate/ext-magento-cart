@@ -7,7 +7,8 @@ const ResponseParser = require('../helpers/MagentoResponseParser')
  * @property {string} orderId
  * @property {string} token
  * @property {object} sgxsMeta
- *
+ */
+/**
  * @param {StepContext} context
  * @param {CreateNewCartForCustomerInput} input
  * @param {StepCallback} cb

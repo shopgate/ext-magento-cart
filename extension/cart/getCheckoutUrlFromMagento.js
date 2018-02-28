@@ -5,9 +5,10 @@ const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
  * @typedef {object} getCheckoutUrlFromMagentoInput
- * @property {integer} cartId
+ * @property {number|string} cartId
  * @property {string} token
- *
+ */
+/**
  * @param {StepContext} context
  * @param {getCheckoutUrlFromMagentoInput} input
  *
@@ -48,7 +49,7 @@ module.exports = function (context, input, cb) {
 /**
  * @param {Request} request
  * @param {string} accessToken
- * @param {integer} cartId
+ * @param {number|string} cartId
  * @param {string} cartUrl
  * @param {Logger} log
  * @param {StepCallback} cb
