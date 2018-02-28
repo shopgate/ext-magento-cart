@@ -16,7 +16,7 @@ module.exports = function (context, input, cb) {
   const cartUrl = context.config.magentoUrl + '/carts'
 
   if (!orderId) {
-    return cb(null, {"message": "Input orderId was empty"})
+    return cb(null, {'message': 'Input orderId was empty'})
   }
 
   log.debug(`Got orderId ${orderId} from app, creating new cart for customer.`)
@@ -26,7 +26,7 @@ module.exports = function (context, input, cb) {
     context.storage['user'].set(CARTID_KEY, cartId, (err) => {
       if (err) return cb(err)
       log.debug(`Created cart with id: ${cartId}`)
-      return cb(null, {"success": true})
+      return cb(null, {'success': true})
     })
   })
 }

@@ -61,7 +61,6 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
     cart.setIsTaxIncluded(taxIncluded)
   }
 
-
   return cart
 }
 
@@ -102,7 +101,6 @@ function getTotals (magentoCart) {
  * @param {string} cartPriceDisplaySetting
  */
 function getPrice (magentoCartItem, cartPriceDisplaySetting) {
-
   let itemPrice = 0
   let itemBaseRowTotalPrice = 0
 
