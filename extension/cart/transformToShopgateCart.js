@@ -194,7 +194,7 @@ function getCartItems (magentoCart, shopgateProducts) {
     }
   }
 
-  if (magentoCart.coupon_code !== null) {
+  if (magentoCart.coupon_code !== null && magentoCart.totals.hasOwnProperty('discount')) {
     const amount = Math.abs(parseFloat(magentoCart.totals.discount.value))
     const appliedDiscount = new AppliedDiscount(new SavedPrice(amount, 'fixed'))
     appliedDiscount.code = magentoCart.coupon_code
