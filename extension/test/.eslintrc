@@ -2,9 +2,6 @@
   "extends": [
     "standard"
   ],
-  "plugins": [
-    "eslint-plugin-standard"
-  ],
   "env": {
     "node": true,
     "mocha": true
