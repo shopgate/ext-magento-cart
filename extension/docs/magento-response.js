@@ -7,7 +7,7 @@
  */
 /**
  * @typedef {Object} MagentoErrorResponseBodyMessages
- * @property {MagentoResponseBodyMessagesError[]} error
+ * @property {[MagentoResponseBodyMessagesError]} error
  */
 /**
  * @typedef {Object} MagentoResponseBodyMessagesError
@@ -53,7 +53,7 @@
  * @property {string} is_multi_shipping - shipping to multiple destinations is enabled or not
  * @property {string} is_persistent
  * @property {string} is_virtual
- * @property {MagentoResponseCartItem[]} items
+ * @property {[MagentoResponseCartItem]} items
  * @property {string} items_count - number of unique items in cart, does not account for quantities
  * @property {string} items_qty - takes into account quantities of all items
  * @property {string} orig_order_id - is set to "0" on a non-purchased cart
@@ -112,7 +112,7 @@
  * @property {string} product_id - actual unique index product ID as it is in the mage database
  * @property {string} product_type - e.g. "simple"
  * @property {number} qty - e.g. 2
- * @property {Object[]} qty_options
+ * @property {[Object]} qty_options
  * @property {string} quote_id - just a reference upwards
  * @property {string} redirect_url
  * @property {string} row_total
@@ -206,7 +206,7 @@
  * @property {string} url_path - e.g. "anashria-womens-premier-leather-sandal.html"
  * @property {string} visibility - e.g. "4"
  * @property {string} website_id
- * @property {string[]} website_ids - id's of the websites this product should display in
+ * @property {[string]} website_ids - id's of the websites this product should display in
  */
 /**
  * @typedef {Object} MagentoResponseProductDetailedChildren
@@ -222,7 +222,7 @@
  * @property {string} code - e.g. shoe_size
  * @property {string} id - internal magento id of the attribute
  * @property {string} label - e.g. "Shoe Size"
- * @property {MagentoResponseProductDetailedChildrenAttributeOption[]} options
+ * @property {[MagentoResponseProductDetailedChildrenAttributeOption]} options
  */
 /**
  * @typedef {Object} MagentoResponseProductDetailedChildrenAttributeOption
@@ -230,7 +230,7 @@
  * @property {string} label - e.g. shoe size "3"
  * @property {number} oldPrice - frontend specific
  * @property {number} price
- * @property {string[]} products - product id's
+ * @property {[string]} products - product id's
  */
 /**
  * @typedef {Object} MagentoResponseProductDetailedChildrenTaxConfig
@@ -243,7 +243,7 @@
  */
 /**
  * @typedef {Object} MagentoResponseProductDetailedMediaGallery
- * @property {MagentoResponseProductDetailedChildrenMediaGalleryImage[]} images
+ * @property {[MagentoResponseProductDetailedChildrenMediaGalleryImage]} images
  * @property {array} values - todo-sg: needs documenting
  */
 /**

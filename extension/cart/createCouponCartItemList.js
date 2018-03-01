@@ -3,7 +3,7 @@ const InvalidCallError = require('../models/Errors/InvalidCallError')
 
 /**
  * @typedef {Object} CreateCouponCartItemListInput
- * @property {string[]} coupons
+ * @property {[string]} coupons
  */
 /**
  * @param {StepContext} context
@@ -11,7 +11,7 @@ const InvalidCallError = require('../models/Errors/InvalidCallError')
  *
  * @param {StepCallback} cb
  * @param {(Error|null)} cb.error
- * @param {({transformedCoupons: Coupon[]} | array)} cb.return
+ * @param {({transformedCoupons: [Coupon]} | array)} cb.return
  */
 module.exports = function (context, input, cb) {
   const coupons = input.coupons

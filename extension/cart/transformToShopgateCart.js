@@ -126,7 +126,7 @@ function getPrice (magentoCartItem, cartPriceDisplaySetting) {
 
 /**
  * @param {Object} magentoCart
- * @param {Object[]} shopgateProducts
+ * @param {[Object]} shopgateProducts
  */
 function getCartItems (magentoCart, shopgateProducts) {
   const cartItems = []

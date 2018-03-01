@@ -7,7 +7,7 @@ const ResponseParser = require('../helpers/MagentoResponseParser')
  * @typedef {Object} UpdateProductsInCartInput
  * @property {(string|number)} cartId - could be 'me' or actual cart id
  * @property {string} token
- * @property {UpdateProductsInCartInputCartItems[]} CartItem
+ * @property {[UpdateProductsInCartInputCartItems]} CartItem
  */
 /**
  * @typedef {Object} UpdateProductsInCartInputCartItems
@@ -61,7 +61,7 @@ module.exports = function (context, input, cb) {
 
 /**
  * @param {Request} request
- * @param {MagentoRequestUpdateItem[]} updateItems
+ * @param {[MagentoRequestUpdateItem]} updateItems
  * @param {(string|number)} cartId
  * @param {string} accessToken
  * @param {string} cartUrl
@@ -90,7 +90,7 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
 /**
  * @param {MagentoResponseCart} magentoCart
  *
- * @return {Object[]}
+ * @return {[Object]}
  */
 function createCartItemMap (magentoCart) {
   const cartItemMap = {}
@@ -106,7 +106,7 @@ function createCartItemMap (magentoCart) {
 }
 
 /**
- * @param {UpdateProductsInCartInputCartItems[]} cartItems
+ * @param {[UpdateProductsInCartInputCartItems]} cartItems
  * @param {MagentoResponseCart} magentoCart
  *
  * @return {Array<MagentoRequestUpdateItem>}
@@ -124,7 +124,7 @@ function transformToUpdateItems (cartItems, magentoCart) {
 /**
  * @todo-sg: defined all error cases
  * @param {Object} cartItem contains: CartItemId and quantity
- * @param {Object[]} cartItemMap
+ * @param {[Object]} cartItemMap
  *
  * @return {MagentoRequestUpdateItem}
  * @throws {Error}

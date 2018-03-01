@@ -3,7 +3,7 @@ const ConfigurableProduct = require('../models/requestProducts/configurableProdu
 
 /**
  * @typedef {Object} createProductCartItemListInput
- * @property {createProductCartItemListInputProduct[]} products
+ * @property {[createProductCartItemListInputProduct]} products
  */
 /**
  * @typedef {Object} createProductCartItemListInputProduct
@@ -13,7 +13,7 @@ const ConfigurableProduct = require('../models/requestProducts/configurableProdu
  */
 /**
  * @typedef {Object} createProductCartItemListInputProductMetadata
- * @property {createProductCartItemListInputProductMetadataSelectedAttribute[]} selectedAttributes
+ * @property {[createProductCartItemListInputProductMetadataSelectedAttribute]} selectedAttributes
  */
 /**
  * @typedef {Object} createProductCartItemListInputProductMetadataSelectedAttribute
@@ -25,7 +25,7 @@ const ConfigurableProduct = require('../models/requestProducts/configurableProdu
  * @param {createProductCartItemListInput} input
  * @param {StepCallback} cb
  * @param {Error|null} cb.err
- * @param {SimpleProduct[] | ConfigurableProduct[]} cb.return
+ * @param {[SimpleProduct] | [ConfigurableProduct]} cb.return
  */
 module.exports = function (context, input, cb) {
   const products = input.products
