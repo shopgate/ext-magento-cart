@@ -46,7 +46,7 @@ describe('creating a new cart for customer', () => {
   })
 
   it('check that a success response produces no error', (done) => {
-    context.storage.user.set = (key, value, cb) => cb(null)
+    context.storage.user.set = (key, value, cb) => cb()
     request = {
       post: (options, cb) => {
         cb(null, {statusCode: 200}, {cartId: '12345'})
@@ -101,7 +101,7 @@ describe('creating a new cart for customer', () => {
   })
 
   it('check that a success response without a cartId will produce an endpoint error too', (done) => {
-    context.storage.user.set = (key, value, cb) => cb(null)
+    context.storage.user.set = (key, value, cb) => cb()
     request = {
       post: (options, cb) => {
         cb(null, {statusCode: 200}, {error: 'some kinda error'})

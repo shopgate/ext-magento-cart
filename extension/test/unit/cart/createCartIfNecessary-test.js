@@ -65,8 +65,8 @@ describe('createCartIfNecessary', () => {
     })
 
     it('should crate a cart via magento and save the id to storage', (done) => {
-      context.storage.device.get = (key, cb) => cb(null, null)
-      context.storage.device.set = (key, value, cb) => cb(null)
+      context.storage.device.get = (key, cb) => cb()
+      context.storage.device.set = (key, value, cb) => cb()
 
       request.post = (options, cb) => {
         const weirdResponse = {cartId: 'cId1'}
@@ -81,7 +81,7 @@ describe('createCartIfNecessary', () => {
     })
 
     it('should return an error from magento', (done) => {
-      context.storage.device.get = (key, cb) => cb(null, null)
+      context.storage.device.get = (key, cb) => cb()
 
       request.post = (options, cb) => {
         cb(new Error('error'))
@@ -94,7 +94,7 @@ describe('createCartIfNecessary', () => {
     })
 
     it('should return an error after trying to save to device storage', (done) => {
-      context.storage.device.get = (key, cb) => cb(null, null)
+      context.storage.device.get = (key, cb) => cb()
       context.storage.device.set = (key, value, cb) => cb(new Error('error'))
 
       request.post = (options, cb) => {

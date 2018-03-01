@@ -69,6 +69,6 @@ function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl
       return cb(new MagentoError())
     }
 
-    cb(null)
+    cb()
   })
 }

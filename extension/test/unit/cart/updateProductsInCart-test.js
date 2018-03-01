@@ -110,7 +110,7 @@ describe('updateProductsInCart', () => {
 
   it('should return an error because storage returns nothing', (done) => {
     context.storage.device.get = (key, cb) => {
-      cb(null, null)
+      cb()
     }
 
     step(context, input, (err) => {

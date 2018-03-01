@@ -50,6 +50,6 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, cb) 
       return cb(new MagentoError())
     }
 
-    cb(null)
+    cb()
   })
 }

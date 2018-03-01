@@ -58,7 +58,7 @@ describe('getCartFromMagento', () => {
     }
 
     context.storage.device.set = (key, value, cb) => {
-      cb(null)
+      cb()
     }
 
     // noinspection JSCheckFunctionSignatures

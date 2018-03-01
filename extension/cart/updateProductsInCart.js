@@ -83,7 +83,7 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
       return cb(new MagentoError())
     }
 
-    cb(null)
+    cb()
   })
 }
 
