@@ -1,4 +1,5 @@
 const assert = require('assert')
+const moment = require('moment')
 const step = require('../../../cart/getCheckoutUrlFromMagento')
 
 describe('getCheckoutUrlFromMagento', () => {
@@ -26,16 +27,17 @@ describe('getCheckoutUrlFromMagento', () => {
   })
 
   it('should return the checkout url', (done) => {
-    const responseBody = {'expires_in': 3600, url: 'http://some.url/2'}
+    const responseBody = {'expires_in': 3600, url: 'http://some.url/2/'}
 
     request.post = (options, cb) => {
       cb(null, {statusCode: 200}, responseBody)
     }
 
     step(context, input, (err, result) => {
+      const calculatedDate = moment(result.expires, moment.ISO_8601, true);
       assert.ifError(err)
-      assert.equal(result.expires, responseBody['expires_in'])
-      assert.equal(result.url, responseBody.url)
+      assert.equal(calculatedDate.isValid(), true)
+      assert.equal(result.url, responseBody.url + 'sgcloud_inapp/1/utm_source/shopgate/utm_medium/app/utm_campaign/web-checkout/')
       done()
     })
   })
