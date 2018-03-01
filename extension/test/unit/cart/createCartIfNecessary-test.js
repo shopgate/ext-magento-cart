@@ -129,7 +129,6 @@ describe('createCartIfNecessary', () => {
 
       createCart(context.tracedRequest, input.tokens.accessToken, context.config.magentoUrl, context.log, (err) => {
         assert.equal(err.constructor.name, 'MagentoEndpointError')
-        assert.equal(err.message, 'An internal error occurred.')
         assert.equal(err.code, 'EINTERNAL')
         done()
       })

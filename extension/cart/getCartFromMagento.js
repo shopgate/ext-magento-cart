@@ -2,6 +2,7 @@ const util = require('util')
 const CartStorageHandler = require('../helpers/cartStorageHandler')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
+const InvalidCallError = require('../models/Errors/InvalidCallError')
 
 /**
  * @typedef {Object} getCartFromMagentoInput
@@ -23,7 +24,8 @@ module.exports = function (context, input, cb) {
   const cartId = input.cartId
 
   if (!cartId) {
-    return cb(new Error('Output key "cartId" is missing'))
+    log.error('Output key "cartId" is missing')
+    return cb(new InvalidCallError())
   }
 
   getCartFromMagento(request, accessToken, cartId, cartUrl, log, (err, magentoCart) => {

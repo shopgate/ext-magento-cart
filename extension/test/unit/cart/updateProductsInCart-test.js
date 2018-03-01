@@ -92,7 +92,8 @@ describe('updateProductsInCart', () => {
     input.cartId = null
 
     step(context, input, (err) => {
-      assert.equal(err.message, 'Output key "cartId" is missing')
+      assert.equal(err.constructor.name, 'InvalidCallError')
+      assert.equal(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -114,7 +115,8 @@ describe('updateProductsInCart', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.message, 'missing cart information')
+      assert.equal(err.constructor.name, 'InvalidCallError')
+      assert.equal(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -127,7 +129,8 @@ describe('updateProductsInCart', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.message, 'invalid cart')
+      assert.equal(err.constructor.name, 'InvalidCallError')
+      assert.equal(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -157,8 +160,8 @@ describe('updateProductsInCart', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.message, 'An internal error occurred.')
       assert.equal(err.constructor.name, 'MagentoEndpointError')
+      assert.equal(err.code, 'EINTERNAL')
       done()
     })
   })

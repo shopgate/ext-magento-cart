@@ -2,6 +2,16 @@ const assert = require('assert')
 const step = require('../../../cart/createProductCartItemList')
 
 describe('createProductCartItemList', () => {
+  /** @var {StepContext} */
+  const context = {
+    log: {
+      debug: () => {
+      },
+      error: () => {
+      }
+    }
+  }
+
   it('should create a Magento product cart item list out of the given Shopgate add-to-cart-product-list', (done) => {
     const products = [
       {
@@ -22,8 +32,7 @@ describe('createProductCartItemList', () => {
     ]
     const input = {products}
 
-    // noinspection JSCheckFunctionSignatures
-    step(null, input, (err, result) => {
+    step(context, input, (err, result) => {
       assert.ifError(err)
       assert.equal(result.transformedProducts[0].productId, products[0].productId)
       assert.equal(result.transformedProducts[0].quantity, products[0].quantity)
@@ -44,9 +53,9 @@ describe('createProductCartItemList', () => {
     ]
     const input = {products}
 
-    // noinspection JSCheckFunctionSignatures
-    step(null, input, (err) => {
-      assert.equal(err.message, 'Failed to add product \'120-14\'. Required field "metadata" is missing.')
+    step(context, input, (err) => {
+      assert.equal(err.constructor.name, 'InvalidCallError')
+      assert.equal(err.code, 'EINVALIDCALL')
       done()
     })
   })

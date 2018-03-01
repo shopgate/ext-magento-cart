@@ -2,6 +2,7 @@ const util = require('util')
 const _ = require('underscore')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
+const InvalidCallError = require('../models/Errors/InvalidCallError')
 
 /**
  * @typedef {Object} DeleteItemsFromCartInput
@@ -24,7 +25,8 @@ module.exports = function (context, input, cb) {
   let cartItemIds = input.cartItemIds
 
   if (!cartId) {
-    return cb(new Error('Output key "cartId" is missing'))
+    log.error('Output key "cartId" is missing')
+    return cb(new InvalidCallError())
   }
 
   // We need the ability to get couponCodes here from the pipeline call

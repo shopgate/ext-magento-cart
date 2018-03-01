@@ -1,6 +1,7 @@
 const CARTID_KEY = 'cartId'
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
+const InvalidCallError = require('../models/Errors/InvalidCallError')
 
 /**
  * @typedef {Object} CreateNewCartForCustomerInput
@@ -21,7 +22,8 @@ module.exports = function (context, input, cb) {
   const cartUrl = context.config.magentoUrl + '/carts'
 
   if (!orderId) {
-    return cb(new Error('Output key "orderId" is missing'))
+    log.error('Output key "orderId" is missing')
+    return cb(new InvalidCallError())
   }
 
   log.debug(`Got orderId ${orderId} from app, creating new cart for customer.`)

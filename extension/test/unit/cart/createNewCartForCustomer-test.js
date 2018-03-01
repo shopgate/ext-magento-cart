@@ -66,7 +66,8 @@ describe('creating a new cart for customer', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'Output key "orderId" is missing')
+      assert.equal(err.constructor.name, 'InvalidCallError')
+      assert.equal(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -94,8 +95,8 @@ describe('creating a new cart for customer', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'An internal error occurred.')
       assert.equal(err.constructor.name, 'MagentoEndpointError')
+      assert.equal(err.code, 'EINTERNAL')
       done()
     })
   })
@@ -110,8 +111,8 @@ describe('creating a new cart for customer', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'An internal error occurred.')
       assert.equal(err.constructor.name, 'MagentoEndpointError')
+      assert.equal(err.code, 'EINTERNAL')
       done()
     })
   })

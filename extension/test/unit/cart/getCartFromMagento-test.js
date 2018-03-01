@@ -74,7 +74,8 @@ describe('getCartFromMagento', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'Output key "cartId" is missing')
+      assert.equal(err.constructor.name, 'InvalidCallError')
+      assert.equal(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -98,8 +99,8 @@ describe('getCartFromMagento', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'An internal error occurred.')
       assert.equal(err.constructor.name, 'MagentoEndpointError')
+      assert.equal(err.code, 'EINTERNAL')
       done()
     })
   })

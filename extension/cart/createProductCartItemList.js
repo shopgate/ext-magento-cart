@@ -1,5 +1,6 @@
 const SimpleProduct = require('../models/requestProducts/simpleProduct')
 const ConfigurableProduct = require('../models/requestProducts/configurableProduct')
+const InvalidCallError = require('../models/Errors/InvalidCallError')
 
 /**
  * @typedef {Object} createProductCartItemListInput
@@ -42,7 +43,8 @@ module.exports = function (context, input, cb) {
         )
       }
     } else if (!isSimpleProduct(products[i].productId)) {
-      return cb(new Error(`Failed to add product '${products[i].productId}'. Required field "metadata" is missing.`))
+      context.log.error(`Failed to add product '${products[i].productId}'. Required field "metadata" is missing.`)
+      return cb(new InvalidCallError())
     } else {
       transformedProduct = new SimpleProduct(products[i].productId, products[i].quantity)
     }

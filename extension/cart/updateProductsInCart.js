@@ -2,6 +2,7 @@ const CartStorageHandler = require('../helpers/cartStorageHandler')
 const Product = require('../models/cartUpdates/product')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
+const InvalidCallError = require('../models/Errors/InvalidCallError')
 
 /**
  * @typedef {Object} UpdateProductsInCartInput
@@ -31,17 +32,22 @@ module.exports = function (context, input, cb) {
   const cartId = input.cartId
 
   if (!cartId) {
-    return cb(new Error('Output key "cartId" is missing'))
+    log.error('Output key "cartId" is missing')
+    return cb(new InvalidCallError())
   }
 
   const csh = new CartStorageHandler(context.storage)
   csh.get(!!context.meta.userId, (err, magentoCart) => {
     if (err) return cb(err)
-    if (!magentoCart) return cb(new Error('missing cart information'))
+    if (!magentoCart) {
+      log.error('missing cart information')
+      return cb(new InvalidCallError())
+    }
 
     // check if returned guest cart matches to the one that is currently cached
     if (cartId.toString().toLowerCase() !== 'me' && cartId !== parseInt(magentoCart['entity_id'])) {
-      return cb(new Error('invalid cart'))
+      log.error('invalid cart')
+      return cb(new InvalidCallError())
     }
 
     let updateItems = []
@@ -49,7 +55,8 @@ module.exports = function (context, input, cb) {
     try {
       updateItems = transformToUpdateItems(cartItems, magentoCart)
     } catch (e) {
-      return cb(e)
+      log.error(e.message)
+      return cb(new InvalidCallError())
     }
 
     updateProductsInCart(request, updateItems, cartId, accessToken, cartUrl, log, (err) => {

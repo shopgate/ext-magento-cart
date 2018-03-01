@@ -2,6 +2,7 @@ const UtmParameters = require('../models/utmParameters/utmParameters')
 const SgAppParameters = require('../models/sgAppParameters/sgAppParameters')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
+const InvalidCallError = require('../models/Errors/InvalidCallError')
 
 /**
  * @typedef {Object} getCheckoutUrlFromMagentoInput
@@ -24,7 +25,8 @@ module.exports = function (context, input, cb) {
   const cartId = input.cartId
 
   if (!cartId) {
-    return cb(new Error('Output key "cartId" is missing'))
+    log.error('Output key "cartId" is missing')
+    return cb(new InvalidCallError())
   }
 
   getCheckoutUrlFromMagento(request, accessToken, cartId, cartUrl, log, (err, result) => {
