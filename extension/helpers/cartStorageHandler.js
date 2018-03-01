@@ -6,7 +6,7 @@ class CartStorageHandler {
   }
 
   /**
-   * @param {object} cart
+   * @param {Object} cart
    * @param {boolean} isLoggedIn
    * @param {StepCallback} cb
    */

@@ -3,10 +3,10 @@ const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
- * @typedef {object} CreateNewCartForCustomerInput
+ * @typedef {Object} CreateNewCartForCustomerInput
  * @property {string} orderId
  * @property {string} token
- * @property {object} sgxsMeta
+ * @property {Object} sgxsMeta
  */
 /**
  * @param {StepContext} context

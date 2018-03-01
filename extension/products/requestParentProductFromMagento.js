@@ -2,7 +2,7 @@ const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
- * @typedef {object} RequestParentProductFromMagentoInput
+ * @typedef {Object} RequestParentProductFromMagentoInput
  * @property {string} productId
  * @property {string} token
  */

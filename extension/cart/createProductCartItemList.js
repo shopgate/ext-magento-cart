@@ -2,21 +2,21 @@ const SimpleProduct = require('../models/requestProducts/simpleProduct')
 const ConfigurableProduct = require('../models/requestProducts/configurableProduct')
 
 /**
- * @typedef {object} createProductCartItemListInput
+ * @typedef {Object} createProductCartItemListInput
  * @property {createProductCartItemListInputProduct[]} products
  */
 /**
- * @typedef {object} createProductCartItemListInputProduct
+ * @typedef {Object} createProductCartItemListInputProduct
  * @property {createProductCartItemListInputProductMetadata} metadata
  * @property {string} productId - e.g. "135-75"
  * @property {number} quantity - how many to add to cart, e.g. 1
  */
 /**
- * @typedef {object} createProductCartItemListInputProductMetadata
+ * @typedef {Object} createProductCartItemListInputProductMetadata
  * @property {createProductCartItemListInputProductMetadataSelectedAttribute[]} selectedAttributes
  */
 /**
- * @typedef {object} createProductCartItemListInputProductMetadataSelectedAttribute
+ * @typedef {Object} createProductCartItemListInputProductMetadataSelectedAttribute
  * @property {string} attributeId - magento internal attribute id, that is an id of attribute "color"
  * @property {string} optionId - magento internal option id, that is an id of option "red"
  */

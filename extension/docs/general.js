@@ -1,5 +1,5 @@
 /**
- * @typedef {object} StepContext
+ * @typedef {Object} StepContext
  * @property {Logger} log - allows logging information to the backend console
  * @property {StepContextConfig} config - Configuration file, reference config.json for values
  * @property {Request} tracedRequest - Request class allows making external REST calls
@@ -7,20 +7,20 @@
  * @property {StepStorage[]} storage - defines different types of storage's to save intermediate data to
  */
 /**
- * @typedef {object} StepStorage
+ * @typedef {Object} StepStorage
  * @function get
  * @function set
  */
 /**
- * @typedef {object} StepContextConfig
+ * @typedef {Object} StepContextConfig
  * @property {string} magentoUrl
  */
 /**
- * @typedef {object} StepContextMeta
+ * @typedef {Object} StepContextMeta
  * @property {(string|null)} userId
  */
 /**
  * @callback StepCallback
  * @param {(Error|null)=} error - an error that can be passed to the callback
- * @param {object=} result - a valid json key/value to return to the pipeline
+ * @param {Object=} result - a valid json key/value to return to the pipeline
  */

@@ -9,8 +9,8 @@ const Total = require('../models/shopgate/cart/total')
 const Cart = require('../models/shopgate/cart/cart')
 
 /**
- * @param {object} context
- * @param {object} input
+ * @param {Object} context
+ * @param {Object} input
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
@@ -33,7 +33,7 @@ module.exports = function (context, input, cb) {
 }
 
 /**
- * @param {object} magentoCart
+ * @param {Object} magentoCart
  * @param {[Object]} shopgateProducts
  * @param {boolean} enableCoupons
  * @returns {Cart}
@@ -81,7 +81,7 @@ function mapTotalTypes (magentoType) {
 }
 
 /**
- * @param {object} magentoCart
+ * @param {Object} magentoCart
  */
 function getTotals (magentoCart) {
   const totals = []
@@ -92,12 +92,12 @@ function getTotals (magentoCart) {
 }
 
 /**
- * @typedef {object} magentoCartItem
+ * @typedef {Object} magentoCartItem
  * @property {string} base_row_total
  * @property {string} price_incl_tax
  * @property {string} base_row_total_incl_tax
  *
- * @param {object} magentoCartItem
+ * @param {Object} magentoCartItem
  * @param {string} cartPriceDisplaySetting
  */
 function getPrice (magentoCartItem, cartPriceDisplaySetting) {
@@ -125,8 +125,8 @@ function getPrice (magentoCartItem, cartPriceDisplaySetting) {
 }
 
 /**
- * @param {object} magentoCart
- * @param {object[]} shopgateProducts
+ * @param {Object} magentoCart
+ * @param {Object[]} shopgateProducts
  */
 function getCartItems (magentoCart, shopgateProducts) {
   const cartItems = []

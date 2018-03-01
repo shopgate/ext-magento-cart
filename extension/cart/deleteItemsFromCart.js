@@ -4,7 +4,7 @@ const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
- * @typedef {object} DeleteItemsFromCartInput
+ * @typedef {Object} DeleteItemsFromCartInput
  * @property {string} token
  * @property {number|string} cartId - can be cart ID for guest or "me" for customer
  * @property {string[]} cartItemIds

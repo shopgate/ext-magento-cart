@@ -1,6 +1,6 @@
 /**
- * @param {object} context
- * @param {object} input
+ * @param {Object} context
+ * @param {Object} input
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
@@ -15,8 +15,8 @@ module.exports = function (context, input, cb) {
 /**
  * Takes a list of Shopgate variants and adds metadata to each of them
  *
- * @param {object[]} shopgateVariants
- * @param {object} magentoParentProduct
+ * @param {Object[]} shopgateVariants
+ * @param {Object} magentoParentProduct
  */
 function buildProductVariantsMetadata (shopgateVariants, magentoParentProduct) {
   const resultVariantList = []

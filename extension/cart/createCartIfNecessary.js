@@ -4,7 +4,7 @@ const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
  * @param {StepContext} context
- * @param {object} input
+ * @param {Object} input
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {

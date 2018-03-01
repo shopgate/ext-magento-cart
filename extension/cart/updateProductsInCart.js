@@ -4,13 +4,13 @@ const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
- * @typedef {object} UpdateProductsInCartInput
+ * @typedef {Object} UpdateProductsInCartInput
  * @property {(string|number)} cartId - could be 'me' or actual cart id
  * @property {string} token
  * @property {UpdateProductsInCartInputCartItems[]} CartItem
  */
 /**
- * @typedef {object} UpdateProductsInCartInputCartItems
+ * @typedef {Object} UpdateProductsInCartInputCartItems
  * @property {string} CartItemId - cart item id to modify, e.g. "15"
  * @property {number} quantity - update item to this quantity, e.g. 2
  */
@@ -90,7 +90,7 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
 /**
  * @param {MagentoResponseCart} magentoCart
  *
- * @return {object[]}
+ * @return {Object[]}
  */
 function createCartItemMap (magentoCart) {
   const cartItemMap = {}
@@ -123,8 +123,8 @@ function transformToUpdateItems (cartItems, magentoCart) {
 
 /**
  * @todo-sg: defined all error cases
- * @param {object} cartItem contains: CartItemId and quantity
- * @param {object[]} cartItemMap
+ * @param {Object} cartItem contains: CartItemId and quantity
+ * @param {Object[]} cartItemMap
  *
  * @return {MagentoRequestUpdateItem}
  * @throws {Error}

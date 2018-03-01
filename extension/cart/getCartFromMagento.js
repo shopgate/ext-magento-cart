@@ -4,7 +4,7 @@ const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
- * @typedef {object} getCartFromMagentoInput
+ * @typedef {Object} getCartFromMagentoInput
  * @property {string|number} cartId - could be integer of cart ID for guest or "me" for customer
  * @property {string} token
  */

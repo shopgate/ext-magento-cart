@@ -2,20 +2,20 @@
  * Aside: these type definitions were taken from Magento Community Edition 1.8.0.0
  */
 /**
- * @typedef {object} MagentoErrorResponseBody
+ * @typedef {Object} MagentoErrorResponseBody
  * @property {MagentoErrorResponseBodyMessages} messages
  */
 /**
- * @typedef {object} MagentoErrorResponseBodyMessages
+ * @typedef {Object} MagentoErrorResponseBodyMessages
  * @property {MagentoResponseBodyMessagesError[]} error
  */
 /**
- * @typedef {object} MagentoResponseBodyMessagesError
+ * @typedef {Object} MagentoResponseBodyMessagesError
  * @property {string} code - this is not accurate, use the response HTTP code instead
  * @property {string} message - error message, sometimes not very nicely worded
  */
 /**
- * @typedef {object} MagentoResponseCart
+ * @typedef {Object} MagentoResponseCart
  * @property {string} applied_rule_ids - comma delimited ID's of sale rules (coupons and other discounts) applied to the cart
  * @property {string} base_currency_code - default store currency setting, e.g. EUR, USD
  * @property {string} base_grand_total - default store currency grand total, total price in format "399.9800"
@@ -73,7 +73,7 @@
  * @property {string} updated_at - when the cart was updated last, e.g. "2018-02-28 03:59:05"
  */
 /**
- * @typedef {object} MagentoResponseCartItem
+ * @typedef {Object} MagentoResponseCartItem
  * @property {string} additional_data
  * @property {string} applied_rule_ids
  * @property {string} base_cost
@@ -108,11 +108,11 @@
  * @property {string} parent_item_id
  * @property {string} price
  * @property {string} price_incl_tax
- * @property {object} product
+ * @property {Object} product
  * @property {string} product_id - actual unique index product ID as it is in the mage database
  * @property {string} product_type - e.g. "simple"
  * @property {number} qty - e.g. 2
- * @property {objects[]} qty_options
+ * @property {Object[]} qty_options
  * @property {string} quote_id - just a reference upwards
  * @property {string} redirect_url
  * @property {string} row_total
@@ -133,19 +133,19 @@
  * @property {string} weight - weight of 1 of such product
  */
 /**
- * @typedef {object} MagentoResponseTotals
+ * @typedef {Object} MagentoResponseTotals
  * @property {MagentoResponseTotalsLineItem} grand_total
  * @property {MagentoResponseTotalsLineItem} subtotal
  */
 /**
- * @typedef {object} MagentoResponseTotalsLineItem
+ * @typedef {Object} MagentoResponseTotalsLineItem
  * @property {string} area - e.g. "footer"
  * @property {string} code - e.g. "grand_total", "subtotal"
  * @property {string} title - e.g. "Grand Total", "Subtotal"
  * @property {float} value - e.g. 399.98
  */
 /**
- * @typedef {object} MagentoResponseProductDetailed
+ * @typedef {Object} MagentoResponseProductDetailed
  * @property {string} attribute_set_id - ID of the set the product belongs to
  * @property {string} buy_now_url - a url that can be called to add the product to this cart, not REST
  * @property {MagentoResponseProductDetailedChildren} children
@@ -209,7 +209,7 @@
  * @property {string[]} website_ids - id's of the websites this product should display in
  */
 /**
- * @typedef {object} MagentoResponseProductDetailedChildren
+ * @typedef {Object} MagentoResponseProductDetailedChildren
  * @property {{number: MagentoResponseProductDetailedChildrenAttribute}} attributes - number is the id of the attribute, but it also resides inside
  * @property {number} basePrice - e.g. 41.95
  * @property {string} chooseText - e.g. frontend related dialog box, default: "Choose an Option..."
@@ -218,14 +218,14 @@
  * @property {MagentoResponseProductDetailedChildrenTaxConfig} taxConfig
  */
 /**
- * @typedef {object} MagentoResponseProductDetailedChildrenAttribute
+ * @typedef {Object} MagentoResponseProductDetailedChildrenAttribute
  * @property {string} code - e.g. shoe_size
  * @property {string} id - internal magento id of the attribute
  * @property {string} label - e.g. "Shoe Size"
  * @property {MagentoResponseProductDetailedChildrenAttributeOption[]} options
  */
 /**
- * @typedef {object} MagentoResponseProductDetailedChildrenAttributeOption
+ * @typedef {Object} MagentoResponseProductDetailedChildrenAttributeOption
  * @property {string} id - internal id of this option
  * @property {string} label - e.g. shoe size "3"
  * @property {number} oldPrice - frontend specific
@@ -233,7 +233,7 @@
  * @property {string[]} products - product id's
  */
 /**
- * @typedef {object} MagentoResponseProductDetailedChildrenTaxConfig
+ * @typedef {Object} MagentoResponseProductDetailedChildrenTaxConfig
  * @property {number} currentTax - e.g. 0
  * @property {number} defaultTax - e.g. 0
  * @property {string} inclTaxTitle - e.g. frontend use, default: "Incl. Tax"
@@ -242,12 +242,12 @@
  * @property {boolean} showIncludeTax
  */
 /**
- * @typedef {object} MagentoResponseProductDetailedMediaGallery
+ * @typedef {Object} MagentoResponseProductDetailedMediaGallery
  * @property {MagentoResponseProductDetailedChildrenMediaGalleryImage[]} images
  * @property {array} values - todo-sg: needs documenting
  */
 /**
- * @typedef {object} MagentoResponseProductDetailedChildrenMediaGalleryImage
+ * @typedef {Object} MagentoResponseProductDetailedChildrenMediaGalleryImage
  * @property {string} disabled - e.g. "1"
  * @property {string} disabled_default - e.g. "1"
  * @property {string} file - e.g. "/a/n/anashria-womens-premier-leather-sandal.jpg"
@@ -258,7 +258,7 @@
  * @property {string} value_id - internal magento reference of the image, unique per uploaded image
  */
 /**
- * @typedef {object} MagentoResponseProductDetailedStockItem
+ * @typedef {Object} MagentoResponseProductDetailedStockItem
  * @property {string} backorders
  * @property {string} enable_qty_increments
  * @property {string} is_decimal_divided

@@ -3,12 +3,12 @@ const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
- * @typedef {object} SetCartCustomer_v1Input
+ * @typedef {Object} SetCartCustomer_v1Input
  * @property {number|string} cartId - can be cart ID for guest or "me" for customer
  */
 /**
  * @param {StepContext} context
- * @param {object} input
+ * @param {Object} input
  * @param {StepCallback} cb
  * @param {Error|null} cb.err
  * @param {{messages: (string|null)}} cb.result

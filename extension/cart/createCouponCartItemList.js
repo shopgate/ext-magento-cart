@@ -2,7 +2,7 @@ const Coupon = require('../models/requestCoupons/coupons')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
 
 /**
- * @typedef {object} CreateCouponCartItemListInput
+ * @typedef {Object} CreateCouponCartItemListInput
  * @property {string[]} coupons
  */
 /**

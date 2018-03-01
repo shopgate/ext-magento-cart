@@ -4,7 +4,7 @@ const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 
 /**
- * @typedef {object} getCheckoutUrlFromMagentoInput
+ * @typedef {Object} getCheckoutUrlFromMagentoInput
  * @property {number|string} cartId
  * @property {string} token
  */
