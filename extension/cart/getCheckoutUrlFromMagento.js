@@ -1,5 +1,6 @@
 const UtmParameters = require('../models/utmParameters/utmParameters')
 const SgAppParameters = require('../models/sgAppParameters/sgAppParameters')
+const moment = require('moment')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
@@ -44,7 +45,7 @@ module.exports = function (context, input, cb) {
 
     const checkoutUrl = result.url + WebCheckoutUrlSgAppParameters.getQueryParameters() + WebCheckoutUrlUtmParameters.getQueryParameters()
 
-    cb(null, {expires: result['expires_in'], url: checkoutUrl})
+    cb(null, {expires: moment().add(result['expires_in'], 'seconds').toISOString(), url: checkoutUrl})
   })
 }
 

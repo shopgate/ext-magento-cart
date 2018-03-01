@@ -1,4 +1,5 @@
 const assert = require('assert')
+const moment = require('moment')
 const step = require('../../../cart/getCheckoutUrlFromMagento')
 
 describe('getCheckoutUrlFromMagento', () => {
@@ -41,8 +42,9 @@ describe('getCheckoutUrlFromMagento', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
+      const calculatedDate = moment(result.expires, moment.ISO_8601, true)
       assert.ifError(err)
-      assert.equal(result.expires, responseBody['expires_in'])
+      assert.equal(calculatedDate.isValid(), true)
       assert.equal(result.url, responseBody.url + params)
       done()
     })
