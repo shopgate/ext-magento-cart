@@ -26,19 +26,22 @@ describe('createCartIfNecessary', () => {
       },
       error: () => {
       }
-    },
-    meta: {}
+    }
   }
 
   beforeEach(() => {
     request = {
-      post: () => {}
+      post: () => {
+      }
     }
 
     context.storage.device = {
-      get: () => {},
-      set: () => {}
+      get: () => {
+      },
+      set: () => {
+      }
     }
+    context.meta = {}
   })
 
   describe('step', () => {
@@ -66,7 +69,7 @@ describe('createCartIfNecessary', () => {
       context.storage.device.set = (key, value, cb) => cb(null)
 
       request.post = (options, cb) => {
-        const weirdResponse = { cartId: 'cId1' }
+        const weirdResponse = {cartId: 'cId1'}
         cb(null, {statusCode: 200}, weirdResponse)
       }
 
@@ -95,12 +98,22 @@ describe('createCartIfNecessary', () => {
       context.storage.device.set = (key, value, cb) => cb(new Error('error'))
 
       request.post = (options, cb) => {
-        const weirdResponse = {success: [{ cartId: 'cId1' }]}
+        const weirdResponse = {success: [{cartId: 'cId1'}]}
         cb(null, {statusCode: 200}, weirdResponse)
       }
 
       step(context, input, (err) => {
         assert.equal(err.message, 'error')
+        done()
+      })
+    })
+
+    it('should return a "me" cartId as the user is already logged in', (done) => {
+      context.meta.userId = 1234
+
+      step(context, input, (err, result) => {
+        assert.ifError(err)
+        assert.equal(result.cartId, 'me')
         done()
       })
     })
@@ -115,7 +128,9 @@ describe('createCartIfNecessary', () => {
       }
 
       createCart(context.tracedRequest, input.tokens.accessToken, context.config.magentoUrl, context.log, (err) => {
+        assert.equal(err.constructor.name, 'MagentoEndpointError')
         assert.equal(err.message, 'An internal error occurred.')
+        assert.equal(err.code, 'EINTERNAL')
         done()
       })
     })

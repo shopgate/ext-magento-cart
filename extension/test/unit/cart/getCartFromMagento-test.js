@@ -35,17 +35,20 @@ describe('getCartFromMagento', () => {
   const input = {
     tokens: {
       accessToken: 'a1'
-    },
-    cartId: 'c1'
+    }
   }
 
   beforeEach(() => {
     request = {
-      get: () => {}
+      get: () => {
+      }
     }
     context.meta.userId = null
-    context.storage.device.set = () => {}
-    context.storage.user.set = () => {}
+    context.storage.device.set = () => {
+    }
+    context.storage.user.set = () => {
+    }
+    input.cartId = 'me'
   })
 
   it('should get a cart from magento', (done) => {
@@ -62,6 +65,16 @@ describe('getCartFromMagento', () => {
     step(context, input, (err, result) => {
       assert.ifError(err)
       assert.deepEqual(result.magentoCart, cart)
+      done()
+    })
+  })
+
+  it('no order id passed inside the input should produce an error', (done) => {
+    input.cartId = null
+
+    // noinspection JSCheckFunctionSignatures
+    step(context, input, (err) => {
+      assert.equal(err.message, 'Output key "cartId" is missing')
       done()
     })
   })

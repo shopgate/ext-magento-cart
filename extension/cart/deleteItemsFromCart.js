@@ -23,17 +23,16 @@ module.exports = function (context, input, cb) {
   const cartId = input.cartId
   let cartItemIds = input.cartItemIds
 
+  if (!cartId) {
+    return cb(new Error('Output key "cartId" is missing'))
+  }
+
   // We need the ability to get couponCodes here from the pipeline call
   if ((!input.cartItemIds || input.cartItemIds.length <= 0) && (input.couponCodes && input.couponCodes.length > 0)) {
     cartItemIds = []
     _.each(input.couponCodes, function (couponCode) {
       cartItemIds.push('COUPON_' + couponCode)
     })
-  }
-
-  if (!input.cartId) {
-    log.error('cart id is missing')
-    cb(new Error('An internal error has occurred.'))
   }
 
   deleteItemsFromCart(request, accessToken, cartId, cartItemIds, cartUrl, log, (err) => {

@@ -45,13 +45,12 @@ describe('deleteItemsFromCart', () => {
     })
   })
 
-  it('should return an error because cartId is missing from input', (done) => {
+  it('no order id passed inside the input should produce an error', (done) => {
     input.cartId = null
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.code, undefined)
-      assert.equal(err.message, 'An internal error has occurred.')
+      assert.equal(err.message, 'Output key "cartId" is missing')
       done()
     })
   })
