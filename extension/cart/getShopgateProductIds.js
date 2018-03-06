@@ -1,6 +1,6 @@
 /**
- * @param {object} context
- * @param {object} input
+ * @param {Object} context
+ * @param {Object} input
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
@@ -15,7 +15,7 @@ module.exports = function (context, input, cb) {
 }
 
 /**
- * @param {object} magentoCart
+ * @param {Object} magentoCart
  */
 function getShopgateProductIds (magentoCart) {
   const productIds = []

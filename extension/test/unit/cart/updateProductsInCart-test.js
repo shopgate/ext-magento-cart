@@ -10,6 +10,7 @@ describe('updateProductsInCart', () => {
     post: null
   }
 
+  /** @var {StepContext} */
   const context = {
     tracedRequest: () => {
       return request
@@ -27,15 +28,22 @@ describe('updateProductsInCart', () => {
       device: {
         get: null
       }
+    },
+    log: {
+      debug: () => {
+      },
+      error: () => {
+      }
     }
   }
 
+  /** @var {UpdateProductsInCartInput} */
   const input = {
     CartItem: [{
       CartItemId: 'cartItem1',
       quantity: 2
     }],
-    accessToken: 'a1',
+    token: 'a1',
     cartId: null
   }
 
@@ -54,8 +62,11 @@ describe('updateProductsInCart', () => {
 
     request.post = (options, cb) => {
       const o = {
-        url: 'http://some.url/carts/1/items',
-        headers: { authorization: 'Bearer undefined' },
+        baseUrl: 'http://some.url/carts',
+        uri: input.cartId + '/items',
+        auth: {
+          bearer: input.token
+        },
         json: [
           {
             cartItemId: 'cartItem1',
@@ -71,7 +82,7 @@ describe('updateProductsInCart', () => {
       cb(null, {statusCode: 200}, {})
     }
 
-    step(context, input, (err, result) => {
+    step(context, input, (err) => {
       assert.ifError(err)
       done()
     })
@@ -80,8 +91,9 @@ describe('updateProductsInCart', () => {
   it('should return an error because cart id missing', (done) => {
     input.cartId = null
 
-    step(context, input, (err, result) => {
-      assert.equal(err.message, 'cart id missing')
+    step(context, input, (err) => {
+      assert.equal(err.constructor.name, 'InvalidCallError')
+      assert.equal(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -91,7 +103,7 @@ describe('updateProductsInCart', () => {
       cb(new Error('error'))
     }
 
-    step(context, input, (err, result) => {
+    step(context, input, (err) => {
       assert.equal(err.message, 'error')
       done()
     })
@@ -99,11 +111,12 @@ describe('updateProductsInCart', () => {
 
   it('should return an error because storage returns nothing', (done) => {
     context.storage.device.get = (key, cb) => {
-      cb(null, null)
+      cb()
     }
 
-    step(context, input, (err, result) => {
-      assert.equal(err.message, 'missing cart information')
+    step(context, input, (err) => {
+      assert.equal(err.constructor.name, 'InvalidCallError')
+      assert.equal(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -115,8 +128,9 @@ describe('updateProductsInCart', () => {
       cb(null, copy(require('../data/magento-cart.json')))
     }
 
-    step(context, input, (err, result) => {
-      assert.equal(err.message, 'invalid cart')
+    step(context, input, (err) => {
+      assert.equal(err.constructor.name, 'InvalidCallError')
+      assert.equal(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -130,7 +144,7 @@ describe('updateProductsInCart', () => {
       cb(new Error('error'))
     }
 
-    step(context, input, (err, result) => {
+    step(context, input, (err) => {
       assert.equal(err.message, 'error')
       done()
     })
@@ -145,8 +159,9 @@ describe('updateProductsInCart', () => {
       cb(null, {statusCode: 456}, {foo: 'bar'})
     }
 
-    step(context, input, (err, result) => {
-      assert.equal(err.message, 'Got 456 from magento: {"foo":"bar"}')
+    step(context, input, (err) => {
+      assert.equal(err.constructor.name, 'MagentoEndpointError')
+      assert.equal(err.code, 'EINTERNAL')
       done()
     })
   })

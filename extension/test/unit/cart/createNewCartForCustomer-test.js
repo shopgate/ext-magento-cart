@@ -1,7 +1,8 @@
 const assert = require('assert')
-const step = require('../../../cart/getCartFromMagento')
+const rewire = require('rewire')
+const step = rewire('../../../cart/createNewCartForCustomer')
 
-describe('getCartFromMagento', () => {
+describe('creating a new cart for customer', () => {
   let request = null
 
   const context = {
@@ -9,26 +10,17 @@ describe('getCartFromMagento', () => {
       return request
     },
     config: {
-      magentoUrl: 'http://someUrl'
-    },
-    meta: {
-      userId: null
-    },
-    storage: {
-      device: {
-        get: null,
-        set: null
-      },
-      user: {
-        set: null,
-        get: null
-      }
+      magentoUrl: 'greatWow'
     },
     log: {
       debug: () => {
       },
       error: () => {
       }
+    },
+    meta: {},
+    storage: {
+      user: null
     }
   }
 
@@ -40,37 +32,37 @@ describe('getCartFromMagento', () => {
 
   beforeEach(() => {
     request = {
-      get: () => {
+      post: () => {
       }
     }
-    context.meta.userId = null
-    context.storage.device.set = () => {
+
+    context.storage.user = {
+      get: () => {
+      },
+      set: () => {
+      }
     }
-    context.storage.user.set = () => {
-    }
-    input.cartId = 'me'
+    input.orderId = 1234
   })
 
-  it('should get a cart from magento', (done) => {
-    const cart = {cart: 'cart'}
-    request.get = (options, cb) => {
-      cb(null, {statusCode: 200}, cart)
-    }
-
-    context.storage.device.set = (key, value, cb) => {
-      cb()
+  it('check that a success response produces no error', (done) => {
+    context.storage.user.set = (key, value, cb) => cb()
+    request = {
+      post: (options, cb) => {
+        cb(null, {statusCode: 200}, {cartId: '12345'})
+      }
     }
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
       assert.ifError(err)
-      assert.deepEqual(result.magentoCart, cart)
+      assert.equal(result.success, true)
       done()
     })
   })
 
   it('no order id passed inside the input should produce an error', (done) => {
-    input.cartId = null
+    input.orderId = null
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
@@ -81,8 +73,10 @@ describe('getCartFromMagento', () => {
   })
 
   it('should return an error because of the request', (done) => {
-    request.get = (options, cb) => {
-      cb(new Error('error'))
+    request = {
+      post: (options, cb) => {
+        cb(new Error('error'))
+      }
     }
 
     // noinspection JSCheckFunctionSignatures
@@ -92,9 +86,11 @@ describe('getCartFromMagento', () => {
     })
   })
 
-  it('should return an error because of status code >= 400', (done) => {
-    request.get = (options, cb) => {
-      cb(null, {statusCode: 499}, {message: 'mimimi'})
+  it('should return an MagentoEndpointError because the statusCode of the response is != 200', (done) => {
+    request = {
+      post: (options, cb) => {
+        cb(null, {statusCode: 500}, {error: 'some kinda error'})
+      }
     }
 
     // noinspection JSCheckFunctionSignatures
@@ -105,19 +101,18 @@ describe('getCartFromMagento', () => {
     })
   })
 
-  it('should return an error because setting cart in storage fails', (done) => {
-    const cart = {cart: 'cart'}
-    request.get = (options, cb) => {
-      cb(null, {statusCode: 200}, cart)
-    }
-
-    context.storage.device.set = (key, value, cb) => {
-      cb(new Error('error'))
+  it('check that a success response without a cartId will produce an endpoint error too', (done) => {
+    context.storage.user.set = (key, value, cb) => cb()
+    request = {
+      post: (options, cb) => {
+        cb(null, {statusCode: 200}, {error: 'some kinda error'})
+      }
     }
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.equal(err.constructor.name, 'MagentoEndpointError')
+      assert.equal(err.code, 'EINTERNAL')
       done()
     })
   })

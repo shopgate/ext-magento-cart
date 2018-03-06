@@ -25,7 +25,7 @@ describe('getCartIdFromStorage', () => {
   })
 
   it('should return null from storage', (done) => {
-    context.storage.device.get = (key, cb) => cb(null, null)
+    context.storage.device.get = (key, cb) => cb()
 
     step(context, null, (err, result) => {
       assert.ifError(err)
@@ -37,7 +37,7 @@ describe('getCartIdFromStorage', () => {
   it('should return null from storage', (done) => {
     context.storage.device.get = (key, cb) => cb(new Error('error', null))
 
-    step(context, null, (err, result) => {
+    step(context, null, (err) => {
       assert.equal(err.message, 'error')
       done()
     })

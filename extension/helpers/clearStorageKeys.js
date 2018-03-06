@@ -3,9 +3,9 @@ const async = require('neo-async')
 /**
  * Deletions contains an array of objects with the following structure
  * {'storage': 'device', 'key': 'token'}
- * @param {object} context
- * @param {object} input
- * @param {object[]} input.deletions
+ * @param {Object} context
+ * @param {Object} input
+ * @param {[Object]} input.deletions
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {

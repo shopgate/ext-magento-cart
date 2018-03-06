@@ -4,15 +4,8 @@ class MagentoErrorParser {
   /**
    * Returns a passed error with translated magento text to possibly display
    *
-   * @typedef {object} MagentoResponseBody
-   * @property {MagentoResponseBodyMessages} messages
-   * @typedef {object} MagentoResponseBodyMessages
-   * @property {Array<MagentoResponseBodyMessagesError>} error
-   * @typedef {object} MagentoResponseBodyMessagesError
-   * @property {string} message
-   *
    * @param {Error} error
-   * @param {MagentoResponseBody} body
+   * @param {MagentoErrorResponseBody} body
    * @returns {Error} Mutates the message property of the original class
    */
   static build (error, body) {
@@ -23,7 +16,7 @@ class MagentoErrorParser {
   /**
    * Extracts CloudAPI plugin returned errors message
    *
-   * @param {MagentoResponseBody} body
+   * @param {MagentoErrorResponseBody} body
    * @returns {string} - defaults to an empty string
    */
   static extractMagentoError (body) {

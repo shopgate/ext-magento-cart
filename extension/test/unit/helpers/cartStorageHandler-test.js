@@ -22,7 +22,9 @@ describe('CartStorageHandler', () => {
 
   describe('set', () => {
     it('should set the cart in storage', (done) => {
-      storages.user.set = (key, value, cb) => { cb(null) }
+      storages.user.set = (key, value, cb) => {
+        cb()
+      }
       const csh = new CartStorageHandler(storages)
       csh.set({}, true, (err) => {
         assert.ifError(err)
@@ -41,7 +43,9 @@ describe('CartStorageHandler', () => {
   })
   describe('get', () => {
     it('should get the cart from storage', (done) => {
-      storages.device.get = (key, cb) => { cb(null) }
+      storages.device.get = (key, cb) => {
+        cb()
+      }
       const csh = new CartStorageHandler(storages)
       csh.get(false, (err) => {
         assert.ifError(err)

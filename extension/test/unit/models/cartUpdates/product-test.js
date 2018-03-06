@@ -36,14 +36,4 @@ describe('Product (cartUpdates)', () => {
     assert.deepEqual(product.transformToUpdateProductItem(), result)
     done()
   })
-
-  it('should throw an error because a configurable product is not supported yet', (done) => {
-    const product = new Product('cartItemId', 'productId', 1, 'whoa')
-
-    assert.throws(() => {
-      product.transformToUpdateProductItem()
-    })
-
-    done()
-  })
 })

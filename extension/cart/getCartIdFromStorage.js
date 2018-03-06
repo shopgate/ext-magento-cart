@@ -1,8 +1,8 @@
 const CARTID_KEY = 'cartId'
 
 /**
- * @param {object} context
- * @param {object} input
+ * @param {Object} context
+ * @param {Object} input
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {

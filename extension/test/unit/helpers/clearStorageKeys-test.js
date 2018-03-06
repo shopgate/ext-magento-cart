@@ -13,7 +13,9 @@ describe('clearStorageKeys', () => {
   }
 
   beforeEach(() => {
-    context.storage.device.del = (key, cb) => { cb(null) }
+    context.storage.device.del = (key, cb) => {
+      cb()
+    }
   })
 
   it('should clear the storage keys', (done) => {

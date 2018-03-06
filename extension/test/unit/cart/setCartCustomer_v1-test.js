@@ -1,10 +1,11 @@
 const assert = require('assert')
-const step = require('../../../cart/addCartItems')
+const step = require('../../../cart/setCartCustomer_v1')
 
-describe('addCartItems', () => {
+describe('testing assigning guest cart to customer cart', () => {
   let request = null
   let errorMessage = 'Some error message'
 
+  /** @var {StepContext} */
   const context = {
     tracedRequest: () => {
       return request
@@ -30,8 +31,7 @@ describe('addCartItems', () => {
         'product_id': '1',
         'qty': 1
       }
-    ],
-    cartId: 1234
+    ]
   }
 
   const mageErrorResponse = {
@@ -49,9 +49,19 @@ describe('addCartItems', () => {
       post: () => {
       }
     }
+    input.cartId = 1234
   })
 
-  it('should add products to cart', (done) => {
+  it('having an empty cart returns no error', (done) => {
+    input.cartId = null
+
+    step(context, input, (err) => {
+      assert.ifError(err)
+      done()
+    })
+  })
+
+  it('testing successful return produces no errors', (done) => {
     request = {
       post: (options, cb) => {
         cb(null, {statusCode: 200}, {foo: 'bar'})
@@ -64,7 +74,7 @@ describe('addCartItems', () => {
     })
   })
 
-  it('should return an error because of the request', (done) => {
+  it('should return an error because of an erroneous request', (done) => {
     request = {
       post: (options, cb) => {
         cb(new Error('error'))
@@ -77,36 +87,7 @@ describe('addCartItems', () => {
     })
   })
 
-  it('unknown error structure returned by Magento should produce an empty result', (done) => {
-    request = {
-      post: (options, cb) => {
-        cb(null, {statusCode: 400}, {foo: 'bar'})
-      }
-    }
-
-    step(context, input, (err) => {
-      assert.equal(err.message, '')
-      done()
-    })
-  })
-
-  it('should return an InvalidItemError because the statusCode of the response is >= 400 && < 500', (done) => {
-    let errorMessage = 'Some error message'
-    request = {
-      post: (options, cb) => {
-        cb(null, {statusCode: 400}, mageErrorResponse
-        )
-      }
-    }
-
-    step(context, input, (err) => {
-      assert.equal(err.message, errorMessage)
-      assert.equal(err.constructor.name, 'InvalidItemError')
-      done()
-    })
-  })
-
-  it('should return an MagentoEndpointError because the statusCode of the response is != 200 && >= 500', (done) => {
+  it('should return an MagentoEndpointError because the statusCode of the response is != 200', (done) => {
     request = {
       post: (options, cb) => {
         cb(null, {statusCode: 500}, mageErrorResponse)
@@ -114,8 +95,8 @@ describe('addCartItems', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.message, errorMessage)
       assert.equal(err.constructor.name, 'MagentoEndpointError')
+      assert.equal(err.code, 'EINTERNAL')
       done()
     })
   })

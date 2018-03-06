@@ -1,12 +1,21 @@
+const MagentoError = require('../models/Errors/MagentoEndpointError')
+const ResponseParser = require('../helpers/MagentoResponseParser')
+
 /**
- * @param {object} context
- * @param {object} input
- * @param {function} cb
+ * @typedef {Object} RequestParentProductFromMagentoInput
+ * @property {string} productId
+ * @property {string} token
+ */
+/**
+ * @param {StepContext} context
+ * @param {RequestParentProductFromMagentoInput} input
+ * @param {StepCallback} cb
+ * @param {Error|null} cb.err
+ * @param {MagentoResponseProductDetailed} cb.product
  */
 module.exports = function (context, input, cb) {
   const productId = input.productId
   const accessToken = input.token
-
   const url = context.config.magentoUrl + '/products'
   const request = context.tracedRequest
   const log = context.log
@@ -22,22 +31,26 @@ module.exports = function (context, input, cb) {
  * @param {string} productId
  * @param {string} accessToken
  * @param {string} url
- * @param {logger} log
- * @param {function} cb
+ * @param {Logger} log
+ * @param {StepCallback} cb
+ * @param {Error|null} cb.err
+ * @param {MagentoResponseProductDetailed} cb.body
  */
 function requestParentProductFromMagento (request, productId, accessToken, url, log, cb) {
   const options = {
-    url: url + `/${productId}`,
-    headers: {authorization: `Bearer ${accessToken}`},
+    baseUrl: url,
+    uri: productId,
+    auth: {bearer: accessToken},
     json: true
   }
 
   request('Magento:parentProduct').get(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      return cb(new Error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`))
+      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(body)}`)
+      return cb(new MagentoError())
     }
 
-    cb(null, body)
+    return cb(null, body)
   })
 }

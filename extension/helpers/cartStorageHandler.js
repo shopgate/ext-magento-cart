@@ -6,9 +6,9 @@ class CartStorageHandler {
   }
 
   /**
-   * @param {object} cart
+   * @param {Object} cart
    * @param {boolean} isLoggedIn
-   * @param {function} cb
+   * @param {StepCallback} cb
    */
   set (cart, isLoggedIn, cb) {
     const storage = isLoggedIn ? 'user' : 'device'
@@ -19,9 +19,10 @@ class CartStorageHandler {
   }
 
   /**
-   *
    * @param {boolean} isLoggedIn
-   * @param {function} cb
+   * @param {StepCallback} cb
+   * @param {Error|null} cb.err
+   * @param {MagentoResponseCart} cb.result
    */
   get (isLoggedIn, cb) {
     const storage = isLoggedIn ? 'user' : 'device'
