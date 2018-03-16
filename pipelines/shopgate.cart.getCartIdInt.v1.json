@@ -1,7 +1,7 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "getCartId_int_v1",
+    "id": "shopgate.cart.getCartIdInt.v1",
     "public": true,
     "input": [],
     "output": [

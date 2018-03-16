@@ -1,10 +1,10 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "deleteCouponsFromCart_v1",
+    "id": "shopgate.cart.updateProductsInCart.v1",
     "public": true,
     "input": [
-      {"key": "couponCodes", "id": "1000"}
+      {"key": "CartItem", "id": "1010"}
     ],
     "output": [
       {"key": "messages", "id": "1100", "optional": true}
@@ -20,7 +20,7 @@
         ]
       }, {
         "type": "pipeline",
-        "id": "getToken_v1",
+        "id": "shopgate.general.getToken.v1",
         "trusted": true,
         "input": [],
         "output": [
@@ -29,11 +29,11 @@
       }, {
         "type": "extension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/cart/deleteItemsFromCart.js",
+        "path": "@shopgate/magento-cart/cart/updateProductsInCart.js",
         "input": [
-          {"key": "cartId", "id": "1"},
+          {"key": "CartItem", "id": "1010"},
           {"key": "token", "id": "10"},
-          {"key": "couponCodes", "id": "1000"}
+          {"key": "cartId", "id": "1"}
         ],
         "output": [
           {"key": "messages", "id": "1100", "optional": true}

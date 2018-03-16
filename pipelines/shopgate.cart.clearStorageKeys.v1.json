@@ -1,7 +1,7 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "clearStorageKeys_v1",
+    "id": "shopgate.cart.clearStorageKeys.v1",
     "public": true,
     "input": [
       {"key": "deletions", "id": "1"}

@@ -1,7 +1,7 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "deleteProductsFromCart_v1",
+    "id": "shopgate.cart.deleteProducts.v1",
     "public": true,
     "input": [
       {"key": "CartItemIds", "id": "1000"}
@@ -20,7 +20,7 @@
         ]
       }, {
         "type": "pipeline",
-        "id": "getToken_v1",
+        "id": "shopgate.general.getToken.v1",
         "trusted": true,
         "input": [],
         "output": [
