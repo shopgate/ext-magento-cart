@@ -150,9 +150,19 @@ function getCartItems (magentoCart, shopgateProducts) {
         priceItem = parentElement
       }
 
-      const shopgateProduct = shopgateProducts.find((element) => {
+      let shopgateProduct = shopgateProducts.find((element) => {
         return element.id === productId
       })
+
+      // [PI-8606] - Workaround for ugly error messages
+      let productAvailableInBigApi = true
+      if (!shopgateProduct) {
+        shopgateProduct = {
+          featuredImageUrl: null
+        }
+
+        productAvailableInBigApi = false
+      }
 
       const price = getPrice(priceItem, magentoCart.cart_price_display_settings)
       const product = new Product(
@@ -170,10 +180,18 @@ function getCartItems (magentoCart, shopgateProducts) {
         }
       }
 
-      const skuInfo = new AdditionalInfo('sku', shopgateProduct.identifiers.sku)
-      product.addAdditionalInfo(skuInfo)
+      if (shopgateProduct.identifiers && shopgateProduct.identifiers.sku) {
+        product.addAdditionalInfo(new AdditionalInfo('sku', shopgateProduct.identifiers.sku))
+      }
 
       const cartItem = new CartItem(cartItemId, quantity, 'product', product)
+
+      // [PI-8606] - Workaround for ugly error messages
+      if (!productAvailableInBigApi) {
+        magentoCart.has_error = true
+        // @TODO actually there is no way to pass custom error messages through the frontend. As soon as there is a solution for this, change the message blow
+        cartItem.addMessage(new Message('error', 'Das Produkt ist nicht mehr verfügbar.'))
+      }
 
       if (magentoCart.items[i]['has_error']) {
         for (let key in magentoCart.items[i]['errors']) {
@@ -184,7 +202,7 @@ function getCartItems (magentoCart, shopgateProducts) {
       cartItems.push(cartItem)
     }
   }
-  
+
   if (magentoCart.coupon_code !== null && magentoCart.totals.hasOwnProperty('discount')) {
     const amount = Math.abs(parseFloat(magentoCart.totals.discount.value))
     const appliedDiscount = new AppliedDiscount(new SavedPrice(amount, 'fixed'))
