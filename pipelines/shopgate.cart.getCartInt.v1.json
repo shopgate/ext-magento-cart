@@ -53,7 +53,7 @@
         ]
       }, {
         "type": "pipeline",
-        "id": "getProducts_v1",
+        "id": "shopgate.catalog.getProducts.v1",
         "input": [
           {"key": "sgxsMeta", "id": "750"},
           {"key": "productIds", "id": "4"},
