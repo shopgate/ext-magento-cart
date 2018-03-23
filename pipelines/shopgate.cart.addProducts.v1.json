@@ -1,7 +1,7 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "addProductsToCart_v1",
+    "id": "shopgate.cart.addProducts.v1",
     "public": true,
     "input": [
       {"key": "products", "id": "1"},
@@ -13,7 +13,7 @@
     "steps": [
       {
         "type": "pipeline",
-        "id": "getToken_v1",
+        "id": "shopgate.general.getToken.v1",
         "trusted": true,
         "input": [],
         "output": [
