@@ -35,7 +35,7 @@
         "expression": {"notnull": [{"name":"cartId"}]},
         "then": {
           "type": "pipeline",
-          "id": "getCart_int_v1",
+          "id": "shopgate.cart.getCartInt.v1",
           "input": [{"key": "cartId", "id": "1"}, {"key": "sgxsMeta", "id": "750"}],
           "output": [
             {"key": "isOrderable", "id": "1010"},
