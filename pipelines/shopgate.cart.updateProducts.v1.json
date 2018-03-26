@@ -1,7 +1,7 @@
 {
   "version": "1",
   "pipeline": {
-    "id": "shopgate.cart.updateProductsInCart.v1",
+    "id": "shopgate.cart.updateProducts.v1",
     "public": true,
     "input": [
       {"key": "CartItem", "id": "1010"}
