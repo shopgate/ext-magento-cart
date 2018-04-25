@@ -12,6 +12,7 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
+    "ent": "^2.2.0",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
     "neo-async": "^2.5.0"
