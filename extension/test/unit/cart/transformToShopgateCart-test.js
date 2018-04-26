@@ -1,17 +1,23 @@
 const assert = require('assert')
 const step = require('../../../cart/transformToShopgateCart')
 const magentoCart = require('../data/magento-cart')
+const magentoCartWithItemError = require('../data/magento-cart-with-item-error')
 const shopgateProducts = require('../data/shopgate-products')
 const resultingCart = require('../data/shopgate-cart')
 const magentoCartDiscount = require('../data/magento-cart-discount')
 const shopgateCartDiscount = require('../data/shopgate-cart-discount')
 const input = {magentoCart, shopgateProducts}
+const inputWithItemErrors = {
+  magentoCart: magentoCartWithItemError,
+  shopgateProducts
+}
 
 /**
  * Set all necessary properties to mark the cart as unorderable
  */
 function setCartToNotOrderable () {
   magentoCart.has_error = true
+  magentoCart.errors = []
   resultingCart.isOrderable = false
   resultingCart.flags.orderable = false
 }
@@ -26,7 +32,6 @@ function insertDiscountToCart () {
 }
 
 describe('transformToShopgateCart', () => {
-
   // Reset the properties to the default values
   beforeEach(() => {
     magentoCart.has_error = false
@@ -36,7 +41,6 @@ describe('transformToShopgateCart', () => {
 
   describe('transformToShopgateCart without coupons', () => {
     const context = {config: {enableCoupons: false}}
-
     it('should transform a magento cart to a shopgate cart', (done) => {
       step(context, input, (err, result) => {
         assert.ifError(err)
@@ -56,11 +60,18 @@ describe('transformToShopgateCart', () => {
         done()
       })
     })
+
+    it('should set cart to not ordable in case an item has an error', (done) => {
+      step(context, inputWithItemErrors, (err, result) => {
+        assert.ifError(err)
+        assert.equal(result.isOrderable, false)
+        done()
+      })
+    })
   })
 
   describe('transformToShopgateCart with coupons', () => {
     const context = {config: {enableCoupons: true}}
-
     // Set up the cart to have coupons enabled
     beforeEach(() => {
       resultingCart.enableCoupons = true

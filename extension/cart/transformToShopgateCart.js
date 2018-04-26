@@ -1,3 +1,5 @@
+const decode = require('ent/decode')
+
 const AdditionalInfo = require('../models/shopgate/cart/additionalInfo')
 const Price = require('../models/shopgate/cart/price')
 const Property = require('../models/shopgate/cart/property')
@@ -42,10 +44,11 @@ module.exports = function (context, input, cb) {
 function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) {
   const cartItems = getCartItems(magentoCart, shopgateProducts)
   const totals = getTotals(magentoCart)
+  const itemHasError = hasItemError(magentoCart)
 
   const cart = new Cart(cartItems, magentoCart['quote_currency_code'], totals, enableCoupons)
-  // Checking if the cart has an error and set the isOrderable flag for this cart
-  cart.setIsOrderable(!magentoCart.has_error)
+  // Checking if the cart or cart item has an error and set the isOrderable flag for this cart
+  cart.setIsOrderable(!(magentoCart.has_error || itemHasError))
   if (magentoCart.totals) {
     let taxTotal
 
@@ -60,6 +63,13 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
     if (taxTotal) taxIncluded = parseInt(taxTotal.value) > 0
 
     cart.setIsTaxIncluded(taxIncluded)
+  }
+
+  // Add error messages
+  if (magentoCart.has_error) {
+    magentoCart.errors.map((error) => {
+      cart.messages.push(new Message('error', decode(error)))
+    })
   }
 
   return cart
@@ -123,6 +133,17 @@ function getPrice (magentoCartItem, cartPriceDisplaySetting) {
 
   // TODO: Coupon information is needed for the special price
   return new Price(itemPrice, itemBaseRowTotalPrice, null)
+}
+
+/**
+ * @param {Object} magentoCart
+ * @returns {Boolean}
+ */
+function hasItemError (magentoCart) {
+  const errorItems = magentoCart.items.filter((item) => {
+    return item.has_error === true
+  })
+  return errorItems.length !== 0
 }
 
 /**
@@ -195,7 +216,7 @@ function getCartItems (magentoCart, shopgateProducts) {
 
       if (magentoCart.items[i]['has_error']) {
         for (let key in magentoCart.items[i]['errors']) {
-          cartItem.addMessage(new Message('error', magentoCart.items[i]['errors'][key]))
+          cartItem.addMessage(new Message('error', decode(magentoCart.items[i]['errors'][key])))
         }
       }
 
