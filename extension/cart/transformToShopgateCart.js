@@ -66,7 +66,7 @@ function transformToShopgateCart (magentoCart, shopgateProducts, enableCoupons) 
   }
 
   // Add error messages
-  if (magentoCart.has_error) {
+  if (magentoCart.has_error && magentoCart.errors) {
     magentoCart.errors.map((error) => {
       cart.messages.push(new Message('error', decode(error)))
     })
