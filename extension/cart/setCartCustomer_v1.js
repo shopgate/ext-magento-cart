@@ -17,6 +17,7 @@ module.exports = function (context, input, cb) {
   const cartUrl = context.config.magentoUrl + '/carts'
   const cartId = input.cartId
   const log = context.log
+  const validateSSLCertificate = context.config.validateSSLCertificate
 
   // cart must exist to be able to assign a customer for it
   if (!cartId) {
@@ -25,7 +26,7 @@ module.exports = function (context, input, cb) {
     return cb()
   }
 
-  assignCartCustomer(context.tracedRequest, input.token, cartId, cartUrl, log, (err) => {
+  assignCartCustomer(context.tracedRequest, input.token, cartId, cartUrl, log, validateSSLCertificate, (err) => {
     if (err) return cb(err)
     cb(null, {messages: null})
   })
@@ -37,14 +38,16 @@ module.exports = function (context, input, cb) {
  * @param {(number|string)} cartId - can be cart ID for guest or "me" for customer
  * @param {string} cartUrl
  * @param {Logger} log
+ * @param {boolean} rejectUnauthorized
  * @param {StepCallback} cb
  */
-function assignCartCustomer (request, accessToken, cartId, cartUrl, log, cb) {
+function assignCartCustomer (request, accessToken, cartId, cartUrl, log, rejectUnauthorized, cb) {
   const options = {
     baseUrl: cartUrl,
     uri: cartId.toString() + '/customer',
     auth: {bearer: accessToken},
-    json: {}
+    json: {},
+    rejectUnauthorized
   }
 
   log.debug(`setCartCustomer with ${util.inspect(options)}`)

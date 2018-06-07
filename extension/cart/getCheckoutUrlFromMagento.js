@@ -22,6 +22,7 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
+  const validateSSLCertificate = context.config.validateSSLCertificate
   const accessToken = input.token
   const cartId = input.cartId
 
@@ -30,7 +31,7 @@ module.exports = function (context, input, cb) {
     return cb(new InvalidCallError())
   }
 
-  getCheckoutUrlFromMagento(request, accessToken, cartId, cartUrl, log, (err, result) => {
+  getCheckoutUrlFromMagento(request, accessToken, cartId, cartUrl, log, validateSSLCertificate, (err, result) => {
     if (err) return cb(err)
 
     // Add additional query parameters for Google Analytics in Webcheckout
@@ -55,14 +56,16 @@ module.exports = function (context, input, cb) {
  * @param {number|string} cartId
  * @param {string} cartUrl
  * @param {Logger} log
+ * @param {boolean} rejectUnauthorized
  * @param {StepCallback} cb
  */
-function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, cb) {
+function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, rejectUnauthorized, cb) {
   const options = {
     baseUrl: cartUrl,
     uri: cartId + '/checkoutUrl',
     auth: {bearer: accessToken},
-    json: {}
+    json: {},
+    rejectUnauthorized
   }
 
   request('magento:getCheckoutUrl').post(options, (err, res, body) => {
