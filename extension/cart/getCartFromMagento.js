@@ -21,7 +21,7 @@ module.exports = function (context, input, cb) {
   const cartUrl = context.config.magentoUrl + '/carts'
   const accessToken = input.token
   const log = context.log
-  const validateSSLCertificate = context.config.validateSSLCertificate
+  const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const cartId = input.cartId
 
   if (!cartId) {
@@ -29,7 +29,7 @@ module.exports = function (context, input, cb) {
     return cb(new InvalidCallError())
   }
 
-  getCartFromMagento(request, accessToken, cartId, cartUrl, log, validateSSLCertificate, (err, magentoCart) => {
+  getCartFromMagento(request, accessToken, cartId, cartUrl, log, !allowSelfSignedCertificate, (err, magentoCart) => {
     if (err) return cb(err)
 
     const csh = new CartStorageHandler(context.storage)

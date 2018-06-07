@@ -17,7 +17,7 @@ const InvalidCallError = require('../models/Errors/InvalidCallError')
 module.exports = function (context, input, cb) {
   const orderId = input.orderId
   const log = context.log
-  const validateSSLCertificate = context.config.validateSSLCertificate
+  const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const request = context.tracedRequest
   const accessToken = input.token
   const cartUrl = context.config.magentoUrl + '/carts'
@@ -29,7 +29,7 @@ module.exports = function (context, input, cb) {
 
   log.debug(`Got orderId ${orderId} from app, creating new cart for customer.`)
 
-  createCart(request, accessToken, cartUrl, log, validateSSLCertificate, (err, cartId) => {
+  createCart(request, accessToken, cartUrl, log, !allowSelfSignedCertificate, (err, cartId) => {
     if (err) return cb(err)
     context.storage['user'].set(CARTID_KEY, cartId, (err) => {
       if (err) return cb(err)

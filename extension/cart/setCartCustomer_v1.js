@@ -17,7 +17,7 @@ module.exports = function (context, input, cb) {
   const cartUrl = context.config.magentoUrl + '/carts'
   const cartId = input.cartId
   const log = context.log
-  const validateSSLCertificate = context.config.validateSSLCertificate
+  const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
 
   // cart must exist to be able to assign a customer for it
   if (!cartId) {
@@ -26,7 +26,7 @@ module.exports = function (context, input, cb) {
     return cb()
   }
 
-  assignCartCustomer(context.tracedRequest, input.token, cartId, cartUrl, log, validateSSLCertificate, (err) => {
+  assignCartCustomer(context.tracedRequest, input.token, cartId, cartUrl, log, !allowSelfSignedCertificate, (err) => {
     if (err) return cb(err)
     cb(null, {messages: null})
   })

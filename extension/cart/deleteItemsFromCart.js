@@ -20,7 +20,7 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
-  const validateSSLCertificate = context.config.validateSSLCertificate
+  const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const accessToken = input.token
   const cartId = input.cartId
   let cartItemIds = input.cartItemIds
@@ -38,7 +38,7 @@ module.exports = function (context, input, cb) {
     })
   }
 
-  deleteItemsFromCart(request, accessToken, cartId, cartItemIds, cartUrl, log, validateSSLCertificate, (err) => {
+  deleteItemsFromCart(request, accessToken, cartId, cartItemIds, cartUrl, log, !allowSelfSignedCertificate, (err) => {
     if (err) return cb(err)
     cb(null, {})
   })

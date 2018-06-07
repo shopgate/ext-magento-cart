@@ -19,9 +19,9 @@ module.exports = function (context, input, cb) {
   const url = context.config.magentoUrl + '/products'
   const request = context.tracedRequest
   const log = context.log
-  const validateSSLCertificate = context.config.validateSSLCertificate
+  const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
 
-  requestParentProductFromMagento(request, productId, accessToken, url, log, validateSSLCertificate, (err, product) => {
+  requestParentProductFromMagento(request, productId, accessToken, url, log, !allowSelfSignedCertificate, (err, product) => {
     if (err) return cb(err)
     cb(null, {product})
   })

@@ -12,12 +12,12 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
-  const validateSSLCertificate = context.config.validateSSLCertificate
+  const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const accessToken = input.token
   const items = input.transformedItems
   const cartId = input.cartId
 
-  addItemsToCart(request, accessToken, items, cartId, cartUrl, log, validateSSLCertificate, (err) => {
+  addItemsToCart(request, accessToken, items, cartId, cartUrl, log, !allowSelfSignedCertificate, (err) => {
     if (err) return cb(err)
     cb(null, {messages: null})
   })

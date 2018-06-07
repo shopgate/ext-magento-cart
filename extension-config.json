@@ -25,15 +25,15 @@
         "key": "value.backend.magentoUrl"
       }
     },
-    "validateSSLCertificate" : {
+    "allowSelfSignedCertificate" : {
       "type": "bigApi",
       "destination" : "backend",
-      "default": true,
+      "default": false,
       "params": {
         "method":  "GET",
         "service": "config",
         "path": "/v1/shop/%(shopId)s/checkout_web_checkout_shopify?parsed=true",
-        "key": "value.backend.validateSSLCertificate"
+        "key": "value.backend.allowSelfSignedCertificate"
       }
     }
   }

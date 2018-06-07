@@ -22,7 +22,7 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
-  const validateSSLCertificate = context.config.validateSSLCertificate
+  const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const accessToken = input.token
   const cartId = input.cartId
 
@@ -31,7 +31,7 @@ module.exports = function (context, input, cb) {
     return cb(new InvalidCallError())
   }
 
-  getCheckoutUrlFromMagento(request, accessToken, cartId, cartUrl, log, validateSSLCertificate, (err, result) => {
+  getCheckoutUrlFromMagento(request, accessToken, cartId, cartUrl, log, !allowSelfSignedCertificate, (err, result) => {
     if (err) return cb(err)
 
     // Add additional query parameters for Google Analytics in Webcheckout

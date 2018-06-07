@@ -27,7 +27,7 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
-  const validateSSLCertificate = context.config.validateSSLCertificate
+  const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const cartItems = input.CartItem
   const accessToken = input.token
   const cartId = input.cartId
@@ -60,7 +60,7 @@ module.exports = function (context, input, cb) {
       return cb(new InvalidCallError())
     }
 
-    updateProductsInCart(request, updateItems, cartId, accessToken, cartUrl, log, validateSSLCertificate, (err) => {
+    updateProductsInCart(request, updateItems, cartId, accessToken, cartUrl, log, !allowSelfSignedCertificate, (err) => {
       if (err) return cb(err)
       cb()
     })
