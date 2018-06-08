@@ -75,7 +75,8 @@ describe('updateProductsInCart', () => {
               qty: 2
             }
           }
-        ]
+        ],
+        rejectUnauthorized: true
       }
 
       assert.deepEqual(o, options)
