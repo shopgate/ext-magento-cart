@@ -91,7 +91,7 @@ describe('requestParentProductFromMagento', () => {
         }
       }
 
-      requestParentProductFromMagento(context.tracedRequest, input.productId, 'at', context.config.productUrl, context.log, (err) => {
+      requestParentProductFromMagento(context.tracedRequest, input.productId, 'at', context.config.productUrl, context.log, null, (err) => {
         assert.equal(err.message, 'An internal error occurred.')
         assert.equal(err.constructor.name, 'MagentoEndpointError')
         assert.equal(err.code, 'EINTERNAL')

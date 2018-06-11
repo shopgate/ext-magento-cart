@@ -12,11 +12,12 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
+  const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const accessToken = input.token
   const items = input.transformedItems
   const cartId = input.cartId
 
-  addItemsToCart(request, accessToken, items, cartId, cartUrl, log, (err) => {
+  addItemsToCart(request, accessToken, items, cartId, cartUrl, log, !allowSelfSignedCertificate, (err) => {
     if (err) return cb(err)
     cb(null, {messages: null})
   })
@@ -29,13 +30,15 @@ module.exports = function (context, input, cb) {
  * @param {string} cartId
  * @param {string} cartUrl
  * @param {Logger} log
+ * @param {boolean} rejectUnauthorized
  * @param {function} cb
  */
-function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, cb) {
+function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, rejectUnauthorized, cb) {
   const options = {
     url: `${cartUrl}/${cartId}/items`,
     auth: {bearer: accessToken},
-    json: items
+    json: items,
+    rejectUnauthorized
   }
 
   log.debug(`addItemsToCart with ${util.inspect(options)}`)

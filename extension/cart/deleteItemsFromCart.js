@@ -20,6 +20,7 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
+  const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const accessToken = input.token
   const cartId = input.cartId
   let cartItemIds = input.cartItemIds
@@ -37,7 +38,7 @@ module.exports = function (context, input, cb) {
     })
   }
 
-  deleteItemsFromCart(request, accessToken, cartId, cartItemIds, cartUrl, log, (err) => {
+  deleteItemsFromCart(request, accessToken, cartId, cartItemIds, cartUrl, log, !allowSelfSignedCertificate, (err) => {
     if (err) return cb(err)
     cb(null, {})
   })
@@ -50,9 +51,10 @@ module.exports = function (context, input, cb) {
  * @param {[string]} cartItemIds
  * @param {string} cartUrl
  * @param {Logger} log
+ * @param {boolean} rejectUnauthorized
  * @param {StepCallback} cb
  */
-function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl, log, cb) {
+function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl, log, rejectUnauthorized, cb) {
   const options = {
     baseUrl: cartUrl,
     uri: cartId + '/items',
@@ -60,10 +62,11 @@ function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl
     qs: {
       cartItemIds: cartItemIds.join(',')
     },
-    json: true
+    json: true,
+    rejectUnauthorized
   }
 
-  log.debug(`addItemsToCart with ${util.inspect(options)}`)
+  log.debug(`deleteItemsFromCart with ${util.inspect(options)}`)
   request('magento:deleteItemsFromCart').delete(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {

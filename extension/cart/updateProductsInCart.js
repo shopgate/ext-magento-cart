@@ -27,6 +27,7 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
+  const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const cartItems = input.CartItem
   const accessToken = input.token
   const cartId = input.cartId
@@ -59,7 +60,7 @@ module.exports = function (context, input, cb) {
       return cb(new InvalidCallError())
     }
 
-    updateProductsInCart(request, updateItems, cartId, accessToken, cartUrl, log, (err) => {
+    updateProductsInCart(request, updateItems, cartId, accessToken, cartUrl, log, !allowSelfSignedCertificate, (err) => {
       if (err) return cb(err)
       cb()
     })
@@ -73,14 +74,16 @@ module.exports = function (context, input, cb) {
  * @param {string} accessToken
  * @param {string} cartUrl
  * @param {Logger} log
+ * @param {boolean} rejectUnauthorized
  * @param {StepCallback} cb
  */
-function updateProductsInCart (request, updateItems, cartId, accessToken, cartUrl, log, cb) {
+function updateProductsInCart (request, updateItems, cartId, accessToken, cartUrl, log, rejectUnauthorized, cb) {
   const options = {
     baseUrl: cartUrl,
     uri: cartId + '/items',
     auth: {bearer: accessToken},
-    json: updateItems
+    json: updateItems,
+    rejectUnauthorized
   }
 
   request('magento:updateProductsInCart').post(options, (err, res, body) => {

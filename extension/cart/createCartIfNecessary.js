@@ -11,6 +11,7 @@ module.exports = function (context, input, cb) {
   const cartUrl = context.config.magentoUrl + '/carts'
   const request = context.tracedRequest
   const log = context.log
+  const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const accessToken = input.token
   const isLoggedIn = !!context.meta.userId
 
@@ -32,7 +33,7 @@ module.exports = function (context, input, cb) {
       log.debug(`using cart with id: ${cartId}`)
       return cb(null, {cartId: cartId})
     }
-    createCart(request, accessToken, cartUrl, log, (err2, cartId) => {
+    createCart(request, accessToken, cartUrl, log, !allowSelfSignedCertificate, (err2, cartId) => {
       if (err2) return cb(err2)
       storage.set(CARTID_KEY, cartId, (err3) => {
         if (err3) return cb(err3)
@@ -48,13 +49,15 @@ module.exports = function (context, input, cb) {
  * @param {string} accessToken
  * @param {string} cartUrl
  * @param {Logger} log
+ * @param {boolean} rejectUnauthorized
  * @param {function} cb
  */
-function createCart (request, accessToken, cartUrl, log, cb) {
+function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb) {
   const options = {
     url: cartUrl,
     headers: {authorization: `Bearer ${accessToken}`},
-    json: {}
+    json: {},
+    rejectUnauthorized
   }
 
   request('magento:createCart').post(options, (err, res, body) => {
