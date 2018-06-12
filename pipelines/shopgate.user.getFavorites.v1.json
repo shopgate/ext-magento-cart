@@ -1,0 +1,137 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "shopgate.user.getFavorites.v1",
+    "public": true,
+    "input": [
+      {"key": "sgxsMeta", "id": "100"}
+    ],
+    "output": [
+      {"key": "products", "id": "31"}
+    ],
+    "steps": [
+      {
+        "type": "pipeline",
+        "id": "shopgate.user.favoritesOnUserLogin.v1",
+        "input": [],
+        "output": []
+      },
+      {
+        "type": "extension",
+        "id": "@shopgate/favorites",
+        "path": "@shopgate/favorites/user/getUserId.js",
+        "input": [],
+        "output": [
+          {"key": "userId", "id": "10"}
+        ]
+      },
+      {
+        "type": "conditional",
+        "input": [{"key": "userId", "id": "10"}],
+        "expression": {"ok": [{"name":"userId"}]},
+        "then": {
+          "type": "extension",
+          "id": "@shopgate/favorites",
+          "path": "@shopgate/favorites/user/getItems.js",
+          "input": [],
+          "output": [
+            {"key": "productIds", "id": "20"}
+          ]
+        },
+        "else": {
+          "type": "extension",
+          "id": "@shopgate/favorites",
+          "path": "@shopgate/favorites/anonymous/getItems.js",
+          "input": [],
+          "output": [
+            {"key": "productIds", "id": "20"}
+          ]
+        }
+      },
+      {
+        "type": "conditional",
+        "input": [{"key": "productIds", "id": "20"}],
+        "expression": {"ok": [{"name":"productIds"}]},
+        "then": {
+          "type": "pipeline",
+          "id": "shopgate.catalog.getProducts.v1",
+          "input": [
+            {"key": "sgxsMeta", "id": "100"},
+            {"key": "productIds", "id": "20"}
+          ],
+          "output": [
+            {"key": "products", "id": "31"}
+          ]
+        },
+        "else": {
+          "type": "staticValue",
+          "input": [],
+          "values": [
+            {"key": "products", "value": []}
+          ],
+          "output": [
+            {"key": "products", "id": "31"}
+          ]
+        }
+      },
+      {
+        "type": "extension",
+        "id": "@shopgate/favorites",
+        "path": "@shopgate/favorites/sortItems.js",
+        "input": [
+          {"key": "productIds", "id": "20"},
+          {"key": "products", "id": "31"}
+        ],
+        "output": [
+          {"key": "products", "id": "31"}
+        ]
+      },
+      {
+        "_comment": "Fetches the current user or guest access token for REST calls to a remote magento shop",
+
+        "type": "pipeline",
+        "id": "shopgate.general.getToken.v1",
+        "trusted": true,
+        "input": [],
+        "output": [
+          {"key": "token", "id": "40"}
+        ]
+      },
+      {
+        "_comment": "Takes a list of shopgate products, filters out the variants and requests the respective parent product data from magento",
+
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/products/requestParentProductsFromMagento.js",
+        "input": [
+          {"key": "products", "id": "31"},
+          {"key": "token", "id": "40"}
+        ],
+        "output": [
+          {"key": "magentoParentProducts", "id": "50", "optional": true}
+        ]
+      },
+      {
+        "_comment": "Appends the additional metadata into each product (if variant)",
+
+        "type": "extension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/products/appendProductVariantsMetadataToProductList.js",
+        "input": [
+          {"key": "products", "id": "31"},
+          {"key": "magentoParentProducts", "id": "50", "optional": true}
+        ],
+        "output": [
+          {"key": "products", "id": "31"}
+        ]
+      },
+      {
+        "type": "errorCatchExtension",
+        "id": "@shopgate/favorites",
+        "path": "@shopgate/favorites/catch/catchGenericError.js",
+        "input": [],
+        "output": []
+      }
+    ]
+  }
+}
