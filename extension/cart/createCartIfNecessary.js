@@ -1,6 +1,7 @@
 const CARTID_KEY = 'cartId'
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
+const util = require('util')
 
 /**
  * @param {StepContext} context
@@ -9,7 +10,7 @@ const ResponseParser = require('../helpers/MagentoResponseParser')
  */
 module.exports = function (context, input, cb) {
   const cartUrl = context.config.magentoUrl + '/carts'
-  const request = context.tracedRequest
+  const request = context.tracedRequest('magento-cart-extension:createCartIfNecessary', {log: true})
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const accessToken = input.token
@@ -60,13 +61,14 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
     rejectUnauthorized
   }
 
-  request('magento:createCart').post(options, (err, res, body) => {
+  log.debug(`createCartIfNecessary request ${util.inspect(options)}`)
+  request.post(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(body)}`)
       return cb(new MagentoError())
     }
-
+    log.debug(`createCartIfNecessary response ${util.inspect(body)}`)
     cb(null, body.cartId)
   })
 }

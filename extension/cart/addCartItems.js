@@ -9,7 +9,7 @@ const ResponseParser = require('../helpers/MagentoResponseParser')
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
-  const request = context.tracedRequest
+  const request = context.tracedRequest('magento-cart-extension:addCartItems', {log: true})
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
@@ -41,8 +41,8 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
     rejectUnauthorized
   }
 
-  log.debug(`addItemsToCart with ${util.inspect(options)}`)
-  request('magento:addItemsToCart').post(options, (err, res, body) => {
+  log.debug(`addCartItems request ${util.inspect(options)}`)
+  request.post(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`)
@@ -52,7 +52,7 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
       }
       return cb(new MagentoError())
     }
-
+    log.debug(`addCartItems response ${util.inspect(body)}`)
     cb()
   })
 }

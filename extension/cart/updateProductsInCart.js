@@ -3,6 +3,7 @@ const Product = require('../models/cartUpdates/product')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
+const util = require('util')
 
 /**
  * @typedef {Object} UpdateProductsInCartInput
@@ -24,7 +25,7 @@ const InvalidCallError = require('../models/Errors/InvalidCallError')
  * @return {StepCallback}
  */
 module.exports = function (context, input, cb) {
-  const request = context.tracedRequest
+  const request = context.tracedRequest('magento-cart-extension:updateProductsInCart', {log: true})
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
@@ -86,13 +87,15 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
     rejectUnauthorized
   }
 
-  request('magento:updateProductsInCart').post(options, (err, res, body) => {
+  log.debug(`updateProductsInCart request ${util.inspect(options)}`)
+  request.post(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(body)}`)
       return cb(new MagentoError())
     }
 
+    log.debug(`updateProductsInCart response ${util.inspect(body)}`)
     cb()
   })
 }

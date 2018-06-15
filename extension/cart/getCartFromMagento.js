@@ -17,7 +17,7 @@ const InvalidCallError = require('../models/Errors/InvalidCallError')
  * @param {MagentoResponseCart} cb.magentoCart
  */
 module.exports = function (context, input, cb) {
-  const request = context.tracedRequest
+  const request = context.tracedRequest('magento-cart-extension:getCartFromMagento', {log: true})
   const cartUrl = context.config.magentoUrl + '/carts'
   const accessToken = input.token
   const log = context.log
@@ -58,14 +58,14 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
     rejectUnauthorized
   }
 
-  log.debug(`getCart with ${util.inspect(options)}`)
-  request('magento:getCart').get(options, (err, res, body) => {
+  log.debug(`getCartFromMagento request ${util.inspect(options)}`)
+  request.get(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(body)}`)
       return cb(new MagentoError())
     }
-
+    log.debug(`getCartFromMagento response ${util.inspect(body)}`)
     cb(null, body)
   })
 }
