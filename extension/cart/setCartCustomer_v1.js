@@ -51,10 +51,10 @@ function assignCartCustomer (request, accessToken, cartId, cartUrl, log, rejectU
   }
 
   log.debug(`setCartCustomer with ${util.inspect(options)}`)
-  request('magento:setCartCustomer').post(options, (err, res, body) => {
+  request('magento:setCartCustomer').post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(body)}`)
+      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
 

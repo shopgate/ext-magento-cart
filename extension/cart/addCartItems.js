@@ -42,13 +42,13 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
   }
 
   log.debug(`addItemsToCart with ${util.inspect(options)}`)
-  request('magento:addItemsToCart').post(options, (err, res, body) => {
+  request('magento:addItemsToCart').post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from magento: ${JSON.stringify(body)}`)
+      log.error(`Got ${res.statusCode} from magento: ${JSON.stringify(res.body)}`)
 
       if (res.statusCode >= 400 && res.statusCode < 500) {
-        return cb(ResponseParser.build(new InvalidItemError(), body))
+        return cb(ResponseParser.build(new InvalidItemError(), res.body))
       }
       return cb(new MagentoError())
     }

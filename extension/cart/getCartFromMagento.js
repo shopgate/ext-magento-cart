@@ -59,13 +59,17 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
   }
 
   log.debug(`getCart with ${util.inspect(options)}`)
-  request('magento:getCart').get(options, (err, res, body) => {
+  request('magento:getCart').get(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(body)}`)
+      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
+      return cb(new MagentoError())
+    }
+    if (!res.body) {
+      log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())
     }
 
-    cb(null, body)
+    cb(null, res.body)
   })
 }

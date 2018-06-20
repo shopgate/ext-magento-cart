@@ -86,10 +86,10 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
     rejectUnauthorized
   }
 
-  request('magento:updateProductsInCart').post(options, (err, res, body) => {
+  request('magento:updateProductsInCart').post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(body)}`)
+      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
 

@@ -68,12 +68,17 @@ function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, 
     rejectUnauthorized
   }
 
-  request('magento:getCheckoutUrl').post(options, (err, res, body) => {
+  request('magento:getCheckoutUrl').post(options, (err, res) => {
     if (err) return cb(err)
-    if (res.statusCode !== 200 || !body.url) {
-      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(body)}`)
+    if (!res.body) {
+      log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())
     }
-    cb(null, body)
+    if (res.statusCode !== 200 || !res.body.url) {
+      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)
+      return cb(new MagentoError())
+    }
+
+    cb(null, res.body)
   })
 }

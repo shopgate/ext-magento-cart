@@ -47,13 +47,17 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
     rejectUnauthorized
   }
 
-  request('Magento:parentProduct').get(options, (err, res, body) => {
+  request('Magento:parentProduct').get(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(body)}`)
+      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)
+      return cb(new MagentoError())
+    }
+    if (!res.body) {
+      log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())
     }
 
-    return cb(null, body)
+    return cb(null, res.body)
   })
 }
