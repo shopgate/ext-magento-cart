@@ -42,7 +42,7 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
   }
 
   log.debug(`addCartItems request ${util.inspect(options)}`)
-  request.post(options, (err, res, body) => {
+  request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from magento: ${JSON.stringify(res.body)}`)
@@ -52,7 +52,7 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
       }
       return cb(new MagentoError())
     }
-    log.debug(`addCartItems response ${util.inspect(body)}`)
+    log.debug(`addCartItems response ${util.inspect(res.body)}`)
     cb()
   })
 }

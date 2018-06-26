@@ -49,7 +49,7 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
   }
 
   log.debug(`requestParentProductFromMagento request ${util.inspect(options)}`)
-  request.get(options, (err, res, body) => {
+  request.get(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)
@@ -60,7 +60,7 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
       return cb(new MagentoError())
     }
 
-    log.debug(`requestParentProductFromMagento response ${util.inspect(body)}`)
-    return cb(null, body)
+    log.debug(`requestParentProductFromMagento response ${util.inspect(res.body)}`)
+    return cb(null, res.body)
   })
 }

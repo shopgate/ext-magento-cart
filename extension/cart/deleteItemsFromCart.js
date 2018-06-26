@@ -67,13 +67,13 @@ function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl
   }
 
   log.debug(`deleteItemsFromCart request ${util.inspect(options)}`)
-  request.delete(options, (err, res, body) => {
+  request.delete(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
-    log.debug(`deleteItemsFromCart response ${util.inspect(body)}`)
+    log.debug(`deleteItemsFromCart response ${util.inspect(res.body)}`)
     cb()
   })
 }

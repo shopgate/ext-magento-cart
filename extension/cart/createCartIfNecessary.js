@@ -62,7 +62,7 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
   }
 
   log.debug(`createCartIfNecessary request ${util.inspect(options)}`)
-  request.post(options, (err, res, body) => {
+  request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)
@@ -73,7 +73,7 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
       return cb(new MagentoError())
     }
 
-    log.debug(`createCartIfNecessary response ${util.inspect(body)}`)
-    cb(null, body.cartId)
+    log.debug(`createCartIfNecessary response ${util.inspect(res.body)}`)
+    cb(null, res.body.cartId)
   })
 }

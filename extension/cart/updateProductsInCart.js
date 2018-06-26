@@ -88,14 +88,14 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
   }
 
   log.debug(`updateProductsInCart request ${util.inspect(options)}`)
-  request.post(options, (err, res, body) => {
+  request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
 
-    log.debug(`updateProductsInCart response ${util.inspect(body)}`)
+    log.debug(`updateProductsInCart response ${util.inspect(res.body)}`)
     cb()
   })
 }

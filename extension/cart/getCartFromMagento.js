@@ -59,7 +59,7 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
   }
 
   log.debug(`getCartFromMagento request ${util.inspect(options)}`)
-  request.get(options, (err, res, body) => {
+  request.get(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
@@ -70,7 +70,7 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
       return cb(new MagentoError())
     }
 
-    log.debug(`getCartFromMagento response ${util.inspect(body)}`)
-    cb(null, body)
+    log.debug(`getCartFromMagento response ${util.inspect(res.body)}`)
+    cb(null, res.body)
   })
 }

@@ -70,14 +70,14 @@ function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, 
   }
 
   log.debug(`getCheckoutUrlFromMagento request ${util.inspect(options)}`)
-  request.post(options, (err, res, body) => {
+  request.post(options, (err, res) => {
     if (err) return cb(err)
     if (!res.body) {
       log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())
     }
 
-    log.debug(`getCheckoutUrlFromMagento response ${util.inspect(body)}`)
+    log.debug(`getCheckoutUrlFromMagento response ${util.inspect(res.body)}`)
 
     if (res.statusCode !== 200 || !res.body.url) {
       log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)

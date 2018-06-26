@@ -57,7 +57,7 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
   }
 
   log.debug(`createNewCartForCustomer request ${util.inspect(options)}`)
-  request.post(options, (err, res, body) => {
+  request.post(options, (err, res) => {
     if (err) return cb(err)
     if (!res.body) {
       log.error(options, `Got empty body from magento. Request result: ${res}`)
@@ -68,7 +68,7 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
       return cb(new MagentoError())
     }
 
-    log.debug(`createNewCartForCustomer response ${util.inspect(body)}`)
-    cb(null, body.cartId)
+    log.debug(`createNewCartForCustomer response ${util.inspect(res.body)}`)
+    cb(null, res.body.cartId)
   })
 }
