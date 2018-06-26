@@ -123,7 +123,7 @@ describe('createCartIfNecessary', () => {
     const createCart = step.__get__('createCart')
 
     it('should return an error because the return code is >= 400', (done) => {
-      request.post = (options, cb) => {
+      context.tracedRequest.post = (options, cb) => {
         cb(null, {statusCode: 400}, {error: 'error'})
       }
 

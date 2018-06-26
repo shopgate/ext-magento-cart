@@ -85,11 +85,10 @@ describe('requestParentProductFromMagento', () => {
     const requestParentProductFromMagento = step.__get__('requestParentProductFromMagento')
 
     it('should return an error because the magento response status code is >= 400', (done) => {
-      request = {
-        get: (options, cb) => {
+      context.tracedRequest.get = (options, cb) => {
           cb(null, {statusCode: 401}, {message: 'unauthorized'})
         }
-      }
+
 
       requestParentProductFromMagento(context.tracedRequest, input.productId, 'at', context.config.productUrl, context.log, null, (err) => {
         assert.equal(err.message, 'An internal error occurred.')
