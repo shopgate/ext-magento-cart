@@ -70,7 +70,7 @@ function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl
   request.delete(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(body)}`)
+      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
     log.debug(`deleteItemsFromCart response ${util.inspect(body)}`)

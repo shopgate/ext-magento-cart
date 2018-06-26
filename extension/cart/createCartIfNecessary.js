@@ -65,9 +65,14 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
   request.post(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(body)}`)
+      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
+    if (!res.body) {
+      log.error(options, `Got empty body from magento. Request result: ${res}`)
+      return cb(new MagentoError())
+    }
+
     log.debug(`createCartIfNecessary response ${util.inspect(body)}`)
     cb(null, body.cartId)
   })

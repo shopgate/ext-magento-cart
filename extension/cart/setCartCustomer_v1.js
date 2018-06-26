@@ -54,7 +54,7 @@ function assignCartCustomer (request, accessToken, cartId, cartUrl, log, rejectU
   request.post(options, (err, res, body) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(body)}`)
+      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
 
