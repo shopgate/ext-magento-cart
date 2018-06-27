@@ -49,7 +49,7 @@ describe('creating a new cart for customer', () => {
     context.storage.user.set = (key, value, cb) => cb()
     request = {
       post: (options, cb) => {
-        cb(null, {statusCode: 200}, {cartId: '12345'})
+        cb(null, {statusCode: 200, body: {cartId: '12345'}})
       }
     }
 

@@ -97,8 +97,7 @@ describe('addCartItems', () => {
     let errorMessage = 'Some error message'
     request = {
       post: (options, cb) => {
-        cb(null, {statusCode: 400}, mageErrorResponse
-        )
+        cb(null, {statusCode: 400, body: mageErrorResponse})
       }
     }
 
