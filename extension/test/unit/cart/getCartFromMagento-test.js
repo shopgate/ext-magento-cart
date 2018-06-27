@@ -54,7 +54,7 @@ describe('getCartFromMagento', () => {
   it('should get a cart from magento', (done) => {
     const cart = {cart: 'cart'}
     request.get = (options, cb) => {
-      cb(null, {statusCode: 200}, cart)
+      cb(null, {statusCode: 200, body: cart})
     }
 
     context.storage.device.set = (key, value, cb) => {
@@ -108,7 +108,7 @@ describe('getCartFromMagento', () => {
   it('should return an error because setting cart in storage fails', (done) => {
     const cart = {cart: 'cart'}
     request.get = (options, cb) => {
-      cb(null, {statusCode: 200}, cart)
+      cb(null, {statusCode: 200, body: cart})
     }
 
     context.storage.device.set = (key, value, cb) => {

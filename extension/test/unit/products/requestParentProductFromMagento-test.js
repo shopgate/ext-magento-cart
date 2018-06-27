@@ -56,7 +56,7 @@ describe('requestParentProductFromMagento', () => {
 
       request = {
         get: (options, cb) => {
-          cb(null, {statusCode: 200}, magentoProduct)
+          cb(null, {statusCode: 200, body: magentoProduct})
         }
       }
 

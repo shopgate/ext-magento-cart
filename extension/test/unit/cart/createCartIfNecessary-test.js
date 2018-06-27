@@ -70,7 +70,7 @@ describe('createCartIfNecessary', () => {
 
       request.post = (options, cb) => {
         const weirdResponse = {cartId: 'cId1'}
-        cb(null, {statusCode: 200}, weirdResponse)
+        cb(null, {statusCode: 200, body: weirdResponse})
       }
 
       step(context, input, (err, result) => {
@@ -99,7 +99,7 @@ describe('createCartIfNecessary', () => {
 
       request.post = (options, cb) => {
         const weirdResponse = {success: [{cartId: 'cId1'}]}
-        cb(null, {statusCode: 200}, weirdResponse)
+        cb(null, {statusCode: 200, body: weirdResponse})
       }
 
       step(context, input, (err) => {
@@ -124,7 +124,7 @@ describe('createCartIfNecessary', () => {
 
     it('should return an error because the return code is >= 400', (done) => {
       request.post = (options, cb) => {
-        cb(null, {statusCode: 400}, {error: 'error'})
+        cb(null, {statusCode: 400, body: {error: 'error'}})
       }
 
       createCart(context.tracedRequest, input.tokens.accessToken, context.config.magentoUrl, context.log, null, (err) => {
