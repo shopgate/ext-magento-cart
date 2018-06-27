@@ -83,6 +83,7 @@ async function requestParentProductFromMagento (request, productId, accessToken,
   log.debug(`requestParentProductsFromMagento request ${util.inspect(options)}`)
 
   // simplify rest calls, using promises
+  const requestStart = new Date()
   const sendAsyncGetRequest = util.promisify(request.get)
 
   let res
@@ -98,6 +99,6 @@ async function requestParentProductFromMagento (request, productId, accessToken,
     throw new MagentoError()
   }
 
-  log.debug(`requestParentProductsFromMagento response ${util.inspect(body)}`)
+  log.debug({duration: new Date() - requestStart, statusCode: res.statusCode}, `requestParentProductsFromMagento response ${util.inspect(body)}`)
   return res.body
 }
