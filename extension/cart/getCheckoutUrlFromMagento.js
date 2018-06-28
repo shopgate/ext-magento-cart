@@ -4,6 +4,7 @@ const moment = require('moment')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
+const util = require('util')
 
 /**
  * @typedef {Object} getCheckoutUrlFromMagentoInput
@@ -19,7 +20,7 @@ const InvalidCallError = require('../models/Errors/InvalidCallError')
  * @param {{expires: string, url: string}} cb.result
  */
 module.exports = function (context, input, cb) {
-  const request = context.tracedRequest
+  const request = context.tracedRequest('magento-cart-extension:getCheckoutUrlFromMagento', {log: true})
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
@@ -68,12 +69,17 @@ function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, 
     rejectUnauthorized
   }
 
-  request('magento:getCheckoutUrl').post(options, (err, res) => {
+  log.debug(`getCheckoutUrlFromMagento request ${util.inspect(options)}`)
+  request.post(options, (err, res) => {
     if (err) return cb(err)
+
     if (!res.body) {
       log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())
     }
+
+    log.debug(`getCheckoutUrlFromMagento response ${util.inspect(res.body)}`)
+
     if (res.statusCode !== 200 || !res.body.url) {
       log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())

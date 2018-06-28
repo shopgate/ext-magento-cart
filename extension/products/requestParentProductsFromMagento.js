@@ -21,7 +21,7 @@ module.exports = async (context, input) => {
   const shopgateProductList = input.products
   const accessToken = input.token
   const url = context.config.magentoUrl + '/products'
-  const request = context.tracedRequest
+  const request = context.tracedRequest('magento-cart-extension:requestParentProductsFromMagento', {log: true})
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
 
@@ -80,8 +80,11 @@ async function requestParentProductFromMagento (request, productId, accessToken,
     rejectUnauthorized
   }
 
+  log.debug(`requestParentProductsFromMagento request ${util.inspect(options)}`)
+
   // simplify rest calls, using promises
-  const sendAsyncGetRequest = util.promisify(request('Magento:parentProduct').get)
+  const requestStart = new Date()
+  const sendAsyncGetRequest = util.promisify(request.get)
 
   let res
   try {
@@ -96,5 +99,6 @@ async function requestParentProductFromMagento (request, productId, accessToken,
     throw new MagentoError()
   }
 
+  log.debug({duration: new Date() - requestStart, statusCode: res.statusCode}, `requestParentProductsFromMagento response ${util.inspect(res.body)}`)
   return res.body
 }

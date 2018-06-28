@@ -5,6 +5,6 @@
  * @return {string}
  */
 module.exports = ($combinedId) => {
-    const idList = $combinedId.toString().split('-')
-    return idList[idList.length - 1]
-  }
+  const idList = $combinedId.toString().split('-')
+  return idList[idList.length - 1]
+}

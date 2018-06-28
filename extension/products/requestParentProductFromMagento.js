@@ -1,5 +1,6 @@
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
+const util = require('util')
 
 /**
  * @typedef {Object} RequestParentProductFromMagentoInput
@@ -17,7 +18,7 @@ module.exports = function (context, input, cb) {
   const productId = input.productId
   const accessToken = input.token
   const url = context.config.magentoUrl + '/products'
-  const request = context.tracedRequest
+  const request = context.tracedRequest('magento-cart-extension:requestParentProductFromMagento', {log: true})
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
 
@@ -47,17 +48,22 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
     rejectUnauthorized
   }
 
-  request('Magento:parentProduct').get(options, (err, res) => {
+  log.debug(`requestParentProductFromMagento request ${util.inspect(options)}`)
+  const requestStart = new Date()
+  request.get(options, (err, res) => {
     if (err) return cb(err)
+
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
+
     if (!res.body) {
       log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())
     }
 
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode}, `requestParentProductFromMagento response ${util.inspect(res.body)}`)
     return cb(null, res.body)
   })
 }

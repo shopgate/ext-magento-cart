@@ -1,8 +1,9 @@
 const assert = require('assert')
 const step = require('../../../cart/addCartItems')
+const request = require('request')
+const nock = require('nock')
 
 describe('addCartItems', () => {
-  let request = null
   let errorMessage = 'Some error message'
 
   const context = {
@@ -10,7 +11,7 @@ describe('addCartItems', () => {
       return request
     },
     config: {
-      magentoUrl: 'greatWow'
+      magentoUrl: 'http://magento.shopgate.com'
     },
     log: {
       debug: () => {
@@ -22,9 +23,7 @@ describe('addCartItems', () => {
   }
 
   const input = {
-    tokens: {
-      accessToken: 'a1'
-    },
+    token: 'at',
     transformedItems: [
       {
         'product_id': '1',
@@ -34,30 +33,8 @@ describe('addCartItems', () => {
     cartId: 1234
   }
 
-  const mageErrorResponse = {
-    messages: {
-      error: [
-        {
-          message: errorMessage
-        }
-      ]
-    }
-  }
-
-  beforeEach(() => {
-    request = {
-      post: () => {
-      }
-    }
-  })
-
   it('should add products to cart', (done) => {
-    request = {
-      post: (options, cb) => {
-        cb(null, {statusCode: 200}, {foo: 'bar'})
-      }
-    }
-
+    nock(context.config.magentoUrl).post('/carts/1234/items').reply(200, {})
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
       assert.ifError(err)
@@ -66,12 +43,7 @@ describe('addCartItems', () => {
   })
 
   it('should return an error because of the request', (done) => {
-    request = {
-      post: (options, cb) => {
-        cb(new Error('error'))
-      }
-    }
-
+    nock(context.config.magentoUrl).post('/carts/1234/items').reply(450, {messages: {error: [{message: 'error'}]}})
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
       assert.equal(err.message, 'error')
@@ -80,12 +52,7 @@ describe('addCartItems', () => {
   })
 
   it('unknown error structure returned by Magento should produce an empty result', (done) => {
-    request = {
-      post: (options, cb) => {
-        cb(null, {statusCode: 400}, {foo: 'bar'})
-      }
-    }
-
+    nock(context.config.magentoUrl).post('/carts/1234/items').reply(404, {message: {unknown: [{error: 'structure'}]}})
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
       assert.equal(err.message, '')
@@ -95,11 +62,8 @@ describe('addCartItems', () => {
 
   it('should return an InvalidItemError because the statusCode of the response is >= 400 && < 500', (done) => {
     let errorMessage = 'Some error message'
-    request = {
-      post: (options, cb) => {
-        cb(null, {statusCode: 400, body: mageErrorResponse})
-      }
-    }
+
+    nock(context.config.magentoUrl).post('/carts/1234/items').reply(450, {messages: {error: [{message: errorMessage}]}})
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
@@ -110,11 +74,7 @@ describe('addCartItems', () => {
   })
 
   it('should return an MagentoEndpointError because the statusCode of the response is != 200 && >= 500', (done) => {
-    request = {
-      post: (options, cb) => {
-        cb(null, {statusCode: 500}, mageErrorResponse)
-      }
-    }
+    nock(context.config.magentoUrl).post('/carts/1234/items').reply(501, {messages: {error: [{message: errorMessage}]}})
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {

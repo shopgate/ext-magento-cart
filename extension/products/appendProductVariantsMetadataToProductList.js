@@ -36,7 +36,7 @@ function buildProductWithMetadata (shopgateProducts, magentoParentProducts) {
     }
 
     // skip current product if not in list of magento products
-    magentoParentProduct = magentoParentProducts.find(p => p.entity_id === product.baseProductId && p.hasOwnProperty('children') &&  p.children.hasOwnProperty('attributes'))
+    const magentoParentProduct = magentoParentProducts.find(p => p.entity_id === product.baseProductId && p.hasOwnProperty('children') && p.children.hasOwnProperty('attributes'))
     if (!magentoParentProduct) {
       return product
     }

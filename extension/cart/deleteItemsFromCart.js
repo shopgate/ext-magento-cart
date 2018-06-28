@@ -17,7 +17,7 @@ const InvalidCallError = require('../models/Errors/InvalidCallError')
  * @param {StepCallback} cb
  */
 module.exports = function (context, input, cb) {
-  const request = context.tracedRequest
+  const request = context.tracedRequest('magento-cart-extension:deleteItemsFromCart', {log: true})
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
@@ -66,14 +66,14 @@ function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl
     rejectUnauthorized
   }
 
-  log.debug(`deleteItemsFromCart with ${util.inspect(options)}`)
-  request('magento:deleteItemsFromCart').delete(options, (err, res) => {
+  log.debug(`deleteItemsFromCart request ${util.inspect(options)}`)
+  request.delete(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
-
+    log.debug(`deleteItemsFromCart response ${util.inspect(res.body)}`)
     cb()
   })
 }

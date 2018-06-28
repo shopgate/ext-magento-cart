@@ -1,6 +1,8 @@
 const rewire = require('rewire')
 const step = rewire('../../../cart/createCartIfNecessary')
 const assert = require('assert')
+const request = require('request')
+const nock = require('nock')
 
 describe('createCartIfNecessary', () => {
   const input = {
@@ -8,8 +10,6 @@ describe('createCartIfNecessary', () => {
       accessToken: 'a1'
     }
   }
-
-  let request = null
 
   const context = {
     storage: {
@@ -19,7 +19,7 @@ describe('createCartIfNecessary', () => {
       return request
     },
     config: {
-      magentoUrl: 'wowCool'
+      magentoUrl: 'http://magento.shopgate.com'
     },
     log: {
       debug: () => {
@@ -30,11 +30,6 @@ describe('createCartIfNecessary', () => {
   }
 
   beforeEach(() => {
-    request = {
-      post: () => {
-      }
-    }
-
     context.storage.device = {
       get: () => {
       },
@@ -64,14 +59,11 @@ describe('createCartIfNecessary', () => {
       })
     })
 
-    it('should crate a cart via magento and save the id to storage', (done) => {
+    it('should create a cart via magento and save the id to storage', (done) => {
       context.storage.device.get = (key, cb) => cb()
       context.storage.device.set = (key, value, cb) => cb()
 
-      request.post = (options, cb) => {
-        const weirdResponse = {cartId: 'cId1'}
-        cb(null, {statusCode: 200, body: weirdResponse})
-      }
+      nock(context.config.magentoUrl).post('/carts').reply(200, {cartId: 'cId1'})
 
       step(context, input, (err, result) => {
         assert.ifError(err)
@@ -83,9 +75,7 @@ describe('createCartIfNecessary', () => {
     it('should return an error from magento', (done) => {
       context.storage.device.get = (key, cb) => cb()
 
-      request.post = (options, cb) => {
-        cb(new Error('error'))
-      }
+      nock(context.config.magentoUrl).post('/carts').replyWithError('error')
 
       step(context, input, (err) => {
         assert.equal(err.message, 'error')
@@ -97,10 +87,7 @@ describe('createCartIfNecessary', () => {
       context.storage.device.get = (key, cb) => cb()
       context.storage.device.set = (key, value, cb) => cb(new Error('error'))
 
-      request.post = (options, cb) => {
-        const weirdResponse = {success: [{cartId: 'cId1'}]}
-        cb(null, {statusCode: 200, body: weirdResponse})
-      }
+      nock(context.config.magentoUrl).post('/carts').reply(200, {success: [{cartId: 'cId1'}]})
 
       step(context, input, (err) => {
         assert.equal(err.message, 'error')
@@ -123,8 +110,8 @@ describe('createCartIfNecessary', () => {
     const createCart = step.__get__('createCart')
 
     it('should return an error because the return code is >= 400', (done) => {
-      request.post = (options, cb) => {
-        cb(null, {statusCode: 400, body: {error: 'error'}})
+      context.tracedRequest.post = (options, cb) => {
+        cb(null, {statusCode: 400}, {error: 'error'})
       }
 
       createCart(context.tracedRequest, input.tokens.accessToken, context.config.magentoUrl, context.log, null, (err) => {

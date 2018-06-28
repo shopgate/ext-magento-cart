@@ -1,15 +1,15 @@
 const assert = require('assert')
 const step = require('../../../cart/getCartFromMagento')
+const request = require('request')
+const nock = require('nock')
 
 describe('getCartFromMagento', () => {
-  let request = null
-
   const context = {
     tracedRequest: () => {
       return request
     },
     config: {
-      magentoUrl: 'http://someUrl'
+      magentoUrl: 'http://magento.shopgate.com'
     },
     meta: {
       userId: null
@@ -33,16 +33,10 @@ describe('getCartFromMagento', () => {
   }
 
   const input = {
-    tokens: {
-      accessToken: 'a1'
-    }
+    token: 'at'
   }
 
   beforeEach(() => {
-    request = {
-      get: () => {
-      }
-    }
     context.meta.userId = null
     context.storage.device.set = () => {
     }
@@ -52,10 +46,7 @@ describe('getCartFromMagento', () => {
   })
 
   it('should get a cart from magento', (done) => {
-    const cart = {cart: 'cart'}
-    request.get = (options, cb) => {
-      cb(null, {statusCode: 200, body: cart})
-    }
+    nock(context.config.magentoUrl).get('/carts/me').reply(200, {cart: 'cart'})
 
     context.storage.device.set = (key, value, cb) => {
       cb()
@@ -64,7 +55,7 @@ describe('getCartFromMagento', () => {
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
       assert.ifError(err)
-      assert.deepEqual(result.magentoCart, cart)
+      assert.deepEqual(result.magentoCart, {cart: 'cart'})
       done()
     })
   })
@@ -81,9 +72,7 @@ describe('getCartFromMagento', () => {
   })
 
   it('should return an error because of the request', (done) => {
-    request.get = (options, cb) => {
-      cb(new Error('error'))
-    }
+    nock(context.config.magentoUrl).get('/carts/me').replyWithError('error')
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
@@ -93,9 +82,7 @@ describe('getCartFromMagento', () => {
   })
 
   it('should return an error because of status code >= 400', (done) => {
-    request.get = (options, cb) => {
-      cb(null, {statusCode: 499}, {message: 'mimimi'})
-    }
+    nock(context.config.magentoUrl).get('/carts/me').reply(401, {})
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
@@ -106,18 +93,15 @@ describe('getCartFromMagento', () => {
   })
 
   it('should return an error because setting cart in storage fails', (done) => {
-    const cart = {cart: 'cart'}
-    request.get = (options, cb) => {
-      cb(null, {statusCode: 200, body: cart})
-    }
+    nock(context.config.magentoUrl).get('/carts/me').reply(200, {cart: 'cart'})
 
     context.storage.device.set = (key, value, cb) => {
-      cb(new Error('error'))
+      cb(new Error('An internal error occurred.'))
     }
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.equal(err.message, 'An internal error occurred.')
       done()
     })
   })

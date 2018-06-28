@@ -6,7 +6,6 @@
  * @example /utm_source/yourSource/utm_medium/yourMedium
  */
 class UtmParameters {
-
   constructor () {
     this._source = null
     this._medium = null
@@ -59,23 +58,28 @@ class UtmParameters {
    * Concats all parameters to URL-Query, which can be added to an URL
    * @returns {string}
    */
-  getQueryParameters() {
-    let queryParameters = '';
+  getQueryParameters () {
+    let queryParameters = ''
 
-    if (this.source)
+    if (this.source) {
       queryParameters += 'utm_source/' + this.source + '/'
+    }
 
-    if (this.medium)
+    if (this.medium) {
       queryParameters += 'utm_medium/' + this.medium + '/'
+    }
 
-    if (this.campaign)
+    if (this.campaign) {
       queryParameters += 'utm_campaign/' + this.campaign + '/'
+    }
 
-    if (this.term)
+    if (this.term) {
       queryParameters += 'utm_term/' + this.term + '/'
+    }
 
-    if (this.content)
+    if (this.content) {
       queryParameters += 'utm_content/' + this.content + '/'
+    }
 
     return queryParameters
   }

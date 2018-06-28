@@ -1,16 +1,16 @@
 const assert = require('assert')
 const rewire = require('rewire')
 const step = rewire('../../../cart/createNewCartForCustomer')
+const request = require('request')
+const nock = require('nock')
 
 describe('creating a new cart for customer', () => {
-  let request = null
-
   const context = {
     tracedRequest: () => {
       return request
     },
     config: {
-      magentoUrl: 'greatWow'
+      magentoUrl: 'http://magento.shopgate.com'
     },
     log: {
       debug: () => {
@@ -25,17 +25,10 @@ describe('creating a new cart for customer', () => {
   }
 
   const input = {
-    tokens: {
-      accessToken: 'a1'
-    }
+    token: 'at'
   }
 
   beforeEach(() => {
-    request = {
-      post: () => {
-      }
-    }
-
     context.storage.user = {
       get: () => {
       },
@@ -47,11 +40,7 @@ describe('creating a new cart for customer', () => {
 
   it('check that a success response produces no error', (done) => {
     context.storage.user.set = (key, value, cb) => cb()
-    request = {
-      post: (options, cb) => {
-        cb(null, {statusCode: 200, body: {cartId: '12345'}})
-      }
-    }
+    nock(context.config.magentoUrl).post('/carts').reply(200, {cartId: 123})
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
@@ -73,11 +62,7 @@ describe('creating a new cart for customer', () => {
   })
 
   it('should return an error because of the request', (done) => {
-    request = {
-      post: (options, cb) => {
-        cb(new Error('error'))
-      }
-    }
+    nock(context.config.magentoUrl).post('/carts').replyWithError('error')
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
@@ -87,11 +72,7 @@ describe('creating a new cart for customer', () => {
   })
 
   it('should return an MagentoEndpointError because the statusCode of the response is != 200', (done) => {
-    request = {
-      post: (options, cb) => {
-        cb(null, {statusCode: 500}, {error: 'some kinda error'})
-      }
-    }
+    nock(context.config.magentoUrl).post('/carts').reply(201, {messages: {error: [{message: 'error'}]}})
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
@@ -103,13 +84,9 @@ describe('creating a new cart for customer', () => {
 
   it('check that a success response without a cartId will produce an endpoint error too', (done) => {
     context.storage.user.set = (key, value, cb) => cb()
-    request = {
-      post: (options, cb) => {
-        cb(null, {statusCode: 200}, {error: 'some kinda error'})
-      }
-    }
 
-    // noinspection JSCheckFunctionSignatures
+    nock(context.config.magentoUrl).post('/carts').reply(201, {cartId: 123})
+
     step(context, input, (err) => {
       assert.equal(err.constructor.name, 'MagentoEndpointError')
       assert.equal(err.code, 'EINTERNAL')
