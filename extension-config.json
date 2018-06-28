@@ -1,5 +1,5 @@
 {
-  "version": "1.0.6-beta",
+  "version": "1.0.6-beta.1",
   "id": "@shopgate/magento-cart",
   "configuration": {
     "enableCartCoupons" : {
