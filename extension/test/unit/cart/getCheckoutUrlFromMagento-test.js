@@ -5,7 +5,6 @@ const request = require('request')
 const nock = require('nock')
 
 describe('getCheckoutUrlFromMagento', () => {
-
   const context = {
     tracedRequest: () => {
       return request

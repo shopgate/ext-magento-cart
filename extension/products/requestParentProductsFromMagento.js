@@ -99,6 +99,6 @@ async function requestParentProductFromMagento (request, productId, accessToken,
     throw new MagentoError()
   }
 
-  log.debug({duration: new Date() - requestStart, statusCode: res.statusCode}, `requestParentProductsFromMagento response ${util.inspect(body)}`)
+  log.debug({duration: new Date() - requestStart, statusCode: res.statusCode}, `requestParentProductsFromMagento response ${util.inspect(res.body)}`)
   return res.body
 }

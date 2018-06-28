@@ -5,7 +5,6 @@ const request = require('request')
 const nock = require('nock')
 
 describe('creating a new cart for customer', () => {
-
   const context = {
     tracedRequest: () => {
       return request
@@ -63,7 +62,6 @@ describe('creating a new cart for customer', () => {
   })
 
   it('should return an error because of the request', (done) => {
-
     nock(context.config.magentoUrl).post('/carts').replyWithError('error')
 
     // noinspection JSCheckFunctionSignatures
@@ -74,7 +72,6 @@ describe('creating a new cart for customer', () => {
   })
 
   it('should return an MagentoEndpointError because the statusCode of the response is != 200', (done) => {
-
     nock(context.config.magentoUrl).post('/carts').reply(201, {messages: {error: [{message: 'error'}]}})
 
     // noinspection JSCheckFunctionSignatures

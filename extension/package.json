@@ -15,12 +15,14 @@
     "ent": "^2.2.0",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
-    "neo-async": "^2.5.0"
+    "neo-async": "^2.5.0",
+    "request": "^2.87.0",
+    "require": "^2.4.20"
   },
   "devDependencies": {
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
-    "mocha-jenkins-reporter": "^0.3.7",
+    "mocha-jenkins-reporter": "^0.3.12",
     "nock": "^9.0.13",
     "rewire": "^2.5.2",
     "underscore": "1.8.3"

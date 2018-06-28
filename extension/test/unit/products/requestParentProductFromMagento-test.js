@@ -8,7 +8,6 @@ function copy (stringifyable) {
 }
 
 describe('requestParentProductFromMagento', () => {
-
   const context = {
     tracedRequest: () => {
       return request
@@ -47,7 +46,7 @@ describe('requestParentProductFromMagento', () => {
     it('should get a parent product from magento', (done) => {
       const magentoProduct = copy(require('../data/magento-configurable-product.json'))
 
-      nock(context.config.magentoUrl).get('/products/testProduct').reply(200, magentoProduct);
+      nock(context.config.magentoUrl).get('/products/testProduct').reply(200, magentoProduct)
 
       step(context, input, (err, result) => {
         assert.ifError(err)
@@ -57,7 +56,7 @@ describe('requestParentProductFromMagento', () => {
     })
 
     it('should return an error because requestParentProductFromMagento fails', (done) => {
-      nock(context.config.magentoUrl).get('/products/testProduct').reply(201, {messages: {error: [{message: 'error'}]}});
+      nock(context.config.magentoUrl).get('/products/testProduct').reply(201, {messages: {error: [{message: 'error'}]}})
 
       step(context, input, (err) => {
         assert.equal(err.message, 'An internal error occurred.')
@@ -67,10 +66,8 @@ describe('requestParentProductFromMagento', () => {
   })
 
   describe('directly testing the function', () => {
-
-
     it('should return an error because the magento response status code is >= 400', (done) => {
-      nock(context.config.magentoUrl).get('/products/testProduct').reply(401, {messages: {error: [{message: 'unauthorized'}]}});
+      nock(context.config.magentoUrl).get('/products/testProduct').reply(401, {messages: {error: [{message: 'An internal error occurred.'}]}})
 
       step(context, input, (err) => {
         assert.equal(err.message, 'An internal error occurred.')
