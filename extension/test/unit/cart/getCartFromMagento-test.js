@@ -1,15 +1,16 @@
 const assert = require('assert')
 const step = require('../../../cart/getCartFromMagento')
+const request = require('request')
+const nock = require('nock')
 
 describe('getCartFromMagento', () => {
-  let request = null
 
   const context = {
     tracedRequest: () => {
       return request
     },
     config: {
-      magentoUrl: 'http://someUrl'
+      magentoUrl: 'http://magento.shopgate.com'
     },
     meta: {
       userId: null
@@ -33,16 +34,10 @@ describe('getCartFromMagento', () => {
   }
 
   const input = {
-    tokens: {
-      accessToken: 'a1'
-    }
+    token: 'at'
   }
 
   beforeEach(() => {
-    request = {
-      get: () => {
-      }
-    }
     context.meta.userId = null
     context.storage.device.set = () => {
     }
@@ -53,9 +48,7 @@ describe('getCartFromMagento', () => {
 
   it('should get a cart from magento', (done) => {
     const cart = {cart: 'cart'}
-    request.get = (options, cb) => {
-      cb(null, {statusCode: 200}, cart)
-    }
+    nock(context.config.magentoUrl).get('/carts/me').reply(200, {cart: 'cart'})
 
     context.storage.device.set = (key, value, cb) => {
       cb()
@@ -106,18 +99,16 @@ describe('getCartFromMagento', () => {
   })
 
   it('should return an error because setting cart in storage fails', (done) => {
-    const cart = {cart: 'cart'}
-    request.get = (options, cb) => {
-      cb(null, {statusCode: 200}, cart)
-    }
+
+    nock(context.config.magentoUrl).get('/carts/me').reply(200, {cart: 'cart'})
 
     context.storage.device.set = (key, value, cb) => {
-      cb(new Error('error'))
+      cb(new Error('An internal error occurred.'))
     }
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.equal(err.message, 'An internal error occurred.')
       done()
     })
   })

@@ -1,18 +1,17 @@
 const assert = require('assert')
 const moment = require('moment')
 const step = require('../../../cart/getCheckoutUrlFromMagento')
+const request = require('request')
+const nock = require('nock')
 
 describe('getCheckoutUrlFromMagento', () => {
-  const request = {
-    post: null
-  }
 
   const context = {
     tracedRequest: () => {
       return request
     },
     config: {
-      magentoUrl: 'http://some.url'
+      magentoUrl: 'http://magento.shopgate.com'
     },
     log: {
       debug: () => {
@@ -28,17 +27,13 @@ describe('getCheckoutUrlFromMagento', () => {
 
   beforeEach(() => {
     input.cartId = 123
-    request.post = () => {
-    }
   })
 
   it('should return the checkout url', (done) => {
     const responseBody = {'expires_in': 3600, url: 'http://some.url/2/'}
     const params = 'sgcloud_inapp/1/utm_source/shopgate/utm_medium/app/utm_campaign/web-checkout/'
 
-    request.post = (options, cb) => {
-      cb(null, {statusCode: 200}, responseBody)
-    }
+    nock(context.config.magentoUrl).post('/carts/123/checkoutUrl').reply(200, {'expires_in': 3600, url: 'http://some.url/2/'})
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {

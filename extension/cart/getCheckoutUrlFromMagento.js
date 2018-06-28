@@ -72,6 +72,7 @@ function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, 
   log.debug(`getCheckoutUrlFromMagento request ${util.inspect(options)}`)
   request.post(options, (err, res) => {
     if (err) return cb(err)
+
     if (!res.body) {
       log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())

@@ -32,9 +32,12 @@ module.exports = function (context, input, cb) {
 
   createCart(request, accessToken, cartUrl, log, !allowSelfSignedCertificate, (err, cartId) => {
     if (err) return cb(err)
+
     context.storage['user'].set(CARTID_KEY, cartId, (err) => {
       if (err) return cb(err)
+
       log.debug(`Created cart with id: ${cartId}`)
+
       return cb(null, {'success': true})
     })
   })
@@ -59,10 +62,12 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
   log.debug(`createNewCartForCustomer request ${util.inspect(options)}`)
   request.post(options, (err, res) => {
     if (err) return cb(err)
+
     if (!res.body) {
       log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())
     }
+
     if (res.statusCode !== 200 || res.body.cartId) {
       log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
