@@ -64,6 +64,7 @@ describe('createCartIfNecessary', () => {
       context.storage.device.set = (key, value, cb) => cb()
 
       nock(context.config.magentoUrl).post('/carts').reply(200, {cartId: 'cId1'})
+
       step(context, input, (err, result) => {
         assert.ifError(err)
         assert.equal(result.cartId, 'cId1')

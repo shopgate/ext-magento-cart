@@ -40,7 +40,7 @@ describe('creating a new cart for customer', () => {
 
   it('check that a success response produces no error', (done) => {
     context.storage.user.set = (key, value, cb) => cb()
-    nock(context.config.magentoUrl).post('/carts').reply(200, {result: {success: true}})
+    nock(context.config.magentoUrl).post('/carts').reply(200, {cartId: 123})
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {

@@ -68,7 +68,7 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
       return cb(new MagentoError())
     }
 
-    if (res.statusCode !== 200 || res.body.cartId) {
+    if (res.statusCode !== 200 || !res.body.cartId) {
       log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }

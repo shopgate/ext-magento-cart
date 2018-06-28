@@ -48,7 +48,7 @@ describe('getCheckoutUrlFromMagento', () => {
     const responseBody = {'expires_in': 3600}
 
     request.post = (options, cb) => {
-      cb(null, {statusCode: 200}, responseBody)
+      cb(null, {statusCode: 200, body: responseBody})
     }
 
     // noinspection JSCheckFunctionSignatures
@@ -73,7 +73,7 @@ describe('getCheckoutUrlFromMagento', () => {
 
   it('should return an error because the request failed (server)', (done) => {
     request.post = (options, cb) => {
-      cb(null, {statusCode: 456}, {foo: 'bar'})
+      cb(null, {statusCode: 456, body: {foo: 'bar'}})
     }
 
     // noinspection JSCheckFunctionSignatures
