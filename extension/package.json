@@ -3,7 +3,7 @@
   "version": "1.0.6-beta.1",
   "description": "prototype",
   "scripts": {
-    "test": "JUNIT_REPORT_PATH=../build/mocha.xml JUNIT_REPORT_STACK=1 mocha --recursive test -R mocha-jenkins-reporter",
+    "test": "JUNIT_REPORT_PATH=../build/mocha.xml JUNIT_REPORT_STACK=1 mocha --recursive test -R mochawesome --reporter-options reportDir=coverage",
     "cover": "istanbul cover _mocha -- --recursive"
   },
   "repository": {
@@ -17,12 +17,12 @@
     "moment": "^2.20.1",
     "neo-async": "^2.5.0",
     "request": "^2.87.0",
-    "require": "^2.4.20"
+    "require": "2.4.20"
   },
   "devDependencies": {
     "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
-    "mocha-jenkins-reporter": "^0.3.12",
+    "mocha": "5.2.0",
+    "mochawesome": "^3.0.2",
     "nock": "^9.0.13",
     "rewire": "^2.5.2",
     "underscore": "1.8.3"
