@@ -66,14 +66,16 @@ function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl
     rejectUnauthorized
   }
 
-  log.debug(`deleteItemsFromCart request ${util.inspect(options)}`)
+  log.debug({request: util.inspect(options)}, 'deleteItemsFromCart request')
+  const requestStart = new Date()
   request.delete(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
-    log.debug(`deleteItemsFromCart response ${util.inspect(res.body)}`)
+
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, 'deleteItemsFromCart response')
     cb()
   })
 }

@@ -58,7 +58,7 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
     rejectUnauthorized
   }
 
-  log.debug(`getCartFromMagento request ${util.inspect(options)}`)
+  log.debug({request: options}, `getCartFromMagento request`)
   const requestStart = new Date()
   request.get(options, (err, res) => {
     if (err) return cb(err)
@@ -71,7 +71,7 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode}, `getCartFromMagento response ${util.inspect(res.body)}`)
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, `getCartFromMagento response`)
     cb(null, res.body)
   })
 }

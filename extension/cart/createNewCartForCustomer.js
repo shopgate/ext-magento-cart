@@ -59,7 +59,8 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
     rejectUnauthorized
   }
 
-  log.debug(`createNewCartForCustomer request ${util.inspect(options)}`)
+  log.debug({request: util.inspect(options)}, 'createNewCartForCustomer request')
+  const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
 
@@ -73,7 +74,7 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
       return cb(new MagentoError())
     }
 
-    log.debug(`createNewCartForCustomer response ${util.inspect(res.body)}`)
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, 'createNewCartForCustomer response')
     cb(null, res.body.cartId)
   })
 }

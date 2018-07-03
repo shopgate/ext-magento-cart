@@ -41,7 +41,8 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
     rejectUnauthorized
   }
 
-  log.debug(`addCartItems request ${util.inspect(options)}`)
+  log.debug({request: util.inspect(options)}, 'addCartItems request')
+  const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
@@ -52,7 +53,7 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
       }
       return cb(new MagentoError())
     }
-    log.debug(`addCartItems response ${util.inspect(res.body)}`)
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, 'addCartItems response')
     cb()
   })
 }

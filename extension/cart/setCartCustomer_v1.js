@@ -50,7 +50,8 @@ function assignCartCustomer (request, accessToken, cartId, cartUrl, log, rejectU
     rejectUnauthorized
   }
 
-  log.debug(`setCartCustomer request ${util.inspect(options)}`)
+  log.debug({request: util.inspect(options)}, 'setCartCustomer request')
+  const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
@@ -58,7 +59,7 @@ function assignCartCustomer (request, accessToken, cartId, cartUrl, log, rejectU
       return cb(new MagentoError())
     }
 
-    log.debug(`setCartCustomer response ${util.inspect(res.body)}`)
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, 'setCartCustomer response')
     cb()
   })
 }

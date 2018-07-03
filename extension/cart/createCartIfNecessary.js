@@ -68,7 +68,8 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
     rejectUnauthorized
   }
 
-  log.debug(`createCartIfNecessary request ${util.inspect(options)}`)
+  log.debug({request: util.inspect(options)}, 'createCartIfNecessary request')
+  const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
 
@@ -82,7 +83,7 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
       return cb(new MagentoError())
     }
 
-    log.debug(`createCartIfNecessary response ${util.inspect(res.body)}`)
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, 'createCartIfNecessary response')
     cb(null, res.body.cartId)
   })
 }
