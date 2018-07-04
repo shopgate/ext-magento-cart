@@ -1,7 +1,6 @@
 const CARTID_KEY = 'cartId'
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
-const util = require('util')
 
 /**
  * @param {StepContext} context
@@ -68,7 +67,7 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
     rejectUnauthorized
   }
 
-  log.debug({request: util.inspect(options)}, 'createCartIfNecessary request')
+  log.debug({request: options}, 'createCartIfNecessary request')
   const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
@@ -83,7 +82,7 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, 'createCartIfNecessary response')
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: res.body}, 'createCartIfNecessary response')
     cb(null, res.body.cartId)
   })
 }

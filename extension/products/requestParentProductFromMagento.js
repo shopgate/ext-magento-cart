@@ -1,6 +1,5 @@
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
-const util = require('util')
 
 /**
  * @typedef {Object} RequestParentProductFromMagentoInput
@@ -48,7 +47,7 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
     rejectUnauthorized
   }
 
-  log.debug({request: util.inspect(options)}, 'requestParentProductFromMagento request')
+  log.debug({request: options}, 'requestParentProductFromMagento request')
   const requestStart = new Date()
   request.get(options, (err, res) => {
     if (err) return cb(err)
@@ -63,7 +62,7 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, 'requestParentProductFromMagento response')
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: res.body}, 'requestParentProductFromMagento response')
     return cb(null, res.body)
   })
 }

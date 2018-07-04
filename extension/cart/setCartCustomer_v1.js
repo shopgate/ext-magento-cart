@@ -1,4 +1,3 @@
-const util = require('util')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 
@@ -50,7 +49,7 @@ function assignCartCustomer (request, accessToken, cartId, cartUrl, log, rejectU
     rejectUnauthorized
   }
 
-  log.debug({request: util.inspect(options)}, 'setCartCustomer request')
+  log.debug({request: options}, 'setCartCustomer request')
   const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
@@ -59,7 +58,7 @@ function assignCartCustomer (request, accessToken, cartId, cartUrl, log, rejectU
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, 'setCartCustomer response')
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: res.body}, 'setCartCustomer response')
     cb()
   })
 }

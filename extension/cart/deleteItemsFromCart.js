@@ -1,4 +1,3 @@
-const util = require('util')
 const _ = require('underscore')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
@@ -66,7 +65,7 @@ function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl
     rejectUnauthorized
   }
 
-  log.debug({request: util.inspect(options)}, 'deleteItemsFromCart request')
+  log.debug({request: options}, 'deleteItemsFromCart request')
   const requestStart = new Date()
   request.delete(options, (err, res) => {
     if (err) return cb(err)
@@ -75,7 +74,7 @@ function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, 'deleteItemsFromCart response')
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: res.body}, 'deleteItemsFromCart response')
     cb()
   })
 }

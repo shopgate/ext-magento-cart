@@ -1,4 +1,3 @@
-const util = require('util')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const InvalidItemError = require('../models/Errors/InvalidItemError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
@@ -41,7 +40,7 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
     rejectUnauthorized
   }
 
-  log.debug({request: util.inspect(options)}, 'addCartItems request')
+  log.debug({request: options}, 'addCartItems request')
   const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
@@ -53,7 +52,7 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
       }
       return cb(new MagentoError())
     }
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, 'addCartItems response')
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: res.body}, 'addCartItems response')
     cb()
   })
 }

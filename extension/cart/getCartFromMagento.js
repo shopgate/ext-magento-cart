@@ -1,4 +1,3 @@
-const util = require('util')
 const CartStorageHandler = require('../helpers/cartStorageHandler')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
@@ -71,7 +70,7 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, `getCartFromMagento response`)
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: res.body}, `getCartFromMagento response`)
     cb(null, res.body)
   })
 }

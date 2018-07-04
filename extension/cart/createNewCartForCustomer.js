@@ -2,7 +2,6 @@ const CARTID_KEY = 'cartId'
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
-const util = require('util')
 
 /**
  * @typedef {Object} CreateNewCartForCustomerInput
@@ -59,7 +58,7 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
     rejectUnauthorized
   }
 
-  log.debug({request: util.inspect(options)}, 'createNewCartForCustomer request')
+  log.debug({request: options}, 'createNewCartForCustomer request')
   const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
@@ -74,7 +73,7 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body)}, 'createNewCartForCustomer response')
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: res.body}, 'createNewCartForCustomer response')
     cb(null, res.body.cartId)
   })
 }
