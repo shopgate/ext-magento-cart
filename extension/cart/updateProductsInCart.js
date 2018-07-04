@@ -3,6 +3,7 @@ const Product = require('../models/cartUpdates/product')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
+const util = require('util')
 
 /**
  * @typedef {Object} UpdateProductsInCartInput
@@ -86,7 +87,7 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
     rejectUnauthorized
   }
 
-  log.debug({request: options}, 'updateProductsInCart request')
+  log.debug({request: util.inspect(options, true, null)}, 'updateProductsInCart request')
   const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
@@ -95,7 +96,7 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: res.body}, 'updateProductsInCart response')
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body, true, null)}, 'updateProductsInCart response')
     cb()
   })
 }

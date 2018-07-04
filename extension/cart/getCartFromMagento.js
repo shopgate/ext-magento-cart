@@ -2,6 +2,7 @@ const CartStorageHandler = require('../helpers/cartStorageHandler')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
+const util = require('util')
 
 /**
  * @typedef {Object} getCartFromMagentoInput
@@ -57,7 +58,7 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
     rejectUnauthorized
   }
 
-  log.debug({request: options}, `getCartFromMagento request`)
+  log.debug({request: util.inspect(options, true, null)}, `getCartFromMagento request`)
   const requestStart = new Date()
   request.get(options, (err, res) => {
     if (err) return cb(err)
@@ -70,7 +71,7 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: res.body}, `getCartFromMagento response`)
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body, true, null)}, `getCartFromMagento response`)
     cb(null, res.body)
   })
 }
