@@ -69,7 +69,6 @@ function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, 
     rejectUnauthorized
   }
 
-  log.debug({request: util.inspect(options, true, null)}, 'getCheckoutUrlFromMagento request')
   const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
@@ -84,7 +83,7 @@ function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, 
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body, true, null)}, 'getCheckoutUrlFromMagento response')
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, request: util.inspect(options, true, null), response: util.inspect(res.body, true, null)}, 'getCheckoutUrlFromMagento')
 
     cb(null, res.body)
   })

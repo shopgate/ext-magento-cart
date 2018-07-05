@@ -48,7 +48,6 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
     rejectUnauthorized
   }
 
-  log.debug({request: util.inspect(options, true, null)}, 'requestParentProductFromMagento request')
   const requestStart = new Date()
   request.get(options, (err, res) => {
     if (err) return cb(err)
@@ -63,7 +62,7 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body, true, null)}, 'requestParentProductFromMagento response')
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, request: util.inspect(options, true, null), response: util.inspect(res.body, true, null)}, 'requestParentProductFromMagento')
     return cb(null, res.body)
   })
 }

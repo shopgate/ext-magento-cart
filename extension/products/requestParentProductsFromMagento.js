@@ -80,7 +80,6 @@ async function requestParentProductFromMagento (request, productId, accessToken,
     rejectUnauthorized
   }
 
-  log.debug({request: util.inspect(options, true, null)}, 'requestParentProductsFromMagento request')
   const requestStart = new Date()
   // simplify rest calls, using promises
   const sendAsyncGetRequest = util.promisify(request.get)
@@ -98,6 +97,6 @@ async function requestParentProductFromMagento (request, productId, accessToken,
     throw new MagentoError()
   }
 
-  log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, response: util.inspect(res.body, true, null)}, 'requestParentProductsFromMagento response')
+  log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, request: util.inspect(options, true, null), response: util.inspect(res.body, true, null)}, 'requestParentProductsFromMagento')
   return res.body
 }
