@@ -73,7 +73,7 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, request: util.inspect(options, true, null), response: util.inspect(res.body, true, null)}, 'createNewCartForCustomer response')
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, request: util.inspect(options, true, null), response: util.inspect(res.body, true, null)}, 'Request to Magento: createNewCartForCustomer')
     cb(null, res.body.cartId)
   })
 }

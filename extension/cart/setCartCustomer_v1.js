@@ -58,7 +58,7 @@ function assignCartCustomer (request, accessToken, cartId, cartUrl, log, rejectU
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, request: util.inspect(options, true, null), response: util.inspect(res.body, true, null)}, 'setCartCustomer')
+    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, request: util.inspect(options, true, null), response: util.inspect(res.body, true, null)}, 'Request to Magento: setCartCustomer')
     cb()
   })
 }
