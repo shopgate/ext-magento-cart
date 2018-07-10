@@ -70,7 +70,17 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
       return cb(new MagentoError())
     }
 
-    log.debug({duration: new Date() - requestStart, statusCode: res.statusCode, request: util.inspect(options, true, null), response: util.inspect(res.body, true, null)}, 'Request to Magento: getCartFromMagento')
+    log.debug(
+      {
+        duration: new Date() - requestStart,
+        statusCode: res.statusCode,
+        request: util.inspect(options, true, null),
+        response: util.inspect(res.body, true, null),
+        trace: console.trace()
+      },
+      'Request to Magento: getCartFromMagento'
+    )
+
     cb(null, res.body)
   })
 }
