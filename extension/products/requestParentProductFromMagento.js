@@ -67,8 +67,7 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
         duration: new Date() - requestStart,
         statusCode: res.statusCode,
         request: util.inspect(options, true, null),
-        response: util.inspect(res.body, true, null),
-        trace: console.trace()
+        response: util.inspect(res.body, true, null)
       },
       'Request to Magento: requestParentProductFromMagento'
     )
