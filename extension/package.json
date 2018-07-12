@@ -1,6 +1,6 @@
 {
   "name": "@shopgate/magento-cart",
-  "version": "1.0.6-beta.3",
+  "version": "1.0.7-beta.10",
   "description": "prototype",
   "scripts": {
     "test": "JUNIT_REPORT_PATH=../build/mocha.xml JUNIT_REPORT_STACK=1 mocha --recursive test -R mochawesome --reporter-options reportDir=coverage",
@@ -20,8 +20,8 @@
   },
   "devDependencies": {
     "istanbul": "^0.4.5",
-    "mocha": "5.2.0",
-    "mochawesome": "^3.0.2",
+    "mocha": "^5.2.0",
+    "mochawesome": "3.0.2",
     "nock": "^9.0.13",
     "rewire": "^2.5.2",
     "underscore": "1.8.3"

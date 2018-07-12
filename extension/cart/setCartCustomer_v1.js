@@ -1,6 +1,6 @@
-const util = require('util')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
+const util = require('util')
 
 /**
  * @typedef {Object} SetCartCustomer_v1Input
@@ -50,7 +50,7 @@ function assignCartCustomer (request, accessToken, cartId, cartUrl, log, rejectU
     rejectUnauthorized
   }
 
-  log.debug(`setCartCustomer request ${util.inspect(options)}`)
+  const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
@@ -58,7 +58,15 @@ function assignCartCustomer (request, accessToken, cartId, cartUrl, log, rejectU
       return cb(new MagentoError())
     }
 
-    log.debug(`setCartCustomer response ${util.inspect(res.body)}`)
+    log.debug(
+      {
+        duration: new Date() - requestStart,
+        statusCode: res.statusCode,
+        request: util.inspect(options, true, null),
+        response: util.inspect(res.body, true, null)
+      },
+      'Request to Magento: setCartCustomer'
+    )
     cb()
   })
 }

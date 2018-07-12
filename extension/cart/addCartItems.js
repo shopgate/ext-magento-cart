@@ -1,7 +1,7 @@
-const util = require('util')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const InvalidItemError = require('../models/Errors/InvalidItemError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
+const util = require('util')
 
 /**
  * @param {StepContext} context
@@ -41,7 +41,7 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
     rejectUnauthorized
   }
 
-  log.debug(`addCartItems request ${util.inspect(options)}`)
+  const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
@@ -52,7 +52,16 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
       }
       return cb(new MagentoError())
     }
-    log.debug(`addCartItems response ${util.inspect(res.body)}`)
+
+    log.debug(
+      {
+        duration: new Date() - requestStart,
+        statusCode: res.statusCode,
+        request: util.inspect(options, true, null),
+        response: util.inspect(res.body, true, null)
+      },
+      'Request to Magento: addCartItems'
+    )
     cb()
   })
 }

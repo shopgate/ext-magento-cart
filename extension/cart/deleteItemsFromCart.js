@@ -1,8 +1,8 @@
-const util = require('util')
 const _ = require('underscore')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
+const util = require('util')
 
 /**
  * @typedef {Object} DeleteItemsFromCartInput
@@ -66,14 +66,24 @@ function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl
     rejectUnauthorized
   }
 
-  log.debug(`deleteItemsFromCart request ${util.inspect(options)}`)
+  const requestStart = new Date()
   request.delete(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
-    log.debug(`deleteItemsFromCart response ${util.inspect(res.body)}`)
+
+    log.debug(
+      {
+        duration: new Date() - requestStart,
+        statusCode: res.statusCode,
+        request: util.inspect(options, true, null),
+        response: util.inspect(res.body, true, null)
+      },
+      'Request to Magento: deleteItemsFromCart'
+    )
+
     cb()
   })
 }

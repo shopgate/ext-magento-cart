@@ -87,7 +87,7 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
     rejectUnauthorized
   }
 
-  log.debug(`updateProductsInCart request ${util.inspect(options)}`)
+  const requestStart = new Date()
   request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
@@ -95,7 +95,16 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
       return cb(new MagentoError())
     }
 
-    log.debug(`updateProductsInCart response ${util.inspect(res.body)}`)
+    log.debug(
+      {
+        duration: new Date() - requestStart,
+        statusCode: res.statusCode,
+        request: util.inspect(options, true, null),
+        response: util.inspect(res.body, true, null)
+      },
+      'Request to Magento: updateProductsInCart'
+    )
+
     cb()
   })
 }
