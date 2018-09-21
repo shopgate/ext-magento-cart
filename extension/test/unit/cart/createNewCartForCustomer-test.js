@@ -18,9 +18,12 @@ describe('creating a new cart for customer', () => {
       error: () => {
       }
     },
-    meta: {},
+    meta: {
+      userId: null
+    },
     storage: {
-      user: null
+      user: null,
+      device: null
     }
   }
 
@@ -35,10 +38,29 @@ describe('creating a new cart for customer', () => {
       set: () => {
       }
     }
+    context.storage.device = {
+      get: () => {
+      },
+      set: () => {
+      }
+    }
     input.orderId = 1234
   })
 
-  it('check that a success response produces no error', (done) => {
+  it('check that a success response produces for a guest has no error', (done) => {
+    context.storage.device.set = (key, value, cb) => cb()
+    nock(context.config.magentoUrl).post('/carts').reply(200, {cartId: 123})
+
+    // noinspection JSCheckFunctionSignatures
+    step(context, input, (err, result) => {
+      assert.ifError(err)
+      assert.equal(result.success, true)
+      done()
+    })
+  })
+
+  it('check that a success response produces for a user has no error', (done) => {
+    context.meta.userId = 8
     context.storage.user.set = (key, value, cb) => cb()
     nock(context.config.magentoUrl).post('/carts').reply(200, {cartId: 123})
 
