@@ -22,6 +22,7 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest('magento-cart-extension:createNewCartForCustomer', {log: true})
   const accessToken = input.token
   const cartUrl = context.config.magentoUrl + '/carts'
+  const isLoggedIn = !!context.meta.userId
 
   if (!orderId) {
     log.error('Output key "orderId" is missing')
@@ -33,7 +34,7 @@ module.exports = function (context, input, cb) {
   createCart(request, accessToken, cartUrl, log, !allowSelfSignedCertificate, (err, cartId) => {
     if (err) return cb(err)
 
-    context.storage['user'].set(CARTID_KEY, cartId, (err) => {
+    context.storage[isLoggedIn ? 'user' : 'device'].set(CARTID_KEY, cartId, (err) => {
       if (err) return cb(err)
 
       log.debug(`Created cart with id: ${cartId}`)
