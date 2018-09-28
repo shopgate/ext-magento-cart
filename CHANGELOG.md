@@ -7,6 +7,5 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [Unreleased]
 ### Added
 - support for guest checkout
-### Fixed
 
 [Unreleased]: https://stash.localdev.cc/projects/SGX/repos/magento-cart/compare/commits?targetBranch=refs%2Ftags%2Fv1.0.7&sourceBranch=refs%2Fheads%2Fmaster

@@ -10,6 +10,6 @@ See [CHANGELOG.md](CHANGELOG.md) file for more information.
 
 ## License
 
-The Magento User Extension is available under the Apache License, Version 2.0.
+The Magento Cart Extension is available under the Apache License, Version 2.0.
 
 See the [LICENSE.md](LICENSE.md) file for more information.
