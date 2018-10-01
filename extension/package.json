@@ -10,7 +10,7 @@
     "type": "git",
     "url": "ssh://git@stash.localdev.cc:7999/sgx/magento-cart.git"
   },
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "dependencies": {
     "ent": "^2.2.0",
     "lodash": "^4.17.5",
