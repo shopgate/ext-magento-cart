@@ -20,7 +20,12 @@ class MagentoErrorParser {
    * @returns {string} - defaults to an empty string
    */
   static extractMagentoError (body) {
-    return get(body, 'messages.error[0].message', '')
+    const message = get(body, 'messages.error[0].message', '')
+    if (message === 'Coupon is not valid.') {
+      return 'cart.coupon_invalid'
+    }
+
+    return message
   }
 }
 
