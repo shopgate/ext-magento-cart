@@ -31,5 +31,27 @@
         "key": "value.backend.allowSelfSignedCertificate"
       }
     }
-  }
+  },
+  "components": [
+    {
+      "id": "locale/en-US",
+      "type": "translations",
+      "path": "frontend/locale/en-US.json"
+    },
+    {
+      "id": "locale/de-DE",
+      "type": "translations",
+      "path": "frontend/locale/de-DE.json"
+    },
+    {
+      "id": "locale/fr-FR",
+      "type": "translations",
+      "path": "frontend/locale/fr-FR.json"
+    },
+    {
+      "id": "locale/nl-NL",
+      "type": "translations",
+      "path": "frontend/locale/nl-NL.json"
+    }
+  ]
 }
