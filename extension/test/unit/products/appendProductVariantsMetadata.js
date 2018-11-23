@@ -15,7 +15,7 @@ describe('appendProductVariantsMetadata', () => {
 
       step(null, { products: shopgateVariants.products, characteristics: shopgateVariants.characteristics, magentoParentProduct: magentoConfigurableProduct }, (err, result) => {
         assert.ifError(err)
-        assert.deepEqual(resultingVariants, result)
+        assert.deepStrictEqual(resultingVariants, result)
         done()
       })
     })

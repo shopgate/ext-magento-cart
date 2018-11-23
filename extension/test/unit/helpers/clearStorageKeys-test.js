@@ -29,7 +29,7 @@ describe('clearStorageKeys', () => {
     context.storage.device.del = (key, cb) => { cb(new Error('error')) }
 
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.strictEqual(err.message, 'error')
       done()
     })
   })

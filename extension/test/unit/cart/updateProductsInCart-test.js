@@ -79,7 +79,7 @@ describe('updateProductsInCart', () => {
         rejectUnauthorized: true
       }
 
-      assert.deepEqual(o, options)
+      assert.deepStrictEqual(o, options)
       cb(null, { statusCode: 200, body: {} })
     }
 
@@ -93,8 +93,8 @@ describe('updateProductsInCart', () => {
     input.cartId = null
 
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'InvalidCallError')
-      assert.equal(err.code, 'EINVALIDCALL')
+      assert.strictEqual(err.constructor.name, 'InvalidCallError')
+      assert.strictEqual(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -105,7 +105,7 @@ describe('updateProductsInCart', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.strictEqual(err.message, 'error')
       done()
     })
   })
@@ -116,8 +116,8 @@ describe('updateProductsInCart', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'InvalidCallError')
-      assert.equal(err.code, 'EINVALIDCALL')
+      assert.strictEqual(err.constructor.name, 'InvalidCallError')
+      assert.strictEqual(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -130,8 +130,8 @@ describe('updateProductsInCart', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'InvalidCallError')
-      assert.equal(err.code, 'EINVALIDCALL')
+      assert.strictEqual(err.constructor.name, 'InvalidCallError')
+      assert.strictEqual(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -146,7 +146,7 @@ describe('updateProductsInCart', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.strictEqual(err.message, 'error')
       done()
     })
   })
@@ -161,8 +161,8 @@ describe('updateProductsInCart', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'MagentoEndpointError')
-      assert.equal(err.code, 'EINTERNAL')
+      assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
+      assert.strictEqual(err.code, 'EINTERNAL')
       done()
     })
   })

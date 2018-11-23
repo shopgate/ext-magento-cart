@@ -18,7 +18,7 @@ describe('Product (cartUpdates)', () => {
       }
     }
 
-    assert.deepEqual(result, product)
+    assert.deepStrictEqual(result, product)
     done()
   })
 
@@ -33,7 +33,7 @@ describe('Product (cartUpdates)', () => {
       }
     }
 
-    assert.deepEqual(product.transformToUpdateProductItem(), result)
+    assert.deepStrictEqual(product.transformToUpdateProductItem(), result)
     done()
   })
 })

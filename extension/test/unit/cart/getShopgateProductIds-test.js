@@ -9,7 +9,7 @@ describe('getShopgateProductIds', () => {
 
     step(null, input, (err, result) => {
       assert.ifError(err)
-      assert.deepEqual(result, { productIds: resultingArray, offset: 0, limit: 100, characteristics: true })
+      assert.deepStrictEqual(result, { productIds: resultingArray, offset: 0, limit: 100, characteristics: true })
       done()
     })
   })

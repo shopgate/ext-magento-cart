@@ -19,7 +19,7 @@ describe('getCartIdFromStorage', () => {
 
     step(context, null, (err, result) => {
       assert.ifError(err)
-      assert.equal(result.cartId, '12345678')
+      assert.strictEqual(result.cartId, '12345678')
       done()
     })
   })
@@ -29,7 +29,7 @@ describe('getCartIdFromStorage', () => {
 
     step(context, null, (err, result) => {
       assert.ifError(err)
-      assert.equal(result.cartId, null)
+      assert.strictEqual(result.cartId, null)
       done()
     })
   })
@@ -38,7 +38,7 @@ describe('getCartIdFromStorage', () => {
     context.storage.device.get = (key, cb) => cb(new Error('error', null))
 
     step(context, null, (err) => {
-      assert.equal(err.message, 'error')
+      assert.strictEqual(err.message, 'error')
       done()
     })
   })

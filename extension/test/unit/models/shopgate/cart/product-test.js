@@ -23,12 +23,12 @@ describe('Product', () => {
     p.addProperty(property)
     p.addAppliedDiscount(ad)
 
-    assert.equal(p.id, 'id')
-    assert.equal(p.name, 'name')
-    assert.equal(p.featuredImageUrl, 'http://image.de')
-    assert.deepEqual(p.price, price)
-    assert.deepEqual(p.properties, [property])
-    assert.deepEqual(p.appliedDiscounts, [ad])
+    assert.strictEqual(p.id, 'id')
+    assert.strictEqual(p.name, 'name')
+    assert.strictEqual(p.featuredImageUrl, 'http://image.de')
+    assert.deepStrictEqual(p.price, price)
+    assert.deepStrictEqual(p.properties, [property])
+    assert.deepStrictEqual(p.appliedDiscounts, [ad])
 
     done()
   })

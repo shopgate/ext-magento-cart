@@ -44,8 +44,8 @@ describe('transformToShopgateCart', () => {
     it('should transform a magento cart to a shopgate cart', (done) => {
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.deepEqual(result, resultingCart)
-        assert.equal(result.isOrderable, true)
+        assert.deepStrictEqual(result, resultingCart)
+        assert.strictEqual(result.isOrderable, true)
         done()
       })
     })
@@ -55,8 +55,8 @@ describe('transformToShopgateCart', () => {
 
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.deepEqual(result, resultingCart)
-        assert.equal(result.isOrderable, false)
+        assert.deepStrictEqual(result, resultingCart)
+        assert.strictEqual(result.isOrderable, false)
         done()
       })
     })
@@ -64,7 +64,7 @@ describe('transformToShopgateCart', () => {
     it('should set cart to not ordable in case an item has an error', (done) => {
       step(context, inputWithItemErrors, (err, result) => {
         assert.ifError(err)
-        assert.equal(result.isOrderable, false)
+        assert.strictEqual(result.isOrderable, false)
         done()
       })
     })
@@ -83,8 +83,8 @@ describe('transformToShopgateCart', () => {
 
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.deepEqual(result, resultingCart)
-        assert.equal(result.isOrderable, true)
+        assert.deepStrictEqual(result, resultingCart)
+        assert.strictEqual(result.isOrderable, true)
         done()
       })
     })
@@ -95,8 +95,8 @@ describe('transformToShopgateCart', () => {
 
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.deepEqual(result, resultingCart)
-        assert.equal(result.isOrderable, false)
+        assert.deepStrictEqual(result, resultingCart)
+        assert.strictEqual(result.isOrderable, false)
         done()
       })
     })

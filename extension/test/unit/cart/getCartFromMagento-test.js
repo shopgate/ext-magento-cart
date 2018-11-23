@@ -55,7 +55,7 @@ describe('getCartFromMagento', () => {
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
       assert.ifError(err)
-      assert.deepEqual(result.magentoCart, { cart: 'cart' })
+      assert.deepStrictEqual(result.magentoCart, { cart: 'cart' })
       done()
     })
   })
@@ -65,8 +65,8 @@ describe('getCartFromMagento', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'InvalidCallError')
-      assert.equal(err.code, 'EINVALIDCALL')
+      assert.strictEqual(err.constructor.name, 'InvalidCallError')
+      assert.strictEqual(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -76,7 +76,7 @@ describe('getCartFromMagento', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.strictEqual(err.message, 'error')
       done()
     })
   })
@@ -86,8 +86,8 @@ describe('getCartFromMagento', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'MagentoEndpointError')
-      assert.equal(err.code, 'EINTERNAL')
+      assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
+      assert.strictEqual(err.code, 'EINTERNAL')
       done()
     })
   })
@@ -101,7 +101,7 @@ describe('getCartFromMagento', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'An internal error occurred.')
+      assert.strictEqual(err.message, 'An internal error occurred.')
       done()
     })
   })

@@ -5,9 +5,9 @@ describe('Message', () => {
   it('should create a Message object', (done) => {
     const t = new Message('t', 'm')
     t.setCode('c')
-    assert.equal(t.type, 't')
-    assert.equal(t.message, 'm')
-    assert.equal(t.code, 'c')
+    assert.strictEqual(t.type, 't')
+    assert.strictEqual(t.message, 'm')
+    assert.strictEqual(t.code, 'c')
     done()
   })
 })

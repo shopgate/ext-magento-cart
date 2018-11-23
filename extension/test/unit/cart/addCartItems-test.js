@@ -46,7 +46,7 @@ describe('addCartItems', () => {
     nock(context.config.magentoUrl).post('/carts/1234/items').reply(450, { messages: { error: [{ message: 'error' }] } })
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.strictEqual(err.message, 'error')
       done()
     })
   })
@@ -55,7 +55,7 @@ describe('addCartItems', () => {
     nock(context.config.magentoUrl).post('/carts/1234/items').reply(404, { message: { unknown: [{ error: 'structure' }] } })
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, '')
+      assert.strictEqual(err.message, '')
       done()
     })
   })
@@ -67,8 +67,8 @@ describe('addCartItems', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, errorMessage)
-      assert.equal(err.constructor.name, 'InvalidItemError')
+      assert.strictEqual(err.message, errorMessage)
+      assert.strictEqual(err.constructor.name, 'InvalidItemError')
       done()
     })
   })
@@ -78,8 +78,8 @@ describe('addCartItems', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'MagentoEndpointError')
-      assert.equal(err.code, 'EINTERNAL')
+      assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
+      assert.strictEqual(err.code, 'EINTERNAL')
       done()
     })
   })
