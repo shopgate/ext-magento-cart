@@ -24,5 +24,5 @@ module.exports = function (context, input, cb) {
     return cb(new InvalidCallError())
   }
 
-  cb(null, {transformedCoupons})
+  cb(null, { transformedCoupons })
 }

@@ -63,7 +63,7 @@ describe('createCartIfNecessary', () => {
       context.storage.device.get = (key, cb) => cb()
       context.storage.device.set = (key, value, cb) => cb()
 
-      nock(context.config.magentoUrl).post('/carts').reply(200, {cartId: 'cId1'})
+      nock(context.config.magentoUrl).post('/carts').reply(200, { cartId: 'cId1' })
 
       step(context, input, (err, result) => {
         assert.ifError(err)
@@ -87,7 +87,7 @@ describe('createCartIfNecessary', () => {
       context.storage.device.get = (key, cb) => cb()
       context.storage.device.set = (key, value, cb) => cb(new Error('error'))
 
-      nock(context.config.magentoUrl).post('/carts').reply(200, {success: [{cartId: 'cId1'}]})
+      nock(context.config.magentoUrl).post('/carts').reply(200, { success: [{ cartId: 'cId1' }] })
 
       step(context, input, (err) => {
         assert.equal(err.message, 'error')
@@ -111,7 +111,7 @@ describe('createCartIfNecessary', () => {
 
     it('should return an error because the return code is >= 400', (done) => {
       context.tracedRequest.post = (options, cb) => {
-        cb(null, {statusCode: 400}, {error: 'error'})
+        cb(null, { statusCode: 400 }, { error: 'error' })
       }
 
       createCart(context.tracedRequest, input.tokens.accessToken, context.config.magentoUrl, context.log, null, (err) => {

@@ -64,7 +64,7 @@ describe('testing assigning guest cart to customer cart', () => {
   it('testing successful return produces no errors', (done) => {
     request = {
       post: (options, cb) => {
-        cb(null, {statusCode: 200}, {foo: 'bar'})
+        cb(null, { statusCode: 200 }, { foo: 'bar' })
       }
     }
 
@@ -90,7 +90,7 @@ describe('testing assigning guest cart to customer cart', () => {
   it('should return an MagentoEndpointError because the statusCode of the response is != 200', (done) => {
     request = {
       post: (options, cb) => {
-        cb(null, {statusCode: 500}, mageErrorResponse)
+        cb(null, { statusCode: 500 }, mageErrorResponse)
       }
     }
 

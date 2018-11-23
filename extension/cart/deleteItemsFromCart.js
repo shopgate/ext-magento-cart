@@ -17,7 +17,7 @@ const util = require('util')
  * @param {StepCallback} cb
  */
 module.exports = function (context, input, cb) {
-  const request = context.tracedRequest('magento-cart-extension:deleteItemsFromCart', {log: true})
+  const request = context.tracedRequest('magento-cart-extension:deleteItemsFromCart', { log: true })
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
@@ -58,7 +58,7 @@ function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl
   const options = {
     baseUrl: cartUrl,
     uri: cartId + '/items',
-    auth: {bearer: accessToken},
+    auth: { bearer: accessToken },
     qs: {
       cartItemIds: cartItemIds.join(',')
     },

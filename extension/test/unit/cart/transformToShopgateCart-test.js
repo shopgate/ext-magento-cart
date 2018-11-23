@@ -6,7 +6,7 @@ const shopgateProducts = require('../data/shopgate-products')
 const resultingCart = require('../data/shopgate-cart')
 const magentoCartDiscount = require('../data/magento-cart-discount')
 const shopgateCartDiscount = require('../data/shopgate-cart-discount')
-const input = {magentoCart, shopgateProducts}
+const input = { magentoCart, shopgateProducts }
 const inputWithItemErrors = {
   magentoCart: magentoCartWithItemError,
   shopgateProducts
@@ -40,7 +40,7 @@ describe('transformToShopgateCart', () => {
   })
 
   describe('transformToShopgateCart without coupons', () => {
-    const context = {config: {enableCoupons: false}}
+    const context = { config: { enableCoupons: false } }
     it('should transform a magento cart to a shopgate cart', (done) => {
       step(context, input, (err, result) => {
         assert.ifError(err)
@@ -71,7 +71,7 @@ describe('transformToShopgateCart', () => {
   })
 
   describe('transformToShopgateCart with coupons', () => {
-    const context = {config: {enableCoupons: true}}
+    const context = { config: { enableCoupons: true } }
     // Set up the cart to have coupons enabled
     beforeEach(() => {
       resultingCart.enableCoupons = true

@@ -34,7 +34,7 @@ describe('deleteItemsFromCart', () => {
 
   it('should delete products from the cart', (done) => {
     request.delete = (options, cb) => {
-      cb(null, {statusCode: 200}, {})
+      cb(null, { statusCode: 200 }, {})
     }
 
     // noinspection JSCheckFunctionSignatures
@@ -70,7 +70,7 @@ describe('deleteItemsFromCart', () => {
 
   it('should return an error because the status code is not 200', (done) => {
     request.delete = (options, cb) => {
-      cb(null, {statusCode: 456}, {foo: 'bar'})
+      cb(null, { statusCode: 456 }, { foo: 'bar' })
     }
 
     // noinspection JSCheckFunctionSignatures

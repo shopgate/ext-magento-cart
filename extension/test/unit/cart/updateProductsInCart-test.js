@@ -80,7 +80,7 @@ describe('updateProductsInCart', () => {
       }
 
       assert.deepEqual(o, options)
-      cb(null, {statusCode: 200, body: {}})
+      cb(null, { statusCode: 200, body: {} })
     }
 
     step(context, input, (err) => {
@@ -157,7 +157,7 @@ describe('updateProductsInCart', () => {
     }
 
     request.post = (options, cb) => {
-      cb(null, {statusCode: 456, body: {foo: 'bar'}})
+      cb(null, { statusCode: 456, body: { foo: 'bar' } })
     }
 
     step(context, input, (err) => {

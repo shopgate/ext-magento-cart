@@ -24,13 +24,13 @@ describe('createProductCartItemList', () => {
         metadata: {
           type: 'configurable',
           selectedAttributes: [
-            {attributeId: 'pl1', optionId: 'pv1'},
-            {attributeId: 'pl2', optionId: 'pv2'}
+            { attributeId: 'pl1', optionId: 'pv1' },
+            { attributeId: 'pl2', optionId: 'pv2' }
           ]
         }
       }
     ]
-    const input = {products}
+    const input = { products }
 
     step(context, input, (err, result) => {
       assert.ifError(err)
@@ -51,7 +51,7 @@ describe('createProductCartItemList', () => {
         quantity: 2
       }
     ]
-    const input = {products}
+    const input = { products }
 
     step(context, input, (err) => {
       assert.equal(err.constructor.name, 'InvalidCallError')

@@ -29,10 +29,10 @@ describe('getCheckoutUrlFromMagento', () => {
   })
 
   it('should return the checkout url', (done) => {
-    const responseBody = {'expires_in': 3600, url: 'http://some.url/2/'}
+    const responseBody = { 'expires_in': 3600, url: 'http://some.url/2/' }
     const params = 'sgcloud_inapp/1/utm_source/shopgate/utm_medium/app/utm_campaign/web-checkout/'
 
-    nock(context.config.magentoUrl).post('/carts/123/checkoutUrl').reply(200, {'expires_in': 3600, url: 'http://some.url/2/'})
+    nock(context.config.magentoUrl).post('/carts/123/checkoutUrl').reply(200, { 'expires_in': 3600, url: 'http://some.url/2/' })
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
@@ -45,10 +45,10 @@ describe('getCheckoutUrlFromMagento', () => {
   })
 
   it('should throw an error despite code 200 and if url is not returned', (done) => {
-    const responseBody = {'expires_in': 3600}
+    const responseBody = { 'expires_in': 3600 }
 
     request.post = (options, cb) => {
-      cb(null, {statusCode: 200, body: responseBody})
+      cb(null, { statusCode: 200, body: responseBody })
     }
 
     // noinspection JSCheckFunctionSignatures
@@ -73,7 +73,7 @@ describe('getCheckoutUrlFromMagento', () => {
 
   it('should return an error because the request failed (server)', (done) => {
     request.post = (options, cb) => {
-      cb(null, {statusCode: 456, body: {foo: 'bar'}})
+      cb(null, { statusCode: 456, body: { foo: 'bar' } })
     }
 
     // noinspection JSCheckFunctionSignatures

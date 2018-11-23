@@ -56,7 +56,7 @@ describe('requestParentProductFromMagento', () => {
     })
 
     it('should return an error because requestParentProductFromMagento fails', (done) => {
-      nock(context.config.magentoUrl).get('/products/testProduct').reply(201, {messages: {error: [{message: 'error'}]}})
+      nock(context.config.magentoUrl).get('/products/testProduct').reply(201, { messages: { error: [{ message: 'error' }] } })
 
       step(context, input, (err) => {
         assert.equal(err.message, 'An internal error occurred.')
@@ -67,7 +67,7 @@ describe('requestParentProductFromMagento', () => {
 
   describe('directly testing the function', () => {
     it('should return an error because the magento response status code is >= 400', (done) => {
-      nock(context.config.magentoUrl).get('/products/testProduct').reply(401, {messages: {error: [{message: 'An internal error occurred.'}]}})
+      nock(context.config.magentoUrl).get('/products/testProduct').reply(401, { messages: { error: [{ message: 'An internal error occurred.' }] } })
 
       step(context, input, (err) => {
         assert.equal(err.message, 'An internal error occurred.')

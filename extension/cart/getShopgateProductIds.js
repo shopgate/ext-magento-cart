@@ -11,7 +11,7 @@ module.exports = function (context, input, cb) {
   //       We should be able to ask for a unlimited count of products
   //       This has to be supported by the product service first
   // TODO: These could also be excluded into a static step
-  cb(null, {productIds, offset: 0, limit: 100, characteristics: true})
+  cb(null, { productIds, offset: 0, limit: 100, characteristics: true })
 }
 
 /**

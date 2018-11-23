@@ -19,7 +19,7 @@ module.exports = function (context, input, cb) {
   const orderId = input.orderId
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
-  const request = context.tracedRequest('magento-cart-extension:createNewCartForCustomer', {log: true})
+  const request = context.tracedRequest('magento-cart-extension:createNewCartForCustomer', { log: true })
   const accessToken = input.token
   const cartUrl = context.config.magentoUrl + '/carts'
   const isLoggedIn = !!context.meta.userId
@@ -39,7 +39,7 @@ module.exports = function (context, input, cb) {
 
       log.debug(`Created cart with id: ${cartId}`)
 
-      return cb(null, {'success': true})
+      return cb(null, { 'success': true })
     })
   })
 }
@@ -55,7 +55,7 @@ module.exports = function (context, input, cb) {
 function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb) {
   const options = {
     url: cartUrl,
-    auth: {bearer: accessToken},
+    auth: { bearer: accessToken },
     json: {},
     rejectUnauthorized
   }

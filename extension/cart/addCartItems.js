@@ -9,7 +9,7 @@ const util = require('util')
  * @param {function} cb
  */
 module.exports = function (context, input, cb) {
-  const request = context.tracedRequest('magento-cart-extension:addCartItems', {log: true})
+  const request = context.tracedRequest('magento-cart-extension:addCartItems', { log: true })
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
@@ -19,7 +19,7 @@ module.exports = function (context, input, cb) {
 
   addItemsToCart(request, accessToken, items, cartId, cartUrl, log, !allowSelfSignedCertificate, (err) => {
     if (err) return cb(err)
-    cb(null, {messages: null})
+    cb(null, { messages: null })
   })
 }
 
@@ -36,7 +36,7 @@ module.exports = function (context, input, cb) {
 function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, rejectUnauthorized, cb) {
   const options = {
     url: `${cartUrl}/${cartId}/items`,
-    auth: {bearer: accessToken},
+    auth: { bearer: accessToken },
     json: items,
     rejectUnauthorized
   }

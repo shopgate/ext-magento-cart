@@ -46,7 +46,7 @@ describe('getCartFromMagento', () => {
   })
 
   it('should get a cart from magento', (done) => {
-    nock(context.config.magentoUrl).get('/carts/me').reply(200, {cart: 'cart'})
+    nock(context.config.magentoUrl).get('/carts/me').reply(200, { cart: 'cart' })
 
     context.storage.device.set = (key, value, cb) => {
       cb()
@@ -55,7 +55,7 @@ describe('getCartFromMagento', () => {
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
       assert.ifError(err)
-      assert.deepEqual(result.magentoCart, {cart: 'cart'})
+      assert.deepEqual(result.magentoCart, { cart: 'cart' })
       done()
     })
   })
@@ -93,7 +93,7 @@ describe('getCartFromMagento', () => {
   })
 
   it('should return an error because setting cart in storage fails', (done) => {
-    nock(context.config.magentoUrl).get('/carts/me').reply(200, {cart: 'cart'})
+    nock(context.config.magentoUrl).get('/carts/me').reply(200, { cart: 'cart' })
 
     context.storage.device.set = (key, value, cb) => {
       cb(new Error('An internal error occurred.'))

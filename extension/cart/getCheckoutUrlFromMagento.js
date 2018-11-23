@@ -20,7 +20,7 @@ const util = require('util')
  * @param {{expires: string, url: string}} cb.result
  */
 module.exports = function (context, input, cb) {
-  const request = context.tracedRequest('magento-cart-extension:getCheckoutUrlFromMagento', {log: true})
+  const request = context.tracedRequest('magento-cart-extension:getCheckoutUrlFromMagento', { log: true })
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
@@ -47,7 +47,7 @@ module.exports = function (context, input, cb) {
 
     const checkoutUrl = result.url + WebCheckoutUrlSgAppParameters.getQueryParameters() + WebCheckoutUrlUtmParameters.getQueryParameters()
 
-    cb(null, {expires: moment().add(result['expires_in'], 'seconds').toISOString(), url: checkoutUrl})
+    cb(null, { expires: moment().add(result['expires_in'], 'seconds').toISOString(), url: checkoutUrl })
   })
 }
 
@@ -64,7 +64,7 @@ function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, 
   const options = {
     baseUrl: cartUrl,
     uri: cartId + '/checkoutUrl',
-    auth: {bearer: accessToken},
+    auth: { bearer: accessToken },
     json: {},
     rejectUnauthorized
   }
