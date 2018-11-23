@@ -1,4 +1,5 @@
 const assert = require('assert')
+const expect = require('chai').expect
 const step = require('../../../cart/transformToShopgateCart')
 const magentoCart = require('../data/magento-cart')
 const magentoCartWithItemError = require('../data/magento-cart-with-item-error')
@@ -44,7 +45,7 @@ describe('transformToShopgateCart', () => {
     it('should transform a magento cart to a shopgate cart', (done) => {
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.deepStrictEqual(result, resultingCart)
+        expect(resultingCart).to.eql(result)
         assert.strictEqual(result.isOrderable, true)
         done()
       })
@@ -55,8 +56,8 @@ describe('transformToShopgateCart', () => {
 
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.deepStrictEqual(result, resultingCart)
-        assert.strictEqual(result.isOrderable, false)
+        expect(resultingCart).to.eql(result)
+        assert.deepStrictEqual(result.isOrderable, false)
         done()
       })
     })
@@ -64,7 +65,7 @@ describe('transformToShopgateCart', () => {
     it('should set cart to not ordable in case an item has an error', (done) => {
       step(context, inputWithItemErrors, (err, result) => {
         assert.ifError(err)
-        assert.strictEqual(result.isOrderable, false)
+        assert.deepStrictEqual(result.isOrderable, false)
         done()
       })
     })
@@ -83,8 +84,8 @@ describe('transformToShopgateCart', () => {
 
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.deepStrictEqual(result, resultingCart)
-        assert.strictEqual(result.isOrderable, true)
+        expect(resultingCart).to.eql(result)
+        assert.deepStrictEqual(result.isOrderable, true)
         done()
       })
     })
@@ -95,7 +96,7 @@ describe('transformToShopgateCart', () => {
 
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.deepStrictEqual(result, resultingCart)
+        expect(resultingCart).to.eql(result)
         assert.strictEqual(result.isOrderable, false)
         done()
       })
