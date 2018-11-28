@@ -11,7 +11,7 @@ module.exports = function (context, input, cb) {
   // in the special case of a user being logged in, we don't need an actual cartId
   if (isLoggedIn) {
     let cartId = 'me'
-    return cb(null, {cartId: cartId})
+    return cb(null, { cartId: cartId })
   }
 
   let storageName = isLoggedIn ? 'user' : 'device'
@@ -19,6 +19,6 @@ module.exports = function (context, input, cb) {
 
   storage.get(CARTID_KEY, (err, cartId) => {
     if (err) return cb(err)
-    return cb(null, {cartId: cartId || null})
+    return cb(null, { cartId: cartId || null })
   })
 }

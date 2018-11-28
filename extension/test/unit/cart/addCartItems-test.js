@@ -43,19 +43,19 @@ describe('addCartItems', () => {
   })
 
   it('should return an error because of the request', (done) => {
-    nock(context.config.magentoUrl).post('/carts/1234/items').reply(450, {messages: {error: [{message: 'error'}]}})
+    nock(context.config.magentoUrl).post('/carts/1234/items').reply(450, { messages: { error: [{ message: 'error' }] } })
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.strictEqual(err.message, 'error')
       done()
     })
   })
 
   it('unknown error structure returned by Magento should produce an empty result', (done) => {
-    nock(context.config.magentoUrl).post('/carts/1234/items').reply(404, {message: {unknown: [{error: 'structure'}]}})
+    nock(context.config.magentoUrl).post('/carts/1234/items').reply(404, { message: { unknown: [{ error: 'structure' }] } })
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, '')
+      assert.strictEqual(err.message, '')
       done()
     })
   })
@@ -63,23 +63,23 @@ describe('addCartItems', () => {
   it('should return an InvalidItemError because the statusCode of the response is >= 400 && < 500', (done) => {
     let errorMessage = 'Some error message'
 
-    nock(context.config.magentoUrl).post('/carts/1234/items').reply(450, {messages: {error: [{message: errorMessage}]}})
+    nock(context.config.magentoUrl).post('/carts/1234/items').reply(450, { messages: { error: [{ message: errorMessage }] } })
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, errorMessage)
-      assert.equal(err.constructor.name, 'InvalidItemError')
+      assert.strictEqual(err.message, errorMessage)
+      assert.strictEqual(err.constructor.name, 'InvalidItemError')
       done()
     })
   })
 
   it('should return an MagentoEndpointError because the statusCode of the response is != 200 && >= 500', (done) => {
-    nock(context.config.magentoUrl).post('/carts/1234/items').reply(501, {messages: {error: [{message: errorMessage}]}})
+    nock(context.config.magentoUrl).post('/carts/1234/items').reply(501, { messages: { error: [{ message: errorMessage }] } })
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'MagentoEndpointError')
-      assert.equal(err.code, 'EINTERNAL')
+      assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
+      assert.strictEqual(err.code, 'EINTERNAL')
       done()
     })
   })

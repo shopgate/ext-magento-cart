@@ -2,8 +2,8 @@ const assert = require('assert')
 const step = require('../../../helpers/clearStorageKeys')
 
 describe('clearStorageKeys', () => {
-  const deletions = [{storage: 'device', key: 'token'}]
-  const input = {deletions}
+  const deletions = [{ storage: 'device', key: 'token' }]
+  const input = { deletions }
   const context = {
     storage: {
       device: {
@@ -29,7 +29,7 @@ describe('clearStorageKeys', () => {
     context.storage.device.del = (key, cb) => { cb(new Error('error')) }
 
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.strictEqual(err.message, 'error')
       done()
     })
   })

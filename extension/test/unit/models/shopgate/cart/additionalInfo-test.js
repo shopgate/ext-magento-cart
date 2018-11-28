@@ -4,8 +4,8 @@ const AdditionalInfo = require('../../../../../models/shopgate/cart/additionalIn
 describe('AdditionalInfo', () => {
   it('should create an AdditionalInfo object', (done) => {
     const ai = new AdditionalInfo('label', 'value')
-    assert.equal(ai.label, 'label')
-    assert.equal(ai.value, 'value')
+    assert.strictEqual(ai.label, 'label')
+    assert.strictEqual(ai.value, 'value')
     done()
   })
 })

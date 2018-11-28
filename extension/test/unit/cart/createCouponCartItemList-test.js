@@ -20,17 +20,17 @@ describe('coupon testing in step', () => {
 
     step(context, input, (err, result) => {
       assert.ifError(err)
-      assert.equal(result.transformedCoupons.length, 2)
-      assert.equal(result.transformedCoupons[0].code, 'la')
-      assert.equal(result.transformedCoupons[1].code, 'ha')
+      assert.strictEqual(result.transformedCoupons.length, 2)
+      assert.strictEqual(result.transformedCoupons[0].code, 'la')
+      assert.strictEqual(result.transformedCoupons[1].code, 'ha')
       done()
     })
   })
 
   it('Error: no coupons are passed', (done) => {
     step(context, input, (err) => {
-      assert.equal(err.code, 'EINVALIDCALL')
-      assert.equal(err.constructor.name, 'InvalidCallError')
+      assert.strictEqual(err.code, 'EINVALIDCALL')
+      assert.strictEqual(err.constructor.name, 'InvalidCallError')
       done()
     })
   })

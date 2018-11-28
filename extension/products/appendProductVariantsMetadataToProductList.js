@@ -19,7 +19,7 @@ module.exports = async (context, input) => {
     products = buildProductWithMetadata(shopgateProducts, magentoParentProducts)
   }
 
-  return {products}
+  return { products }
 }
 
 /**

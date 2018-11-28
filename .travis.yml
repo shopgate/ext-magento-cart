@@ -1,0 +1,25 @@
+language: node_js
+
+install:
+- cd extension && npm install && cd ..
+
+env: # important! Without the top-level env, no job will be allowed to fail.
+- JOB_DEFAULT=test
+
+matrix:
+  fast_finish: true
+  include:
+  - node_js: 8
+    env: TYPE=UNIT_CODESTYLE_DEPENDENCY
+    script:
+    - cd extension
+    - npm run cover
+    - npm run lint
+    - npm run checkVulnerabilities
+
+notifications:
+  slack:
+    rooms:
+      secure: M/ghSOdyQaflqfuvep/tBT+PXJ5pPkLCzlNa0EocHpfML9oh/v0KrW2kGT8ammkAjlck0/UXSie+YJVWpxjRKThLVSr5YMVWOR8LIBbbp+GG4X0tK1gT40Uw4haSuBXYTyKpQxgT83sdUYhKFnzKJYAwvTFvxMrVeYP+JMjAS6x7tkt61oMtNUWfUetdXcOhZTI18pTFuohNn5MaTOTihDLYY59c5iWI8SaIIeHrtlhGeCEvcTOhu3C7ExiBAiNiJo4ZM8sgRgbQVSF/lUtvAh/+inKk3D5/wYkroG/pZvnHb+oeGEDQF1/Z5toVrXHH66/znw169izw0VWfVzKqud4pzhzboNlTYX8tbH0t33sDenpz8lU+eGQ676fmxAXiaSJtG5yba08qtjghAimu8vUJvj0JGZD487bB/q+kpaRa555UYElwwpQ6AFEwIHHLRmZfKbiYNGwPfisjhtFyruHkAk9QxQKkLPOExz6IGVB40VJA8GaITo3OZQxc+gP6CXf5wctmGI6aEag4uAi9JR+ipOgMjaR0nFgpCLeu729NB+jX/xv9mDld8Mpvqkm631rtmBZYGq/9A7dgqGlTKSYg9eWP3esqNlE/iDWL40vcqdh5EPIN09RHA6KpaOnn8JX/KcAnPTyzdU7iKikIFy3lpUWEcexoJvOSqOiDHyg=
+    on_success: change
+    on_failure: always

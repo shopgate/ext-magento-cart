@@ -25,7 +25,7 @@ const util = require('util')
  * @return {StepCallback}
  */
 module.exports = function (context, input, cb) {
-  const request = context.tracedRequest('magento-cart-extension:updateProductsInCart', {log: true})
+  const request = context.tracedRequest('magento-cart-extension:updateProductsInCart', { log: true })
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
@@ -82,7 +82,7 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
   const options = {
     baseUrl: cartUrl,
     uri: cartId + '/items',
-    auth: {bearer: accessToken},
+    auth: { bearer: accessToken },
     json: updateItems,
     rejectUnauthorized
   }

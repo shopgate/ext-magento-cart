@@ -10,7 +10,7 @@ const util = require('util')
  */
 module.exports = function (context, input, cb) {
   const cartUrl = context.config.magentoUrl + '/carts'
-  const request = context.tracedRequest('magento-cart-extension:createCartIfNecessary', {log: true})
+  const request = context.tracedRequest('magento-cart-extension:createCartIfNecessary', { log: true })
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const accessToken = input.token
@@ -24,7 +24,7 @@ module.exports = function (context, input, cb) {
       `User is logged in. Using "${cartId}" as cartId instead of creating a cart and saving into the user storage.`
     )
 
-    return cb(null, {cartId: cartId})
+    return cb(null, { cartId: cartId })
   }
 
   let storageName = isLoggedIn ? 'user' : 'device'
@@ -35,7 +35,7 @@ module.exports = function (context, input, cb) {
 
     if (cartId) {
       log.debug(`using cart with id: ${cartId}`)
-      return cb(null, {cartId: cartId})
+      return cb(null, { cartId: cartId })
     }
 
     createCart(request, accessToken, cartUrl, log, !allowSelfSignedCertificate, (err2, cartId) => {
@@ -46,7 +46,7 @@ module.exports = function (context, input, cb) {
 
         log.debug(`created cart with id: ${cartId}`)
 
-        return cb(null, {cartId: cartId})
+        return cb(null, { cartId: cartId })
       })
     })
   })
@@ -63,7 +63,7 @@ module.exports = function (context, input, cb) {
 function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb) {
   const options = {
     url: cartUrl,
-    headers: {authorization: `Bearer ${accessToken}`},
+    headers: { authorization: `Bearer ${accessToken}` },
     json: {},
     rejectUnauthorized
   }

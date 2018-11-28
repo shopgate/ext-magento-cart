@@ -1,4 +1,5 @@
 const assert = require('assert')
+const expect = require('chai').expect
 const Product = require('../../../../models/cartUpdates/product')
 
 describe('Product (cartUpdates)', () => {
@@ -18,7 +19,7 @@ describe('Product (cartUpdates)', () => {
       }
     }
 
-    assert.deepEqual(result, product)
+    expect(product).to.eql(result)
     done()
   })
 
@@ -33,7 +34,7 @@ describe('Product (cartUpdates)', () => {
       }
     }
 
-    assert.deepEqual(product.transformToUpdateProductItem(), result)
+    assert.deepStrictEqual(product.transformToUpdateProductItem(), result)
     done()
   })
 })

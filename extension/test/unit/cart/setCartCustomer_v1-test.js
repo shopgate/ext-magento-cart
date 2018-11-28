@@ -64,7 +64,7 @@ describe('testing assigning guest cart to customer cart', () => {
   it('testing successful return produces no errors', (done) => {
     request = {
       post: (options, cb) => {
-        cb(null, {statusCode: 200}, {foo: 'bar'})
+        cb(null, { statusCode: 200 }, { foo: 'bar' })
       }
     }
 
@@ -82,7 +82,7 @@ describe('testing assigning guest cart to customer cart', () => {
     }
 
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.strictEqual(err.message, 'error')
       done()
     })
   })
@@ -90,13 +90,13 @@ describe('testing assigning guest cart to customer cart', () => {
   it('should return an MagentoEndpointError because the statusCode of the response is != 200', (done) => {
     request = {
       post: (options, cb) => {
-        cb(null, {statusCode: 500}, mageErrorResponse)
+        cb(null, { statusCode: 500 }, mageErrorResponse)
       }
     }
 
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'MagentoEndpointError')
-      assert.equal(err.code, 'EINTERNAL')
+      assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
+      assert.strictEqual(err.code, 'EINTERNAL')
       done()
     })
   })

@@ -17,7 +17,7 @@ module.exports = (variantId, attributes) => {
         for (i = 0; i < option.products.length; i++) {
           if (option.products[i] === variantId) {
             // found the selected one, append to list
-            selectedAttributes.push({attributeId: attributes[attributeIndex].id, optionId: option.id})
+            selectedAttributes.push({ attributeId: attributes[attributeIndex].id, optionId: option.id })
 
             // skip the rest of the options, because every variant can have only one option selected, per attribute
             optionIndex = attributes[attributeIndex].options.length

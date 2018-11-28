@@ -4,9 +4,9 @@ const Price = require('../../../../../models/shopgate/cart/price')
 describe('Price', () => {
   it('should create a Price object', (done) => {
     const t = new Price('u', 'v', 's')
-    assert.equal(t.unit, 'u')
-    assert.equal(t.default, 'v')
-    assert.equal(t.special, 's')
+    assert.strictEqual(t.unit, 'u')
+    assert.strictEqual(t.default, 'v')
+    assert.strictEqual(t.special, 's')
     done()
   })
 })

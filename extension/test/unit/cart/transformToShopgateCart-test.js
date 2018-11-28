@@ -1,4 +1,5 @@
 const assert = require('assert')
+const expect = require('chai').expect
 const step = require('../../../cart/transformToShopgateCart')
 const magentoCart = require('../data/magento-cart')
 const magentoCartWithItemError = require('../data/magento-cart-with-item-error')
@@ -6,7 +7,7 @@ const shopgateProducts = require('../data/shopgate-products')
 const resultingCart = require('../data/shopgate-cart')
 const magentoCartDiscount = require('../data/magento-cart-discount')
 const shopgateCartDiscount = require('../data/shopgate-cart-discount')
-const input = {magentoCart, shopgateProducts}
+const input = { magentoCart, shopgateProducts }
 const inputWithItemErrors = {
   magentoCart: magentoCartWithItemError,
   shopgateProducts
@@ -40,12 +41,12 @@ describe('transformToShopgateCart', () => {
   })
 
   describe('transformToShopgateCart without coupons', () => {
-    const context = {config: {enableCoupons: false}}
+    const context = { config: { enableCoupons: false } }
     it('should transform a magento cart to a shopgate cart', (done) => {
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.deepEqual(result, resultingCart)
-        assert.equal(result.isOrderable, true)
+        expect(resultingCart).to.eql(result)
+        assert.strictEqual(result.isOrderable, true)
         done()
       })
     })
@@ -55,8 +56,8 @@ describe('transformToShopgateCart', () => {
 
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.deepEqual(result, resultingCart)
-        assert.equal(result.isOrderable, false)
+        expect(resultingCart).to.eql(result)
+        assert.deepStrictEqual(result.isOrderable, false)
         done()
       })
     })
@@ -64,14 +65,14 @@ describe('transformToShopgateCart', () => {
     it('should set cart to not ordable in case an item has an error', (done) => {
       step(context, inputWithItemErrors, (err, result) => {
         assert.ifError(err)
-        assert.equal(result.isOrderable, false)
+        assert.deepStrictEqual(result.isOrderable, false)
         done()
       })
     })
   })
 
   describe('transformToShopgateCart with coupons', () => {
-    const context = {config: {enableCoupons: true}}
+    const context = { config: { enableCoupons: true } }
     // Set up the cart to have coupons enabled
     beforeEach(() => {
       resultingCart.enableCoupons = true
@@ -83,8 +84,8 @@ describe('transformToShopgateCart', () => {
 
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.deepEqual(result, resultingCart)
-        assert.equal(result.isOrderable, true)
+        expect(resultingCart).to.eql(result)
+        assert.deepStrictEqual(result.isOrderable, true)
         done()
       })
     })
@@ -95,8 +96,8 @@ describe('transformToShopgateCart', () => {
 
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.deepEqual(result, resultingCart)
-        assert.equal(result.isOrderable, false)
+        expect(resultingCart).to.eql(result)
+        assert.strictEqual(result.isOrderable, false)
         done()
       })
     })

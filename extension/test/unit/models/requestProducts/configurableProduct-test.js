@@ -6,9 +6,9 @@ describe('ConfigurableProduct', () => {
     const cp = new ConfigurableProduct('1', 1)
     cp.addPropertyToSuperAttribute('foo', 'bar')
 
-    assert.equal(cp.productId, '1')
-    assert.equal(cp.quantity, 1)
-    assert.equal(cp.superAttribute.foo, 'bar')
+    assert.strictEqual(cp.productId, '1')
+    assert.strictEqual(cp.quantity, 1)
+    assert.strictEqual(cp.superAttribute.foo, 'bar')
     done()
   })
 
@@ -17,9 +17,9 @@ describe('ConfigurableProduct', () => {
     cp.addPropertyToSuperAttribute('foo', 'bar')
 
     const jsonObj = cp.toJSON()
-    assert.equal(jsonObj.product['product_id'], cp.productId)
-    assert.equal(jsonObj.product['qty'], cp.quantity)
-    assert.equal(jsonObj.product['super_attribute'].foo, 'bar')
+    assert.strictEqual(jsonObj.product['product_id'], cp.productId)
+    assert.strictEqual(jsonObj.product['qty'], cp.quantity)
+    assert.strictEqual(jsonObj.product['super_attribute'].foo, 'bar')
     done()
   })
 })

@@ -18,13 +18,13 @@ module.exports = function (context, input, cb) {
   const productId = input.productId
   const accessToken = input.token
   const url = context.config.magentoUrl + '/products'
-  const request = context.tracedRequest('magento-cart-extension:requestParentProductFromMagento', {log: true})
+  const request = context.tracedRequest('magento-cart-extension:requestParentProductFromMagento', { log: true })
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
 
   requestParentProductFromMagento(request, productId, accessToken, url, log, !allowSelfSignedCertificate, (err, product) => {
     if (err) return cb(err)
-    cb(null, {product})
+    cb(null, { product })
   })
 }
 
@@ -43,7 +43,7 @@ function requestParentProductFromMagento (request, productId, accessToken, url, 
   const options = {
     baseUrl: url,
     uri: productId,
-    auth: {bearer: accessToken},
+    auth: { bearer: accessToken },
     json: true,
     rejectUnauthorized
   }

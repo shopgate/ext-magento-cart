@@ -36,7 +36,7 @@ describe('CartStorageHandler', () => {
       storages.user.set = (key, value, cb) => { cb(new Error('error')) }
       const csh = new CartStorageHandler(storages)
       csh.set({}, true, (err) => {
-        assert.equal(err.message, 'error')
+        assert.strictEqual(err.message, 'error')
         done()
       })
     })
@@ -57,7 +57,7 @@ describe('CartStorageHandler', () => {
       storages.device.get = (key, cb) => { cb(new Error('error')) }
       const csh = new CartStorageHandler(storages)
       csh.get(false, (err) => {
-        assert.equal(err.message, 'error')
+        assert.strictEqual(err.message, 'error')
         done()
       })
     })

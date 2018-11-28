@@ -24,22 +24,22 @@ describe('createProductCartItemList', () => {
         metadata: {
           type: 'configurable',
           selectedAttributes: [
-            {attributeId: 'pl1', optionId: 'pv1'},
-            {attributeId: 'pl2', optionId: 'pv2'}
+            { attributeId: 'pl1', optionId: 'pv1' },
+            { attributeId: 'pl2', optionId: 'pv2' }
           ]
         }
       }
     ]
-    const input = {products}
+    const input = { products }
 
     step(context, input, (err, result) => {
       assert.ifError(err)
-      assert.equal(result.transformedProducts[0].productId, products[0].productId)
-      assert.equal(result.transformedProducts[0].quantity, products[0].quantity)
-      assert.equal(result.transformedProducts[1].productId, '120')
-      assert.equal(result.transformedProducts[1].quantity, products[1].quantity)
-      assert.equal(result.transformedProducts[1].superAttribute.pl1, 'pv1')
-      assert.equal(result.transformedProducts[1].superAttribute.pl2, 'pv2')
+      assert.strictEqual(result.transformedProducts[0].productId, products[0].productId)
+      assert.strictEqual(result.transformedProducts[0].quantity, products[0].quantity)
+      assert.strictEqual(result.transformedProducts[1].productId, '120')
+      assert.strictEqual(result.transformedProducts[1].quantity, products[1].quantity)
+      assert.strictEqual(result.transformedProducts[1].superAttribute.pl1, 'pv1')
+      assert.strictEqual(result.transformedProducts[1].superAttribute.pl2, 'pv2')
       done()
     })
   })
@@ -51,11 +51,11 @@ describe('createProductCartItemList', () => {
         quantity: 2
       }
     ]
-    const input = {products}
+    const input = { products }
 
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'InvalidCallError')
-      assert.equal(err.code, 'EINVALIDCALL')
+      assert.strictEqual(err.constructor.name, 'InvalidCallError')
+      assert.strictEqual(err.code, 'EINVALIDCALL')
       done()
     })
   })

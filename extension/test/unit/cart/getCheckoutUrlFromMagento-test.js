@@ -29,32 +29,32 @@ describe('getCheckoutUrlFromMagento', () => {
   })
 
   it('should return the checkout url', (done) => {
-    const responseBody = {'expires_in': 3600, url: 'http://some.url/2/'}
+    const responseBody = { 'expires_in': 3600, url: 'http://some.url/2/' }
     const params = 'sgcloud_inapp/1/utm_source/shopgate/utm_medium/app/utm_campaign/web-checkout/'
 
-    nock(context.config.magentoUrl).post('/carts/123/checkoutUrl').reply(200, {'expires_in': 3600, url: 'http://some.url/2/'})
+    nock(context.config.magentoUrl).post('/carts/123/checkoutUrl').reply(200, { 'expires_in': 3600, url: 'http://some.url/2/' })
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
       const calculatedDate = moment(result.expires, moment.ISO_8601, true)
       assert.ifError(err)
-      assert.equal(calculatedDate.isValid(), true)
-      assert.equal(result.url, responseBody.url + params)
+      assert.strictEqual(calculatedDate.isValid(), true)
+      assert.strictEqual(result.url, responseBody.url + params)
       done()
     })
   })
 
   it('should throw an error despite code 200 and if url is not returned', (done) => {
-    const responseBody = {'expires_in': 3600}
+    const responseBody = { 'expires_in': 3600 }
 
     request.post = (options, cb) => {
-      cb(null, {statusCode: 200, body: responseBody})
+      cb(null, { statusCode: 200, body: responseBody })
     }
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'MagentoEndpointError')
-      assert.equal(err.code, 'EINTERNAL')
+      assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
+      assert.strictEqual(err.code, 'EINTERNAL')
       done()
     })
   })
@@ -66,20 +66,20 @@ describe('getCheckoutUrlFromMagento', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.strictEqual(err.message, 'error')
       done()
     })
   })
 
   it('should return an error because the request failed (server)', (done) => {
     request.post = (options, cb) => {
-      cb(null, {statusCode: 456, body: {foo: 'bar'}})
+      cb(null, { statusCode: 456, body: { foo: 'bar' } })
     }
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'MagentoEndpointError')
-      assert.equal(err.code, 'EINTERNAL')
+      assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
+      assert.strictEqual(err.code, 'EINTERNAL')
       done()
     })
   })
@@ -89,8 +89,8 @@ describe('getCheckoutUrlFromMagento', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'InvalidCallError')
-      assert.equal(err.code, 'EINVALIDCALL')
+      assert.strictEqual(err.constructor.name, 'InvalidCallError')
+      assert.strictEqual(err.code, 'EINVALIDCALL')
       done()
     })
   })

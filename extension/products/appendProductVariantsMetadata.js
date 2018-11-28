@@ -12,7 +12,7 @@ module.exports = function (context, input, cb) {
 
   const newProductVariants = buildProductVariantsMetadata(shopgateProductVariants, magentoParentProduct)
 
-  cb(null, {products: newProductVariants})
+  cb(null, { products: newProductVariants })
 }
 
 /**

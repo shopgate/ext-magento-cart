@@ -17,7 +17,7 @@ const util = require('util')
  * @param {MagentoResponseCart} cb.magentoCart
  */
 module.exports = function (context, input, cb) {
-  const request = context.tracedRequest('magento-cart-extension:getCartFromMagento', {log: true})
+  const request = context.tracedRequest('magento-cart-extension:getCartFromMagento', { log: true })
   const cartUrl = context.config.magentoUrl + '/carts'
   const accessToken = input.token
   const log = context.log
@@ -35,7 +35,7 @@ module.exports = function (context, input, cb) {
     const csh = new CartStorageHandler(context.storage)
     csh.set(magentoCart, !!context.meta.userId, (err) => {
       if (err) return cb(err)
-      cb(null, {magentoCart})
+      cb(null, { magentoCart })
     })
   })
 }
@@ -53,7 +53,7 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
   const options = {
     baseUrl: cartUrl,
     uri: cartId.toString(),
-    auth: {bearer: accessToken},
+    auth: { bearer: accessToken },
     json: {},
     rejectUnauthorized
   }

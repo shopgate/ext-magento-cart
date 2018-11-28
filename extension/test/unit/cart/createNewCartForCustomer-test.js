@@ -49,12 +49,12 @@ describe('creating a new cart for customer', () => {
 
   it('check that a success response produces for a guest has no error', (done) => {
     context.storage.device.set = (key, value, cb) => cb()
-    nock(context.config.magentoUrl).post('/carts').reply(200, {cartId: 123})
+    nock(context.config.magentoUrl).post('/carts').reply(200, { cartId: 123 })
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
       assert.ifError(err)
-      assert.equal(result.success, true)
+      assert.strictEqual(result.success, true)
       done()
     })
   })
@@ -62,12 +62,12 @@ describe('creating a new cart for customer', () => {
   it('check that a success response produces for a user has no error', (done) => {
     context.meta.userId = 8
     context.storage.user.set = (key, value, cb) => cb()
-    nock(context.config.magentoUrl).post('/carts').reply(200, {cartId: 123})
+    nock(context.config.magentoUrl).post('/carts').reply(200, { cartId: 123 })
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
       assert.ifError(err)
-      assert.equal(result.success, true)
+      assert.strictEqual(result.success, true)
       done()
     })
   })
@@ -77,8 +77,8 @@ describe('creating a new cart for customer', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'InvalidCallError')
-      assert.equal(err.code, 'EINVALIDCALL')
+      assert.strictEqual(err.constructor.name, 'InvalidCallError')
+      assert.strictEqual(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -88,18 +88,18 @@ describe('creating a new cart for customer', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.strictEqual(err.message, 'error')
       done()
     })
   })
 
   it('should return an MagentoEndpointError because the statusCode of the response is != 200', (done) => {
-    nock(context.config.magentoUrl).post('/carts').reply(201, {messages: {error: [{message: 'error'}]}})
+    nock(context.config.magentoUrl).post('/carts').reply(201, { messages: { error: [{ message: 'error' }] } })
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'MagentoEndpointError')
-      assert.equal(err.code, 'EINTERNAL')
+      assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
+      assert.strictEqual(err.code, 'EINTERNAL')
       done()
     })
   })
@@ -107,11 +107,11 @@ describe('creating a new cart for customer', () => {
   it('check that a success response without a cartId will produce an endpoint error too', (done) => {
     context.storage.user.set = (key, value, cb) => cb()
 
-    nock(context.config.magentoUrl).post('/carts').reply(201, {cartId: 123})
+    nock(context.config.magentoUrl).post('/carts').reply(201, { cartId: 123 })
 
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'MagentoEndpointError')
-      assert.equal(err.code, 'EINTERNAL')
+      assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
+      assert.strictEqual(err.code, 'EINTERNAL')
       done()
     })
   })

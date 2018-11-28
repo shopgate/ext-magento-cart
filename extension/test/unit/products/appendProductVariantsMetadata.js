@@ -13,9 +13,9 @@ describe('appendProductVariantsMetadata', () => {
       const magentoConfigurableProduct = copy(require('../data/magento-configurable-product.json'))
       const resultingVariants = copy(require('../data/shopgate-variants-with-magento-ids.json'))
 
-      step(null, {products: shopgateVariants.products, characteristics: shopgateVariants.characteristics, magentoParentProduct: magentoConfigurableProduct}, (err, result) => {
+      step(null, { products: shopgateVariants.products, characteristics: shopgateVariants.characteristics, magentoParentProduct: magentoConfigurableProduct }, (err, result) => {
         assert.ifError(err)
-        assert.deepEqual(resultingVariants, result)
+        assert.deepStrictEqual(resultingVariants, result)
         done()
       })
     })

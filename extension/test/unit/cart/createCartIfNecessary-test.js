@@ -45,7 +45,7 @@ describe('createCartIfNecessary', () => {
 
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.equal(result.cartId, 'cId1')
+        assert.strictEqual(result.cartId, 'cId1')
         done()
       })
     })
@@ -54,7 +54,7 @@ describe('createCartIfNecessary', () => {
       context.storage.device.get = (key, cb) => cb(new Error('error'))
 
       step(context, input, (err) => {
-        assert.equal(err.message, 'error')
+        assert.strictEqual(err.message, 'error')
         done()
       })
     })
@@ -63,11 +63,11 @@ describe('createCartIfNecessary', () => {
       context.storage.device.get = (key, cb) => cb()
       context.storage.device.set = (key, value, cb) => cb()
 
-      nock(context.config.magentoUrl).post('/carts').reply(200, {cartId: 'cId1'})
+      nock(context.config.magentoUrl).post('/carts').reply(200, { cartId: 'cId1' })
 
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.equal(result.cartId, 'cId1')
+        assert.strictEqual(result.cartId, 'cId1')
         done()
       })
     })
@@ -78,7 +78,7 @@ describe('createCartIfNecessary', () => {
       nock(context.config.magentoUrl).post('/carts').replyWithError('error')
 
       step(context, input, (err) => {
-        assert.equal(err.message, 'error')
+        assert.strictEqual(err.message, 'error')
         done()
       })
     })
@@ -87,10 +87,10 @@ describe('createCartIfNecessary', () => {
       context.storage.device.get = (key, cb) => cb()
       context.storage.device.set = (key, value, cb) => cb(new Error('error'))
 
-      nock(context.config.magentoUrl).post('/carts').reply(200, {success: [{cartId: 'cId1'}]})
+      nock(context.config.magentoUrl).post('/carts').reply(200, { success: [{ cartId: 'cId1' }] })
 
       step(context, input, (err) => {
-        assert.equal(err.message, 'error')
+        assert.strictEqual(err.message, 'error')
         done()
       })
     })
@@ -100,7 +100,7 @@ describe('createCartIfNecessary', () => {
 
       step(context, input, (err, result) => {
         assert.ifError(err)
-        assert.equal(result.cartId, 'me')
+        assert.strictEqual(result.cartId, 'me')
         done()
       })
     })
@@ -111,12 +111,12 @@ describe('createCartIfNecessary', () => {
 
     it('should return an error because the return code is >= 400', (done) => {
       context.tracedRequest.post = (options, cb) => {
-        cb(null, {statusCode: 400}, {error: 'error'})
+        cb(null, { statusCode: 400 }, { error: 'error' })
       }
 
       createCart(context.tracedRequest, input.tokens.accessToken, context.config.magentoUrl, context.log, null, (err) => {
-        assert.equal(err.constructor.name, 'MagentoEndpointError')
-        assert.equal(err.code, 'EINTERNAL')
+        assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
+        assert.strictEqual(err.code, 'EINTERNAL')
         done()
       })
     })

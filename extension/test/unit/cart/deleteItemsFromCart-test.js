@@ -34,13 +34,13 @@ describe('deleteItemsFromCart', () => {
 
   it('should delete products from the cart', (done) => {
     request.delete = (options, cb) => {
-      cb(null, {statusCode: 200}, {})
+      cb(null, { statusCode: 200 }, {})
     }
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err, result) => {
       assert.ifError(err)
-      assert.deepEqual(result, {})
+      assert.deepStrictEqual(result, {})
       done()
     })
   })
@@ -50,8 +50,8 @@ describe('deleteItemsFromCart', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'InvalidCallError')
-      assert.equal(err.code, 'EINVALIDCALL')
+      assert.strictEqual(err.constructor.name, 'InvalidCallError')
+      assert.strictEqual(err.code, 'EINVALIDCALL')
       done()
     })
   })
@@ -63,20 +63,20 @@ describe('deleteItemsFromCart', () => {
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.message, 'error')
+      assert.strictEqual(err.message, 'error')
       done()
     })
   })
 
   it('should return an error because the status code is not 200', (done) => {
     request.delete = (options, cb) => {
-      cb(null, {statusCode: 456}, {foo: 'bar'})
+      cb(null, { statusCode: 456 }, { foo: 'bar' })
     }
 
     // noinspection JSCheckFunctionSignatures
     step(context, input, (err) => {
-      assert.equal(err.constructor.name, 'MagentoEndpointError')
-      assert.equal(err.code, 'EINTERNAL')
+      assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
+      assert.strictEqual(err.code, 'EINTERNAL')
       done()
     })
   })

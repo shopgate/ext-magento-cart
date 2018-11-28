@@ -26,9 +26,9 @@ module.exports = function (context, input, cb) {
     return cb()
   }
 
-  assignCartCustomer(context.tracedRequest('magento-cart-extension:setCartCustomer', {log: true}), input.token, cartId, cartUrl, log, !allowSelfSignedCertificate, (err) => {
+  assignCartCustomer(context.tracedRequest('magento-cart-extension:setCartCustomer', { log: true }), input.token, cartId, cartUrl, log, !allowSelfSignedCertificate, (err) => {
     if (err) return cb(err)
-    cb(null, {messages: null})
+    cb(null, { messages: null })
   })
 }
 
@@ -45,7 +45,7 @@ function assignCartCustomer (request, accessToken, cartId, cartUrl, log, rejectU
   const options = {
     baseUrl: cartUrl,
     uri: cartId.toString() + '/customer',
-    auth: {bearer: accessToken},
+    auth: { bearer: accessToken },
     json: {},
     rejectUnauthorized
   }

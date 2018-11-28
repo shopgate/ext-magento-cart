@@ -50,7 +50,7 @@ module.exports = function (context, input, cb) {
     }
     transformedProducts.push(transformedProduct)
   }
-  cb(null, {transformedProducts})
+  cb(null, { transformedProducts })
 }
 
 /**
