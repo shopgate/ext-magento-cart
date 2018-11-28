@@ -4,12 +4,24 @@
     "id": "shopgate.cart.updateProducts.v1",
     "public": true,
     "input": [
-      {"key": "CartItem", "id": "1010"}
+      {"key": "CartItem", "id": "1020", "optional": true},
+      {"key": "cartItems", "id": "1021", "optional": true}
     ],
     "output": [
       {"key": "messages", "id": "1100", "optional": true}
     ],
     "steps": [
+      {
+        "type": "conditional",
+        "input": [{"key": "cartItems", "id": "1021", "optional": true}],
+        "expression": {"notok": [{"name": "cartItems"}]},
+        "then": {
+          "type": "staticValue",
+          "input": [{"key": "CartItem", "id": "1020", "optional": true}],
+          "values": [{"key": "cartItems", "passthrough": "CartItem"}],
+          "output": [{"key": "cartItems", "id": "1021"}]
+        }
+      },
       {
         "type": "extension",
         "id": "@shopgate/magento-cart",
@@ -31,7 +43,7 @@
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/updateProductsInCart.js",
         "input": [
-          {"key": "CartItem", "id": "1010"},
+          {"key": "cartItems", "id": "1021"},
           {"key": "token", "id": "10"},
           {"key": "cartId", "id": "1"}
         ],
