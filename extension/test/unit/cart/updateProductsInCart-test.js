@@ -39,8 +39,8 @@ describe('updateProductsInCart', () => {
 
   /** @var {UpdateProductsInCartInput} */
   const input = {
-    CartItem: [{
-      CartItemId: 'cartItem1',
+    cartItems: [{
+      cartItemId: 'cartItem1',
       quantity: 2
     }],
     token: 'a1',
