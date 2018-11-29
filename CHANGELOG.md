@@ -12,5 +12,5 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Added
 - support for guest checkout
 
-[Unreleased]: https://stash.localdev.cc/projects/SGX/repos/magento-cart/compare/commits?targetBranch=refs%2Ftags%2Fv1.1.0&sourceBranch=refs%2Fheads%2Fmaster
-[1.1.0]: https://stash.localdev.cc/projects/SGX/repos/magento-cart/commits?until=refs%2Ftags%2Fv1.1.0
+[Unreleased]: https://github.com/shopgate/ext-magento-cart/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/shopgate/ext-magento-cart/compare/v1.0.1...v1.1.0
