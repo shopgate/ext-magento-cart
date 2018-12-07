@@ -9,7 +9,7 @@ const util = require('util')
  * @typedef {Object} UpdateProductsInCartInput
  * @property {(string|number)} cartId - could be 'me' or actual cart id
  * @property {string} token
- * @property {[UpdateProductsInCartInputCartItems]} CartItem
+ * @property {[UpdateProductsInCartInputCartItems]} cartItems
  */
 /**
  * @typedef {Object} UpdateProductsInCartInputCartItems
@@ -29,7 +29,7 @@ module.exports = function (context, input, cb) {
   const cartUrl = context.config.magentoUrl + '/carts'
   const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
-  const cartItems = input.CartItem
+  const cartItems = input.cartItems
   const accessToken = input.token
   const cartId = input.cartId
 
@@ -145,18 +145,18 @@ function transformToUpdateItems (cartItems, magentoCart) {
 
 /**
  * @todo-sg: defined all error cases
- * @param {Object} cartItem contains: CartItemId and quantity
+ * @param {Object} cartItem contains: cartItemId and quantity
  * @param {[Object]} cartItemMap
  *
  * @return {MagentoRequestUpdateItem}
  * @throws {Error}
  */
 function transformToUpdateItem (cartItem, cartItemMap) {
-  const magentoCartItem = cartItemMap[cartItem.CartItemId]
+  const magentoCartItem = cartItemMap[cartItem.cartItemId]
   let parentProduct = null
 
   if (cartItem.quantity < 0) {
-    throw new Error(`cartItem ${cartItem.CartItemId} has a negative quantity (${cartItem.quantity})`)
+    throw new Error(`cartItem ${cartItem.cartItemId} has a negative quantity (${cartItem.quantity})`)
   }
 
   if (magentoCartItem['parent_item_id']) {
@@ -164,7 +164,7 @@ function transformToUpdateItem (cartItem, cartItemMap) {
     parentProduct = new Product(magentoCartItemParent['item_id'], magentoCartItemParent['product_id'])
   }
 
-  const product = new Product(cartItem.CartItemId, magentoCartItem['product_id'], cartItem.quantity, parentProduct)
+  const product = new Product(cartItem.cartItemId, magentoCartItem['product_id'], cartItem.quantity, parentProduct)
 
   return product.transformToUpdateProductItem()
 }

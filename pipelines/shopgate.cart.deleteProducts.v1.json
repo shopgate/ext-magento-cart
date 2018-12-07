@@ -4,12 +4,24 @@
     "id": "shopgate.cart.deleteProducts.v1",
     "public": true,
     "input": [
-      {"key": "CartItemIds", "id": "1000"}
+      {"key": "CartItemIds", "id": "1020", "optional": true},
+      {"key": "cartItemIds", "id": "1021", "optional": true}
     ],
     "output": [
       {"key": "messages", "id": "1100", "optional": true}
     ],
     "steps": [
+      {
+        "type": "conditional",
+        "input": [{"key": "cartItemIds", "id": "1021", "optional": true}],
+        "expression": {"notok": [{"name": "cartItemIds"}]},
+        "then": {
+          "type": "staticValue",
+          "input": [{"key": "CartItemIds", "id": "1020", "optional": true}],
+          "values": [{"key": "cartItemIds", "passthrough": "CartItemIds"}],
+          "output": [{"key": "cartItemIds", "id": "1021"}]
+        }
+      },
       {
         "type": "extension",
         "id": "@shopgate/magento-cart",
@@ -33,7 +45,7 @@
         "input": [
           {"key": "cartId", "id": "1"},
           {"key": "token", "id": "10"},
-          {"key": "cartItemIds", "id": "1000"}
+          {"key": "cartItemIds", "id": "1021", "optional": true}
         ],
         "output": [
           {"key": "messages", "id": "1100", "optional": true}

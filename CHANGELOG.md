@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [Unreleased]
 ### Added
 - localisation for the message a coupon is invalid
+### Changed
+- changed pipelines `shopgate.cart.updateProducts.v1` and `shopgate.cart.deleteProducts.v1` to meet specification in the Shopgate developer portal
 
 ## [1.1.0] - 2018-10-01
 ### Added
