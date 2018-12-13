@@ -5,7 +5,7 @@
     "public": true,
     "input": [
       {"key": "products", "id": "1"},
-      {"key": "sgxsMeta", "id": "750"}
+      {"key": "sgxsMeta", "id": "750", "optional": true}
     ],
     "output": [
       {"key": "messages", "id": "100", "optional": true}
@@ -25,7 +25,7 @@
         "path": "@shopgate/magento-cart/cart/createCartIfNecessary.js",
         "input": [
           {"key": "token", "id": "10"},
-          {"key": "sgxsMeta", "id": "750"}
+          {"key": "sgxsMeta", "id": "750", "optional": true}
         ],
         "output": [
           {"key": "cartId", "id": "2"}

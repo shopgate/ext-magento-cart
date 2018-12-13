@@ -1,6 +1,6 @@
 {
   "name": "@shopgate/magento-cart",
-  "version": "1.1.0",
+  "version": "1.1.1-alpha.1",
   "description": "prototype",
   "scripts": {
     "lint": "./node_modules/.bin/eslint --ignore-path ../.gitignore --ext .js --ext .jsx .",
