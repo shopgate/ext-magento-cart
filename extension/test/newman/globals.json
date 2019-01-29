@@ -1,0 +1,44 @@
+{
+  "id": "605017bd-48d6-4075-8058-48eae3c22d2c",
+  "values": [
+    {
+      "key": "port",
+      "value": "8090",
+      "description": "",
+      "enabled": true
+    },
+    {
+      "key": "domain",
+      "value": "http://localhost:{{port}}",
+      "description": "",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_login",
+      "value": "/trustedPipelines/shopgate.user.loginUser.v1",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_logout",
+      "value": "/trustedPipelines/shopgate.user.logoutUser.v1",
+      "description": "",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_user_logout",
+      "value": "/trustedPipelines/shopgate.user.logoutUser.v1",
+      "description": "",
+      "enabled": true
+    },
+    {
+      "key": "endpoint_cart_get",
+      "value": "/pipelines/shopgate.cart.getCart.v1",
+      "description": "",
+      "enabled": true
+    }
+  ],
+  "name": "SG Connect Extensions Globals",
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2018-10-05T13:47:14.948Z",
+  "_postman_exported_using": "Postman/6.3.0"
+}

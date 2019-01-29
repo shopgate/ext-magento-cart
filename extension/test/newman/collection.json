@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "719121d5-f784-4079-a4b0-d1213ea6dce5",
+		"name": "Magento Connect - Cart",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Preparation",
+					"item": [
+						{
+							"name": "Logout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "73f7922e-ca38-4f28-855f-6db6b6e0dd01",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "{{domain}}{{endpoint_user_logout}}",
+									"host": [
+										"{{domain}}{{endpoint_user_logout}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "73f7922e-ca38-4f28-855f-6db6b6e0dd01",
+										"exec": [
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"strategy\": \"basic\",\n\t\"parameters\": {\n\t\t\"login\": \"{{username}}\",\n\t\t\"password\": \"{{password}}\"\n\t}\n}"
+								},
+								"url": {
+									"raw": "{{domain}}{{endpoint_user_login}}",
+									"host": [
+										"{{domain}}{{endpoint_user_login}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "get/add/delete",
+					"item": [
+						{
+							"name": "Check is there a product with text input",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5cd67dd2-faf6-4720-8031-cbf3a65d0a32",
+										"exec": [
+											"const response = pm.response.json()",
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const desiredCartItem = response.cartItems.find(item => item.product && item.product.id === '370')",
+											"pm.test('Existing cart item with input text', () => {",
+											"    const {product: {properties}} = desiredCartItem",
+											"    const textInputProperty = properties[0]",
+											"    pm.expect(desiredCartItem).to.be.an('object')",
+											"    pm.expect(properties).to.be.an('array')",
+											"    pm.expect(textInputProperty.type).to.equal('option')",
+											"    pm.expect(textInputProperty.label).to.equal('Monogramming')",
+											"    pm.expect(textInputProperty.value).to.equal('DEMO Text')",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "{{domain}}{{endpoint_cart_get}}",
+									"host": [
+										"{{domain}}{{endpoint_cart_get}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}
