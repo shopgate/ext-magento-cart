@@ -90,7 +90,52 @@
 					"name": "get/add/delete",
 					"item": [
 						{
-							"name": "Check is there a product with text input",
+							"name": "There is no product with text input",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5cd67dd2-faf6-4720-8031-cbf3a65d0a32",
+										"exec": [
+											"const response = pm.response.json()",
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const desiredCartItem = response.cartItems.find(item => item.product && item.product.id === '553')",
+											"pm.test('Cart item with input text is not there', () => {",
+											"    pm.expect(desiredCartItem).to.be.an('undefined')",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "{{domain}}{{endpoint_cart_get}}",
+									"host": [
+										"{{domain}}{{endpoint_cart_get}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add a simple product with text input",
 							"event": [
 								{
 									"listen": "test",
@@ -111,6 +156,57 @@
 											"    pm.expect(properties).to.be.an('array')",
 											"    pm.expect(textInputProperty.type).to.equal('option')",
 											"    pm.expect(textInputProperty.label).to.equal('Monogramming')",
+											"    pm.expect(textInputProperty.value).to.equal('DEMO Text')",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"option\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+								},
+								"url": {
+									"raw": "{{domain}}{{endpoint_cart_addProducts}}",
+									"host": [
+										"{{domain}}{{endpoint_cart_addProducts}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Now there a product with text input",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5cd67dd2-faf6-4720-8031-cbf3a65d0a32",
+										"exec": [
+											"const response = pm.response.json()",
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const desiredCartItem = response.cartItems.find(item => item.product && item.product.id === '553')",
+											"pm.test('Existing cart item with input text', () => {",
+											"    const {product: {properties}} = desiredCartItem",
+											"    const textInputProperty = properties[0]",
+											"    pm.expect(desiredCartItem).to.be.an('object')",
+											"    pm.expect(properties).to.be.an('array')",
+											"    pm.expect(textInputProperty.type).to.equal('option')",
+											"    pm.expect(textInputProperty.label).to.equal('Engraving')",
 											"    pm.expect(textInputProperty.value).to.equal('DEMO Text')",
 											"})",
 											""
