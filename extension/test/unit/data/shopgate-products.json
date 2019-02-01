@@ -7,6 +7,13 @@
     }
   },
   {
+    "id": "simple2-with-text-input-option",
+    "featuredImageUrl": "image",
+    "identifiers": {
+      "sku": "simple2-with-text-input-option"
+    }
+  },
+  {
     "id": "parent1-child1",
     "featuredImageUrl": "image",
     "characteristics": [
