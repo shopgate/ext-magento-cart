@@ -28,6 +28,13 @@ describe('createProductCartItemList', () => {
             { attributeId: 'pl2', optionId: 'pv2' }
           ]
         }
+      },
+      {
+        productId: '2',
+        quantity: 1,
+        properties : [
+          { id: '68', value: 'Text Input' }
+        ]
       }
     ]
     const input = { products }
@@ -40,6 +47,9 @@ describe('createProductCartItemList', () => {
       assert.strictEqual(result.transformedProducts[1].quantity, products[1].quantity)
       assert.strictEqual(result.transformedProducts[1].superAttribute.pl1, 'pv1')
       assert.strictEqual(result.transformedProducts[1].superAttribute.pl2, 'pv2')
+      assert.strictEqual(result.transformedProducts[2].productId, '2')
+      assert.strictEqual(result.transformedProducts[2].quantity, products[2].quantity)
+      assert.strictEqual(result.transformedProducts[2].properties[68], 'Text Input')
       done()
     })
   })
