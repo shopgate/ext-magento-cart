@@ -48,6 +48,26 @@
         ],
         "appliedDiscounts": []
       }
+    }, {
+      "id": "cartItem6",
+      "quantity": 2,
+      "type": "product",
+      "messages": [],
+      "product": {
+        "id": "simple2-with-text-input-option",
+        "name": "simple2 with text input option",
+        "featuredImageUrl": "image",
+        "price": { "unit": 2, "default": 1, "special": null },
+        "additionalInfo": [ { "label": "sku", "value": "simple2-with-text-input-option" } ],
+        "appliedDiscounts": [],
+        "properties": [
+          {
+            "label": "Monogramming",
+            "type": "option",
+            "value": "Sample text"
+          }
+        ]
+      }
     }
   ],
   "currency": "USD",
