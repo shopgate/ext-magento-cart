@@ -360,6 +360,49 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Add a simple product with invalid input id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5cd67dd2-faf6-4720-8031-cbf3a65d0a32",
+										"exec": [
+											"const response = pm.response.json()",
+											"",
+											"pm.test('Status code is 500', function () {",
+											"    pm.response.to.have.status(500);",
+											"});",
+											"",
+											"pm.test('Error is thrown', function () {",
+											"    pm.expect(response.error.code).to.equal('EINVALIDITEM')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"8\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+								},
+								"url": {
+									"raw": "{{domain}}{{endpoint_cart_products_add}}",
+									"host": [
+										"{{domain}}{{endpoint_cart_products_add}}"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"event": [
@@ -693,6 +736,49 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text is too long\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+								},
+								"url": {
+									"raw": "{{domain}}{{endpoint_cart_products_add}}",
+									"host": [
+										"{{domain}}{{endpoint_cart_products_add}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add a simple product with invalid input id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5cd67dd2-faf6-4720-8031-cbf3a65d0a32",
+										"exec": [
+											"const response = pm.response.json()",
+											"",
+											"pm.test('Status code is 500', function () {",
+											"    pm.response.to.have.status(500);",
+											"});",
+											"",
+											"pm.test('Error is thrown', function () {",
+											"    pm.expect(response.error.code).to.equal('EINVALIDITEM')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"8\",\n\t\t\t\t\t\"value\": \"DEMO Text is too long\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "{{domain}}{{endpoint_cart_products_add}}",
