@@ -166,7 +166,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"option\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "{{domain}}{{endpoint_cart_products_add}}",
@@ -256,7 +256,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 370,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"option\",\n\t\t\t\t\t\"id\": \"4\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 370,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"4\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "{{domain}}{{endpoint_cart_products_add}}",
@@ -350,7 +350,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"option\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text is too long\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text is too long\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "{{domain}}{{endpoint_cart_products_add}}",
@@ -508,7 +508,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"option\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "{{domain}}{{endpoint_cart_products_add}}",
@@ -598,7 +598,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 370,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"option\",\n\t\t\t\t\t\"id\": \"4\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 370,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"4\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "{{domain}}{{endpoint_cart_products_add}}",
@@ -692,7 +692,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"option\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text is too long\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text is too long\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "{{domain}}{{endpoint_cart_products_add}}",
