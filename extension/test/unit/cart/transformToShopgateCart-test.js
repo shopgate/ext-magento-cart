@@ -105,7 +105,7 @@ describe('transformToShopgateCart', () => {
 
   describe('transformToShopgateCart with text input option', () => {
     const context = { config: { enableCoupons: true } }
-    it('should return a products with text input option', (done) => {
+    it('should return a product with text input option', (done) => {
       step(context, input, (err, result) => {
         const property = result.cartItems[3].product.properties[0]
         assert.strictEqual(property.type, 'option')

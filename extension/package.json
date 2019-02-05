@@ -7,6 +7,7 @@
     "test": "./node_modules/.bin/_mocha --use_strict --recursive ./test/unit",
     "cover": "./node_modules/.bin/nyc npm test && ./node_modules/.bin/nyc report --reporter=text-lcov | coveralls",
     "newman": "./node_modules/.bin/newman run ./test/newman/collection.json --globals ./test/newman/globals.json --environment ./test/newman/environment.json",
+    "init-newman": "node ./test/newman/setup.js",
     "checkVulnerabilities": "check-audit"
   },
   "repository": {

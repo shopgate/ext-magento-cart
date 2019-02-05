@@ -29,6 +29,12 @@
       "value": "/pipelines/shopgate.cart.getCart.v1",
       "description": "",
       "enabled": true
+    },
+    {
+      "key": "endpoint_cart_products_add",
+      "value": "/pipelines/shopgate.cart.addProducts.v1",
+      "description": "",
+      "enabled": true
     }
   ],
   "name": "SG Connect Extensions Globals",
