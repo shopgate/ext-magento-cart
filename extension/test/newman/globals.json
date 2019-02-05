@@ -25,12 +25,6 @@
       "enabled": true
     },
     {
-      "key": "endpoint_user_logout",
-      "value": "/trustedPipelines/shopgate.user.logoutUser.v1",
-      "description": "",
-      "enabled": true
-    },
-    {
       "key": "endpoint_cart_get",
       "value": "/pipelines/shopgate.cart.getCart.v1",
       "description": "",
