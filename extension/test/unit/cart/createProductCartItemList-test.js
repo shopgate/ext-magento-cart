@@ -49,7 +49,7 @@ describe('createProductCartItemList', () => {
       assert.strictEqual(result.transformedProducts[1].superAttribute.pl2, 'pv2')
       assert.strictEqual(result.transformedProducts[2].productId, '2')
       assert.strictEqual(result.transformedProducts[2].quantity, products[2].quantity)
-      assert.strictEqual(result.transformedProducts[2].properties[68], 'Text Input')
+      assert.strictEqual(result.transformedProducts[2].options[68], 'Text Input')
       done()
     })
   })

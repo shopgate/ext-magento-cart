@@ -2,15 +2,15 @@ class SimpleProduct {
   constructor (productId, quantity) {
     this.productId = productId
     this.quantity = quantity
-    this.properties = {}
+    this.options = {}
   }
 
   /**
    * @param {string} key
    * @param {string} value
    */
-  addProperties (key, value) {
-    this.properties[key] = value
+  addOptions (key, value) {
+    this.options[key] = value
   }
 
   toJSON () {
@@ -18,7 +18,7 @@ class SimpleProduct {
       product: {
         'product_id': this.productId,
         'qty': this.quantity,
-        'options': this.properties
+        'options': this.options
       }
     }
   }

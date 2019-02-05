@@ -56,12 +56,12 @@ module.exports = function (context, input, cb) {
       transformedProduct = new SimpleProduct(products[i].productId, products[i].quantity)
     }
     if (products[i].hasOwnProperty('properties')) {
-      for (j = 0; j < products[i].properties.length; j++) {
-        transformedProduct.addProperties(
-          products[i].properties[j].id,
-          products[i].properties[j].value
+      products[i].properties.forEach(function(property) {
+        transformedProduct.addOptions(
+          property.id,
+          property.value
         )
-      }
+      })
     }
     transformedProducts.push(transformedProduct)
   }
