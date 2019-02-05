@@ -175,7 +175,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 906,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"8\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+											"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"8\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 										},
 										"url": {
 											"raw": "{{domain}}{{endpoint_cart_products_add}}",
