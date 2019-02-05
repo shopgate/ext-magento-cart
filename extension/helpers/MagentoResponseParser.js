@@ -24,6 +24,10 @@ class MagentoErrorParser {
     if (message === 'Coupon is not valid.') {
       return 'cart.coupon_invalid'
     }
+    const detailMessages = get(body, 'messages.error[0].messages[0]', '')
+    if (detailMessages) {
+      return message + detailMessages
+    }
 
     return message
   }
