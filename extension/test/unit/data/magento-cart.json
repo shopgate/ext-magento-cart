@@ -67,6 +67,26 @@
       "name": "other child of parent 1",
       "qty": 1,
       "price": 1.0
+    },
+    {
+      "item_id": "cartItem6",
+      "product_id": "simple2-with-text-input-option",
+      "product_type": "simple",
+      "name": "simple2 with text input option",
+      "qty": 2,
+      "price": 2.0,
+      "base_row_total": 1.0,
+      "options" : [
+        {
+          "label": "Monogramming",
+          "value": "Sample text",
+          "print_value": "Sample text",
+          "option_id": "4",
+          "option_type": "area",
+          "option_value": "Sample text",
+          "custom_view": false
+      }
+      ]
     }
   ]
 }

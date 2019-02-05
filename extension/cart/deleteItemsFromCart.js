@@ -1,4 +1,3 @@
-const _ = require('underscore')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
@@ -33,7 +32,7 @@ module.exports = function (context, input, cb) {
   // We need the ability to get couponCodes here from the pipeline call
   if ((!input.cartItemIds || input.cartItemIds.length <= 0) && (input.couponCodes && input.couponCodes.length > 0)) {
     cartItemIds = []
-    _.each(input.couponCodes, function (couponCode) {
+    input.couponCodes.forEach(couponCode => {
       cartItemIds.push('COUPON_' + couponCode)
     })
   }

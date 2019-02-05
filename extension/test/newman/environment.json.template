@@ -1,0 +1,23 @@
+{
+  "id": "a99b69ea-21df-4279-ab87-4e8dc1380c3c",
+  "name": "Magento Connect Cart",
+  "values": [
+    {
+      "key": "username",
+      "value": "***",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "password",
+      "value": "***",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2018-11-01T13:59:29.627Z",
+  "_postman_exported_using": "Postman/6.2.4"
+}

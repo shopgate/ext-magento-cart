@@ -201,6 +201,17 @@ function getCartItems (magentoCart, shopgateProducts) {
         }
       }
 
+      if (magentoCart.items[i].options) {
+        magentoCart.items[i].options.filter(option => {
+          const allowedTypes = ['field', 'area']
+          return allowedTypes.includes(option.option_type)
+        }).forEach(option => {
+          const property = new Property('option', option.value)
+          property.setLabel(option.label)
+          product.addProperty(property)
+        })
+      }
+
       if (shopgateProduct.identifiers && shopgateProduct.identifiers.sku) {
         product.addAdditionalInfo(new AdditionalInfo('sku', shopgateProduct.identifiers.sku))
       }
