@@ -203,7 +203,7 @@ function getCartItems (magentoCart, shopgateProducts) {
 
       if (magentoCart.items[i].options) {
         magentoCart.items[i].options.filter(option => {
-          const allowedTypes = ['text', 'area']
+          const allowedTypes = ['field', 'area']
           return allowedTypes.includes(option.option_type)
         }).forEach(option => {
           const property = new Property('option', option.value)
