@@ -31,7 +31,7 @@
       "enabled": true
     },
     {
-      "key": "endpoint_cart_addProducts",
+      "key": "endpoint_cart_products_add",
       "value": "/pipelines/shopgate.cart.addProducts.v1",
       "description": "",
       "enabled": true

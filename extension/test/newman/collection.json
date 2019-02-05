@@ -146,19 +146,7 @@
 											"",
 											"pm.test('Status code is 200', function () {",
 											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"const desiredCartItem = response.cartItems.find(item => item.product && item.product.id === '370')",
-											"pm.test('Existing cart item with input text', () => {",
-											"    const {product: {properties}} = desiredCartItem",
-											"    const textInputProperty = properties[0]",
-											"    pm.expect(desiredCartItem).to.be.an('object')",
-											"    pm.expect(properties).to.be.an('array')",
-											"    pm.expect(textInputProperty.type).to.equal('option')",
-											"    pm.expect(textInputProperty.label).to.equal('Monogramming')",
-											"    pm.expect(textInputProperty.value).to.equal('DEMO Text')",
-											"})",
-											""
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -177,16 +165,16 @@
 									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"option\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
-									"raw": "{{domain}}{{endpoint_cart_addProducts}}",
+									"raw": "{{domain}}{{endpoint_cart_products_add}}",
 									"host": [
-										"{{domain}}{{endpoint_cart_addProducts}}"
+										"{{domain}}{{endpoint_cart_products_add}}"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Now there a product with text input",
+							"name": "Product with input text exists",
 							"event": [
 								{
 									"listen": "test",
@@ -202,9 +190,9 @@
 											"const desiredCartItem = response.cartItems.find(item => item.product && item.product.id === '553')",
 											"pm.test('Existing cart item with input text', () => {",
 											"    const {product: {properties}} = desiredCartItem",
-											"    const textInputProperty = properties[0]",
 											"    pm.expect(desiredCartItem).to.be.an('object')",
 											"    pm.expect(properties).to.be.an('array')",
+											"    const textInputProperty = properties[0]",
 											"    pm.expect(textInputProperty.type).to.equal('option')",
 											"    pm.expect(textInputProperty.label).to.equal('Engraving')",
 											"    pm.expect(textInputProperty.value).to.equal('DEMO Text')",
