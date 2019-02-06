@@ -63,7 +63,7 @@
         "properties": [
           {
             "label": "Monogramming",
-            "type": "option",
+            "type": "input",
             "value": "Sample text"
           }
         ]

@@ -32,7 +32,7 @@ describe('createProductCartItemList', () => {
       {
         productId: '2',
         quantity: 1,
-        properties: [
+        options: [
           { id: '68', value: 'Text Input' }
         ]
       }
