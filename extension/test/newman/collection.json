@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b5fe4c6f-d279-48ae-b65c-e7cac04a58ed",
+		"_postman_id": "5f8a0be4-11dc-4661-a5b6-f6d2c1d2d6c8",
 		"name": "Magento Connect - Cart",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -128,7 +128,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text is too long\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+											"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"options\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"text\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text is too long\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 										},
 										"url": {
 											"raw": "{{domain}}{{endpoint_cart_products_add}}",
@@ -158,7 +158,7 @@
 													"});",
 													"",
 													"pm.test('Error has the right format', function () {",
-													"    pm.expect(response.error.message).to.equal('Product(s) could not be added. The text is too long')",
+													"    pm.expect(response.error.message).to.equal('Product(s) could not be added. Please specify the product required option(s).')",
 													"});"
 												],
 												"type": "text/javascript"
@@ -175,7 +175,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"8\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+											"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"options\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"text\",\n\t\t\t\t\t\"id\": \"8\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 										},
 										"url": {
 											"raw": "{{domain}}{{endpoint_cart_products_add}}",
@@ -266,7 +266,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"options\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"text\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "{{domain}}{{endpoint_cart_products_add}}",
@@ -356,7 +356,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 370,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"4\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 370,\n\t\t\t\"quantity\": 1,\n\t\t\t\"options\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"text\",\n\t\t\t\t\t\"id\": \"4\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "{{domain}}{{endpoint_cart_products_add}}",
@@ -531,7 +531,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text is too long\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+											"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"options\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"text\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text is too long\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 										},
 										"url": {
 											"raw": "{{domain}}{{endpoint_cart_products_add}}",
@@ -574,7 +574,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"8\",\n\t\t\t\t\t\"value\": \"DEMO Text is too long\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+											"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"options\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"text\",\n\t\t\t\t\t\"id\": \"8\",\n\t\t\t\t\t\"value\": \"DEMO Text is too long\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 										},
 										"url": {
 											"raw": "{{domain}}{{endpoint_cart_products_add}}",
@@ -661,7 +661,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 553,\n\t\t\t\"quantity\": 1,\n\t\t\t\"options\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"text\",\n\t\t\t\t\t\"id\": \"7\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "{{domain}}{{endpoint_cart_products_add}}",
@@ -751,7 +751,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 370,\n\t\t\t\"quantity\": 1,\n\t\t\t\"properties\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"input\",\n\t\t\t\t\t\"id\": \"4\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
+									"raw": "{\n\t\"products\": [\n\t\t{\n\t\t\t\"productId\": 370,\n\t\t\t\"quantity\": 1,\n\t\t\t\"options\": [\n\t\t\t\t{\n\t\t\t\t\t\"type\": \"text\",\n\t\t\t\t\t\"id\": \"4\",\n\t\t\t\t\t\"value\": \"DEMO Text\"\n\t\t\t\t}\n\t\t\t\t]\n\t\t}\n\t\t]\n}"
 								},
 								"url": {
 									"raw": "{{domain}}{{endpoint_cart_products_add}}",
