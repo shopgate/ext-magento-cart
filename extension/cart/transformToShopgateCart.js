@@ -206,7 +206,7 @@ function getCartItems (magentoCart, shopgateProducts) {
           const allowedTypes = ['field', 'area']
           return allowedTypes.includes(option.option_type)
         }).forEach(option => {
-          const property = new Property('option', option.value)
+          const property = new Property('input', option.value)
           property.setLabel(option.label)
           product.addProperty(property)
         })

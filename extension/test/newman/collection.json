@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "64fbe02d-498e-402e-a247-92b1ebf9df58",
+		"_postman_id": "b5fe4c6f-d279-48ae-b65c-e7cac04a58ed",
 		"name": "Magento Connect - Cart",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -297,7 +297,7 @@
 											"    const {product: {properties}} = desiredCartItem",
 											"    pm.expect(properties).to.be.an('array')",
 											"    const textInputProperty = properties[0]",
-											"    pm.expect(textInputProperty.type).to.equal('option')",
+											"    pm.expect(textInputProperty.type).to.equal('input')",
 											"    pm.expect(textInputProperty.label).to.equal('Engraving')",
 											"    pm.expect(textInputProperty.value).to.equal('DEMO Text')",
 											"})",
@@ -387,7 +387,7 @@
 											"    const {product: {properties}} = desiredCartItem",
 											"    pm.expect(properties).to.be.an('array')",
 											"    const textInputProperty = properties[0]",
-											"    pm.expect(textInputProperty.type).to.equal('option')",
+											"    pm.expect(textInputProperty.type).to.equal('input')",
 											"    pm.expect(textInputProperty.label).to.equal('Monogramming')",
 											"    pm.expect(textInputProperty.value).to.equal('DEMO Text')",
 											"})",
@@ -692,7 +692,7 @@
 											"    const {product: {properties}} = desiredCartItem",
 											"    pm.expect(properties).to.be.an('array')",
 											"    const textInputProperty = properties[0]",
-											"    pm.expect(textInputProperty.type).to.equal('option')",
+											"    pm.expect(textInputProperty.type).to.equal('input')",
 											"    pm.expect(textInputProperty.label).to.equal('Engraving')",
 											"    pm.expect(textInputProperty.value).to.equal('DEMO Text')",
 											"})",
@@ -782,7 +782,7 @@
 											"    const {product: {properties}} = desiredCartItem",
 											"    pm.expect(properties).to.be.an('array')",
 											"    const textInputProperty = properties[0]",
-											"    pm.expect(textInputProperty.type).to.equal('option')",
+											"    pm.expect(textInputProperty.type).to.equal('input')",
 											"    pm.expect(textInputProperty.label).to.equal('Monogramming')",
 											"    pm.expect(textInputProperty.value).to.equal('DEMO Text')",
 											"})",
