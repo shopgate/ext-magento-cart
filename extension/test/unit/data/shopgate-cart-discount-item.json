@@ -1,0 +1,15 @@
+{
+  "coupon": {
+    "code": "",
+    "description": null,
+    "label": "Discount",
+    "savedPrice": {
+      "type": "fixed",
+      "value": 25
+    }
+  },
+  "id": "1",
+  "messages": [],
+  "quantity": 1,
+  "type": "coupon"
+}
