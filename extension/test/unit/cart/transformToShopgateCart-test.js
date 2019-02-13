@@ -6,7 +6,11 @@ const magentoCartWithItemError = require('../data/magento-cart-with-item-error')
 const shopgateProducts = require('../data/shopgate-products')
 const resultingCart = require('../data/shopgate-cart')
 const magentoCartDiscount = require('../data/magento-cart-discount')
-const shopgateCartDiscount = require('../data/shopgate-cart-discount')
+const magentoCartCouponDiscount = require('../data/magento-cart-coupon-discount')
+const shopgateCartDiscountTotal = require('../data/shopgate-cart-discount-total')
+const shopgateCartDiscountItem = require('../data/shopgate-cart-discount-item')
+const shopgateCartDiscountCouponTotal = require('../data/shopgate-cart-discount-coupon-total')
+const shopgateCartDiscountCouponItem = require('../data/shopgate-cart-discount-coupon-item')
 const input = { magentoCart, shopgateProducts }
 const inputWithItemErrors = {
   magentoCart: magentoCartWithItemError,
@@ -24,12 +28,33 @@ function setCartToNotOrderable () {
 }
 
 /**
- * Insert a valid discount to the cart
+ * Insert a valid Coupon discount to the cart
+ */
+function insertCouponDiscountToCart () {
+  magentoCart.coupon_code = 'register10'
+  magentoCart.totals.discount = magentoCartCouponDiscount
+  resultingCart.totals.discount = shopgateCartDiscountCouponTotal
+  resultingCart.totals.push(shopgateCartDiscountCouponTotal)
+  resultingCart.cartItems.push(shopgateCartDiscountCouponItem)
+}
+
+/**
+ * Insert a valid discount (cart rule without coupon code) to the cart
  */
 function insertDiscountToCart () {
-  magentoCart.coupon_code = 'register10'
-  magentoCart.totals.push(magentoCartDiscount)
-  resultingCart.totals.push(shopgateCartDiscount)
+  magentoCart.coupon_code = '1'
+  magentoCart.totals.discount = magentoCartDiscount
+  resultingCart.totals.push(shopgateCartDiscountTotal)
+  resultingCart.cartItems.push(shopgateCartDiscountItem)
+}
+
+/**
+ * Reverts insertCouponDiscountToCart() and insertDiscountToCart()
+ */
+function removeCouponDiscountFromCart () {
+  magentoCart.coupon_code = null
+  resultingCart.totals.pop()
+  resultingCart.cartItems.pop()
 }
 
 describe('transformToShopgateCart', () => {
@@ -80,6 +105,31 @@ describe('transformToShopgateCart', () => {
     })
 
     it('should transform a magento cart to a shopgate cart with coupon', (done) => {
+      insertCouponDiscountToCart()
+
+      step(context, input, (err, result) => {
+        assert.ifError(err)
+        expect(resultingCart).to.eql(result)
+        assert.deepStrictEqual(result.isOrderable, true)
+        done()
+      })
+      removeCouponDiscountFromCart()
+    })
+
+    it('should transform a magento cart to a shopgate cart with coupon, not orderable caused by cart has error', (done) => {
+      setCartToNotOrderable()
+      insertCouponDiscountToCart()
+
+      step(context, input, (err, result) => {
+        assert.ifError(err)
+        expect(resultingCart).to.eql(result)
+        assert.strictEqual(result.isOrderable, false)
+        done()
+      })
+      removeCouponDiscountFromCart()
+    })
+
+    it('should transform a magento cart to a shopgate cart with coupon but no coupon code', (done) => {
       insertDiscountToCart()
 
       step(context, input, (err, result) => {
@@ -88,18 +138,7 @@ describe('transformToShopgateCart', () => {
         assert.deepStrictEqual(result.isOrderable, true)
         done()
       })
-    })
-
-    it('should transform a magento cart to a shopgate cart with coupon, not orderable caused by cart has error', (done) => {
-      setCartToNotOrderable()
-      insertDiscountToCart()
-
-      step(context, input, (err, result) => {
-        assert.ifError(err)
-        expect(resultingCart).to.eql(result)
-        assert.strictEqual(result.isOrderable, false)
-        done()
-      })
+      removeCouponDiscountFromCart()
     })
   })
 })

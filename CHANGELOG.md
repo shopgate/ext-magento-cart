@@ -5,9 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- Remove coupon code when a discount does not require a code 
+
 ## [1.1.1] - 2019-02-08
 ### Added
 - localisation for the message a coupon is invalid
+
 ### Changed
 - changed pipelines `shopgate.cart.updateProducts.v1` and `shopgate.cart.deleteProducts.v1` to meet specification in the Shopgate developer portal
 
