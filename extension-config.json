@@ -56,7 +56,7 @@
     {
       "id": "CouponCode",
       "type": "portals",
-      "path": "frontend/Portals/CouponCode/index.jsx",
+      "path": "frontend/portals/CouponCode/index.jsx",
       "target": "cart.item.coupon-code"
     }
   ]
