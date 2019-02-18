@@ -16,6 +16,8 @@ matrix:
     - npm run cover
     - npm run lint
     - npm run checkVulnerabilities
+    - cd ../frontend
+    - npm audit
 
 notifications:
   slack:
