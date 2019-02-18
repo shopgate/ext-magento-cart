@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [Unreleased]
 ### Changed
 - Remove coupon code when a discount does not require a code 
+### Added
+- A portal to prevent display of the coupon code when one does not exist
 
 ## [1.1.1] - 2019-02-08
 ### Added

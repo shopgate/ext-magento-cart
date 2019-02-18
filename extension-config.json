@@ -52,6 +52,12 @@
       "id": "locale/nl-NL",
       "type": "translations",
       "path": "frontend/locale/nl-NL.json"
+    },
+    {
+      "id": "CouponCode",
+      "type": "portals",
+      "path": "frontend/portals/CouponCode/index.jsx",
+      "target": "cart.item.coupon-code"
     }
   ]
 }
