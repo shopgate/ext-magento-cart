@@ -5,10 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-### Changed
-- Remove coupon code when a discount does not require a code 
+
+## [1.1.2] - 2019-02-21 
 ### Added
 - A portal to prevent display of the coupon code when one does not exist
+
+### Changed
+- Remove coupon code when a discount does not require a code
 
 ## [1.1.1] - 2019-02-08
 ### Added
@@ -21,6 +24,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Added
 - support for guest checkout
 
-[Unreleased]: https://github.com/shopgate/ext-magento-cart/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/shopgate/ext-magento-cart/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/shopgate/ext-magento-cart/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/shopgate/ext-magento-cart/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/shopgate/ext-magento-cart/compare/v1.0.1...v1.1.0
