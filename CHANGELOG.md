@@ -5,10 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [1.1.3] - 2019-02-27
 ### Fixed
 - Cart item quantity update
 
-## [1.1.2] - 2019-02-21 
+## [1.1.2] - 2019-02-21
 ### Added
 - A portal to prevent display of the coupon code when one does not exist
 
