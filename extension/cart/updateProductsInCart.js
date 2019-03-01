@@ -152,7 +152,7 @@ function transformToUpdateItems (cartItems, magentoCart) {
  * @throws {Error}
  */
 function transformToUpdateItem (cartItem, cartItemMap) {
-  const cartItemId = cartItem.cartItemId ? cartItem.cartItemId : cartItem.CartItemId
+  const cartItemId = cartItem.cartItemId || cartItem.CartItemId
   const magentoCartItem = cartItemMap[cartItemId]
   let parentProduct = null
 
