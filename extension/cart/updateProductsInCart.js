@@ -47,7 +47,7 @@ module.exports = function (context, input, cb) {
     }
 
     // check if returned guest cart matches to the one that is currently cached
-    if (cartId.toString().toLowerCase() !== 'me' && cartId !== parseInt(magentoCart['entity_id'])) {
+    if (cartId.toString().toLowerCase() !== 'me' && String(cartId) !== String(magentoCart['entity_id'])) {
       log.error('invalid cart')
       return cb(new InvalidCallError())
     }
@@ -152,11 +152,12 @@ function transformToUpdateItems (cartItems, magentoCart) {
  * @throws {Error}
  */
 function transformToUpdateItem (cartItem, cartItemMap) {
-  const magentoCartItem = cartItemMap[cartItem.cartItemId]
+  const cartItemId = cartItem.cartItemId || cartItem.CartItemId
+  const magentoCartItem = cartItemMap[cartItemId]
   let parentProduct = null
 
   if (cartItem.quantity < 0) {
-    throw new Error(`cartItem ${cartItem.cartItemId} has a negative quantity (${cartItem.quantity})`)
+    throw new Error(`cartItem ${cartItemId} has a negative quantity (${cartItem.quantity})`)
   }
 
   if (magentoCartItem['parent_item_id']) {
@@ -164,7 +165,7 @@ function transformToUpdateItem (cartItem, cartItemMap) {
     parentProduct = new Product(magentoCartItemParent['item_id'], magentoCartItemParent['product_id'])
   }
 
-  const product = new Product(cartItem.cartItemId, magentoCartItem['product_id'], cartItem.quantity, parentProduct)
+  const product = new Product(cartItemId, magentoCartItem['product_id'], cartItem.quantity, parentProduct)
 
   return product.transformToUpdateProductItem()
 }
