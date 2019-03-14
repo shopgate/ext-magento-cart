@@ -97,7 +97,6 @@ describe('transformToShopgateCart', () => {
   })
 
   describe('transformToShopgateCart with text input option', () => {
-    // insertDiscountToCart()
     const context = { config: { enableCoupons: true } }
     // Set up the cart to have coupons enabled
     beforeEach(() => {
@@ -113,7 +112,6 @@ describe('transformToShopgateCart', () => {
         done()
       })
     })
-    // removeCouponDiscountFromCart()
   })
 
   describe('transformToShopgateCart with coupons', () => {
