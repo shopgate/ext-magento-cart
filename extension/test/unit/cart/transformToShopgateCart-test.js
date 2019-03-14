@@ -141,4 +141,17 @@ describe('transformToShopgateCart', () => {
       removeCouponDiscountFromCart()
     })
   })
+
+  describe('transformToShopgateCart with text input option', () => {
+    const context = { config: { enableCoupons: true } }
+    it('should return a product with text input option', (done) => {
+      step(context, input, (err, result) => {
+        const property = result.cartItems[3].product.properties[0]
+        assert.strictEqual(property.type, 'input')
+        assert.ifError(err)
+        expect(resultingCart).to.eql(result)
+        done()
+      })
+    })
+  })
 })

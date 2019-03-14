@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [1.2.0] - 2019-03-14
+### Added
+- support for product text input for field and area
+
 ## [1.1.3] - 2019-02-27
 ### Fixed
 - Cart item quantity update
