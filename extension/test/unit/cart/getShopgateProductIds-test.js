@@ -5,7 +5,7 @@ describe('getShopgateProductIds', () => {
   it('should get the shopgate product id from the magento', (done) => {
     const magentoCart = require('../data/magento-cart')
     const input = { magentoCart }
-    const resultingArray = ['simple1', 'parent1-child1', 'parent1-child2']
+    const resultingArray = ['simple1', 'parent1-child1', 'parent1-child2', 'simple2-with-text-input-option']
 
     step(null, input, (err, result) => {
       assert.ifError(err)
