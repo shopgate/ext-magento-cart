@@ -45,8 +45,11 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
   request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.warn({ statusCode: res.statusCode }, `Got ${res.statusCode} from magento: ${JSON.stringify(res.body)}`)
-
+      log.warn(
+        {
+          statusCode: res.statusCode,
+          responseBody: JSON.stringify(res.body)
+        }, 'Got error from magento')
       if (res.statusCode >= 400 && res.statusCode < 500) {
         return cb(ResponseParser.build(new InvalidItemError(), res.body))
       }

@@ -73,7 +73,11 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
     if (err) return cb(err)
 
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)
+      log.error(
+        {
+          statusCode: res.statusCode,
+          responseBody: ResponseParser.extractMagentoError(res.body)
+        }, 'Got error from magento')
       return cb(new MagentoError())
     }
 

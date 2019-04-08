@@ -79,7 +79,11 @@ function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, 
     }
 
     if (res.statusCode !== 200 || !res.body.url) {
-      log.warn({ statusCode: res.statusCode }, `Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)
+      log.warn(
+        {
+          statusCode: res.statusCode,
+          responseBody: ResponseParser.extractMagentoError(res.body)
+        }, 'Got error from magento')
       return cb(new MagentoError())
     }
 
