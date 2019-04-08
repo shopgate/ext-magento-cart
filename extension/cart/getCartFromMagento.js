@@ -62,7 +62,7 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
   request.get(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
+      log.error({ statusCode: res.statusCode }, `Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
     if (!res.body) {

@@ -91,7 +91,7 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
   request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
+      log.error({ statusCode: res.statusCode }, `Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
 
