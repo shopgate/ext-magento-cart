@@ -83,6 +83,22 @@
           {"key": "enableCoupons", "id": "1090"},
           {"key": "flags", "id": "1100"}
         ]
+      }, {
+        "type": "errorCatchExtension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/handleCartNotFound.js",
+        "input": [],
+        "output": [
+          {"key": "isOrderable", "id": "1010", "optional": true},
+          {"key": "isTaxIncluded", "id": "1020", "optional": true},
+          {"key": "currency", "id": "1030", "optional": true},
+          {"key": "messages", "id": "1050", "optional": true},
+          {"key": "text", "id": "1060", "optional": true},
+          {"key": "cartItems", "id": "1070", "optional": true},
+          {"key": "totals", "id": "1080", "optional": true},
+          {"key": "enableCoupons", "id": "1090", "optional": true},
+          {"key": "flags", "id": "1100", "optional": true}
+        ]
       }
     ]
   }

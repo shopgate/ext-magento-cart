@@ -1,5 +1,6 @@
 const CartStorageHandler = require('../helpers/cartStorageHandler')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
+const EntityNotFoundError = require('../models/Errors/EntityNotFoundError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
 const util = require('util')
@@ -61,7 +62,10 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
   const requestStart = new Date()
   request.get(options, (err, res) => {
     if (err) return cb(err)
-    if (res.statusCode !== 200) {
+    if (res.statusCode === 404) {
+      log.warn(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}, id ${cartId.toString()}`)
+      return cb(new EntityNotFoundError())
+    } else if (res.statusCode !== 200) {
       log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
