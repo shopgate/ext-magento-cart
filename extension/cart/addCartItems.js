@@ -1,7 +1,7 @@
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const InvalidItemError = require('../models/Errors/InvalidItemError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
-const util = require('util')
+const { warn: logMageWarn, debug: logMageDebug } = require('../models/Logs/mage')
 
 /**
  * @param {StepContext} context
@@ -45,26 +45,14 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
   request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.warn(
-        {
-          statusCode: res.statusCode,
-          responseBody: JSON.stringify(res.body)
-        }, 'Got error from magento')
+      logMageWarn(log, res, JSON.stringify(res.body))
       if (res.statusCode >= 400 && res.statusCode < 500) {
         return cb(ResponseParser.build(new InvalidItemError(), res.body))
       }
       return cb(new MagentoError())
     }
 
-    log.debug(
-      {
-        duration: new Date() - requestStart,
-        statusCode: res.statusCode,
-        request: util.inspect(options, true, 5),
-        response: util.inspect(res.body, true, 5)
-      },
-      'Request to Magento: addCartItems'
-    )
+    logMageDebug(log, requestStart, options, res, 'Request to Magento: addCartItems')
     cb()
   })
 }

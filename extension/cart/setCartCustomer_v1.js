@@ -1,6 +1,6 @@
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
-const util = require('util')
+const { error: logMageError, debug: logMageDebug } = require('../models/Logs/mage')
 
 /**
  * @typedef {Object} SetCartCustomer_v1Input
@@ -54,23 +54,11 @@ function assignCartCustomer (request, accessToken, cartId, cartUrl, log, rejectU
   request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(
-        {
-          statusCode: res.statusCode,
-          responseBody: ResponseParser.extractMagentoError(res.body)
-        }, 'Got error from magento')
+      logMageError(log, res, ResponseParser.extractMagentoError(res.body))
       return cb(new MagentoError())
     }
 
-    log.debug(
-      {
-        duration: new Date() - requestStart,
-        statusCode: res.statusCode,
-        request: util.inspect(options, true, 5),
-        response: util.inspect(res.body, true, 5)
-      },
-      'Request to Magento: setCartCustomer'
-    )
+    logMageDebug(log, requestStart, options, res, 'Request to Magento: setCartCustomer')
     cb()
   })
 }

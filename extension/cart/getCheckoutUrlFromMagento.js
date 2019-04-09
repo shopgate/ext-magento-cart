@@ -4,7 +4,7 @@ const moment = require('moment')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
-const util = require('util')
+const { warn: logMageWarn, debug: logMageDebug } = require('../models/Logs/mage')
 
 /**
  * @typedef {Object} getCheckoutUrlFromMagentoInput
@@ -79,24 +79,11 @@ function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, 
     }
 
     if (res.statusCode !== 200 || !res.body.url) {
-      log.warn(
-        {
-          statusCode: res.statusCode,
-          responseBody: ResponseParser.extractMagentoError(res.body)
-        }, 'Got error from magento')
+      logMageWarn(log, res, ResponseParser.extractMagentoError(res.body))
       return cb(new MagentoError())
     }
 
-    log.debug(
-      {
-        duration: new Date() - requestStart,
-        statusCode: res.statusCode,
-        request: util.inspect(options, true, 5),
-        response: util.inspect(res.body, true, 5)
-      },
-      'Request to Magento: getCheckoutUrlFromMagento'
-    )
-
+    logMageDebug(log, requestStart, options, res, 'Request to Magento: getCheckoutUrlFromMagento')
     cb(null, res.body)
   })
 }
