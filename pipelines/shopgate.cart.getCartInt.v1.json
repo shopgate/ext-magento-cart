@@ -27,7 +27,8 @@
         "output": [
           {"key": "token", "id": "10"}
         ]
-      }, {
+      },
+      {
         "type": "extension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/getCartFromMagento.js",
@@ -38,7 +39,8 @@
         "output": [
           {"key": "magentoCart", "id":"3"}
         ]
-      }, {
+      },
+      {
         "type": "extension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/getShopgateProductIds.js",
@@ -51,7 +53,8 @@
           {"key": "offset", "id": "6"},
           {"key": "characteristics", "id": "8"}
         ]
-      }, {
+      },
+      {
         "type": "pipeline",
         "id": "shopgate.catalog.getProducts.v1",
         "input": [
@@ -64,7 +67,8 @@
         "output": [
           {"key": "products", "id": "7"}
         ]
-      }, {
+      },
+      {
         "type": "extension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/transformToShopgateCart.js",
@@ -83,7 +87,8 @@
           {"key": "enableCoupons", "id": "1090"},
           {"key": "flags", "id": "1100"}
         ]
-      }, {
+      },
+      {
         "type": "errorCatchExtension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/handleCartNotFound.js",
@@ -91,7 +96,8 @@
         "output": [
           {"key": "cartNotFound", "id": "9"}
         ]
-      }, {
+      },
+      {
         "type": "conditional",
         "input": [
           {"key": "cartNotFound", "id": "9"}
