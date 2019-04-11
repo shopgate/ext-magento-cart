@@ -20,16 +20,15 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest('magento-cart-extension:getCartFromMagento', { log: true })
   const cartUrl = context.config.magentoUrl + '/carts'
   const accessToken = input.token
-  const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const cartId = input.cartId
 
   if (!cartId) {
-    log.error('Output key "cartId" is missing')
+    context.log.error('Output key "cartId" is missing')
     return cb(new InvalidCallError())
   }
 
-  getCartFromMagento(request, accessToken, cartId, cartUrl, log, !allowSelfSignedCertificate, (err, magentoCart) => {
+  getCartFromMagento(request, accessToken, cartId, cartUrl, context, !allowSelfSignedCertificate, (err, magentoCart) => {
     if (err) return cb(err)
 
     const csh = new CartStorageHandler(context.storage)
@@ -45,11 +44,11 @@ module.exports = function (context, input, cb) {
  * @param {string} accessToken
  * @param {(string|number)} cartId - could be 'me' or cart id
  * @param {string} cartUrl - endpoint url
- * @param {Logger} log
+ * @param {context} context
  * @param {boolean} rejectUnauthorized
  * @param {StepCallback} cb
  */
-function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectUnauthorized, cb) {
+function getCartFromMagento (request, accessToken, cartId, cartUrl, context, rejectUnauthorized, cb) {
   const options = {
     baseUrl: cartUrl,
     uri: cartId.toString(),
@@ -62,15 +61,15 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
   request.get(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      logMageError(log, res, ResponseParser.extractMagentoError(res.body))
+      logMageError(context, res, ResponseParser.extractMagentoError(res.body))
       return cb(new MagentoError())
     }
     if (!res.body) {
-      log.error(options, `Got empty body from magento. Request result: ${res}`)
+      context.log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())
     }
 
-    logMageDebug(log, requestStart, options, res, 'Request to Magento: getCartFromMagento')
+    logMageDebug(context, requestStart, options, res, 'Request to Magento: getCartFromMagento')
     cb(null, res.body)
   })
 }
