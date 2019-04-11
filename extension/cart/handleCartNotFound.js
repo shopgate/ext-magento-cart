@@ -1,27 +1,17 @@
+/**
+ * @param {Error} error
+ * @param {SDKContext} context
+ */
 module.exports = async (error, context) => {
   if (!error) {
-    return {}
+    return { cartNotFound: false }
   }
 
   if (error.code && error.code === 'ENOTFOUND') {
     const storage = !context.meta.userId ? 'device' : 'user'
     await context.storage[storage].del('cartId')
 
-    return {
-      isOrderable: false,
-      isTaxIncluded: false,
-      currency: 'unknown',
-      messages: [],
-      text: null,
-      cartItems: [],
-      totals: [],
-      enableCoupons: false,
-      flags: {
-        orderable: false,
-        taxIncluded: false,
-        coupons: false
-      }
-    }
+    return { cartNotFound: true }
   }
 
   throw error
