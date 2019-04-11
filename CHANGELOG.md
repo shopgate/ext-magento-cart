@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 ### Fixed
-- create new cart if it was deleted in Magento
+- issue when a cart was deleted from Magento database, now it creates a new one instead of throwing a hard error
 
 ## [1.2.0] - 2019-03-14
 ### Added
