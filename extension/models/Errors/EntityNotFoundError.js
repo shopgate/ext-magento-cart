@@ -7,7 +7,7 @@ const ERROR_CODE = 'ENOTFOUND'
  * outputs and use this error as a fallback to all unknown cases.
  *
  * @extends Error
- * @param {string} [message=An internal error occurred.]
+ * @param {string} [message=Entity not found.]
  * @default An internal error occurred.
  */
 class EntityNotFoundError extends Error {
