@@ -10,7 +10,7 @@ module.exports = async (error, context) => {
     return {
       isOrderable: false,
       isTaxIncluded: false,
-      currency: 'unkown',
+      currency: 'unknown',
       messages: [],
       text: null,
       cartItems: [],
