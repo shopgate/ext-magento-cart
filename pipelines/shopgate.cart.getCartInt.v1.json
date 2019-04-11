@@ -27,7 +27,8 @@
         "output": [
           {"key": "token", "id": "10"}
         ]
-      }, {
+      },
+      {
         "type": "extension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/getCartFromMagento.js",
@@ -38,7 +39,8 @@
         "output": [
           {"key": "magentoCart", "id":"3"}
         ]
-      }, {
+      },
+      {
         "type": "extension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/getShopgateProductIds.js",
@@ -51,7 +53,8 @@
           {"key": "offset", "id": "6"},
           {"key": "characteristics", "id": "8"}
         ]
-      }, {
+      },
+      {
         "type": "pipeline",
         "id": "shopgate.catalog.getProducts.v1",
         "input": [
@@ -64,7 +67,8 @@
         "output": [
           {"key": "products", "id": "7"}
         ]
-      }, {
+      },
+      {
         "type": "extension",
         "id": "@shopgate/magento-cart",
         "path": "@shopgate/magento-cart/cart/transformToShopgateCart.js",
@@ -83,6 +87,52 @@
           {"key": "enableCoupons", "id": "1090"},
           {"key": "flags", "id": "1100"}
         ]
+      },
+      {
+        "type": "errorCatchExtension",
+        "id": "@shopgate/magento-cart",
+        "path": "@shopgate/magento-cart/cart/handleCartNotFound.js",
+        "input": [],
+        "output": [
+          {"key": "cartNotFound", "id": "9"}
+        ]
+      },
+      {
+        "type": "conditional",
+        "input": [
+          {"key": "cartNotFound", "id": "9"}
+        ],
+        "expression": {"ok": [{"name":"cartNotFound"}]},
+        "then": {
+          "type": "staticValue",
+          "input": [],
+          "values": [
+            {"key": "isOrderable", "value": false},
+            {"key": "isTaxIncluded", "value": false},
+            {"key": "currency", "value": "unkown"},
+            {"key": "messages", "value": []},
+            {"key": "text", "value": null},
+            {"key": "cartItems", "value": []},
+            {"key": "totals", "value": []},
+            {"key": "enableCoupons", "value": false},
+            {"key": "flags", "value": {
+              "orderable": false,
+              "taxIncluded": false,
+              "coupons": false
+            }}
+          ],
+          "output": [
+            {"key": "isOrderable", "id": "1010"},
+            {"key": "isTaxIncluded", "id": "1020"},
+            {"key": "currency", "id": "1030"},
+            {"key": "messages", "id": "1050"},
+            {"key": "text", "id": "1060"},
+            {"key": "cartItems", "id": "1070"},
+            {"key": "totals", "id": "1080"},
+            {"key": "enableCoupons", "id": "1090"},
+            {"key": "flags", "id": "1100"}
+          ]
+        }
       }
     ]
   }
