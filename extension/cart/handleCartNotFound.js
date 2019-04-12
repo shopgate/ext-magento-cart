@@ -1,17 +1,42 @@
 /**
  * @param {Error} error
  * @param {SDKContext} context
+ * @param {Object} input
  */
-module.exports = async (error, context) => {
+module.exports = async (error, context, input) => {
   if (!error) {
-    return { cartNotFound: false }
+    return {
+      isOrderable: input.isOrderable,
+      isTaxIncluded: input.isTaxIncluded,
+      currency: input.currency,
+      messages: input.messages,
+      text: input.text,
+      cartItems: input.cartItems,
+      totals: input.totals,
+      enableCoupons: input.enableCoupons,
+      flags: input.flags
+    }
   }
 
   if (error.code && error.code === 'ENOTFOUND') {
     const storage = !context.meta.userId ? 'device' : 'user'
     await context.storage[storage].del('cartId')
 
-    return { cartNotFound: true }
+    return {
+      isOrderable: false,
+      isTaxIncluded: false,
+      currency: 'unkown',
+      messages: [],
+      text: null,
+      cartItems: [],
+      totals: [],
+      enableCoupons: false,
+      flags: {
+        orderable: false,
+        taxIncluded: false,
+        coupons: false
+      }
+    }
   }
 
   throw error
