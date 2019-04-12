@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## [1.2.1] - 2019-04-12
+### Fixed
+- issue when a cart was deleted from Magento database, now it creates a new one instead of throwing a hard error
+
 ### Changed
 - log levels for addCartItems and getCheckoutUrlFromMagento to be warnings instead of errors
 
@@ -34,7 +38,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Added
 - support for guest checkout
 
-[Unreleased]: https://github.com/shopgate/ext-magento-cart/compare/v1.1.3...HEAD
+[Unreleased]: https://github.com/shopgate/ext-magento-cart/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/shopgate/ext-magento-cart/compare/v1.2.0...v1.2.1
+[1.2.0]: https://github.com/shopgate/ext-magento-cart/compare/v1.1.3...v1.2.0
 [1.1.3]: https://github.com/shopgate/ext-magento-cart/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/shopgate/ext-magento-cart/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/shopgate/ext-magento-cart/compare/v1.1.0...v1.1.1

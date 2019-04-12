@@ -1,8 +1,9 @@
 const CartStorageHandler = require('../helpers/cartStorageHandler')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
+const EntityNotFoundError = require('../models/Errors/EntityNotFoundError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
-const { error: logMageError, debug: logMageDebug } = require('../models/Logs/mage')
+const { error: logMageError, warn: logMageWarn, debug: logMageDebug } = require('../models/Logs/mage')
 
 /**
  * @typedef {Object} getCartFromMagentoInput
@@ -60,7 +61,11 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, context, rej
   const requestStart = new Date()
   request.get(options, (err, res) => {
     if (err) return cb(err)
-    if (res.statusCode !== 200) {
+
+    if (res.statusCode === 404) {
+      logMageWarn(context, res, `${ResponseParser.extractMagentoError(res.body)}, id ${cartId.toString()}`)
+      return cb(new EntityNotFoundError())
+    } else if (res.statusCode !== 200) {
       logMageError(context, res, ResponseParser.extractMagentoError(res.body))
       return cb(new MagentoError())
     }
