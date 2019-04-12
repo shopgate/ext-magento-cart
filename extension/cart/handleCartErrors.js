@@ -18,7 +18,7 @@ module.exports = async (error, context, input) => {
     }
   }
 
-  if (error.code && error.code === 'ENOTFOUND') {
+  if (error.code && (error.code === 'ENOTFOUND' || error.code === 'EFORBIDDEN')) {
     const storage = !context.meta.userId ? 'device' : 'user'
     await context.storage[storage].del('cartId')
 

@@ -25,10 +25,9 @@ describe('getCartFromMagento', () => {
       }
     },
     log: {
-      debug: () => {
-      },
-      error: () => {
-      }
+      debug: () => {},
+      error: () => {},
+      warn: () => {}
     }
   }
 
@@ -38,10 +37,8 @@ describe('getCartFromMagento', () => {
 
   beforeEach(() => {
     context.meta.userId = null
-    context.storage.device.set = () => {
-    }
-    context.storage.user.set = () => {
-    }
+    context.storage.device.set = () => {}
+    context.storage.user.set = () => {}
     input.cartId = 'me'
   })
 
@@ -88,6 +85,28 @@ describe('getCartFromMagento', () => {
     step(context, input, (err) => {
       assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
       assert.strictEqual(err.code, 'EINTERNAL')
+      done()
+    })
+  })
+
+  it('should return forbidden error because of status code = 403', (done) => {
+    nock(context.config.magentoUrl).get('/carts/me').reply(403, {})
+
+    // noinspection JSCheckFunctionSignatures
+    step(context, input, (err) => {
+      assert.strictEqual(err.constructor.name, 'EntityForbiddenError')
+      assert.strictEqual(err.code, 'EFORBIDDEN')
+      done()
+    })
+  })
+
+  it('should return not found error because of status code = 404', (done) => {
+    nock(context.config.magentoUrl).get('/carts/me').reply(404, {})
+
+    // noinspection JSCheckFunctionSignatures
+    step(context, input, (err) => {
+      assert.strictEqual(err.constructor.name, 'EntityNotFoundError')
+      assert.strictEqual(err.code, 'ENOTFOUND')
       done()
     })
   })

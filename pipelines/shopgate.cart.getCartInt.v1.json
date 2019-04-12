@@ -91,7 +91,7 @@
       {
         "type": "errorCatchExtension",
         "id": "@shopgate/magento-cart",
-        "path": "@shopgate/magento-cart/cart/handleCartNotFound.js",
+        "path": "@shopgate/magento-cart/cart/handleCartErrors.js",
         "input": [
           {"key": "isOrderable", "id": "1010", "optional": true},
           {"key": "isTaxIncluded", "id": "1020", "optional": true},
