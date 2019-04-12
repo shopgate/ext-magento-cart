@@ -39,7 +39,7 @@ describe('handleCartErrors', () => {
 
   const context = {
     meta: {
-        userId: null
+      userId: null
     },
     storage: {
       device: {
@@ -63,17 +63,17 @@ describe('handleCartErrors', () => {
 
     it('should return empty cart for ENOTFOUND error', async () => {
       const response = await handleCartErrors(new EntityNotFoundError(), context, {})
-      assert.deepEqual(response, emptyCart)
+      assert.deepStrictEqual(response, emptyCart)
     })
 
     it('should return empty cart for EFORBIDDEN error', async () => {
       const response = await handleCartErrors(new EntityForbiddenError(), context, {})
-      assert.deepEqual(response, emptyCart)
+      assert.deepStrictEqual(response, emptyCart)
     })
 
     it('should return the cart if no error was thrown', async () => {
       const response = await handleCartErrors(null, context, validCart)
-      assert.deepEqual(response, validCart)
+      assert.deepStrictEqual(response, validCart)
     })
 
     it('should throw the error, if it is not 403 or 404', async () => {
@@ -81,7 +81,7 @@ describe('handleCartErrors', () => {
         await handleCartErrors(new MagentoError(), context, {})
         assert.fail('no exception was thrown')
       } catch (err) {
-        assert.strictEqual(err.code, 'EINTERNAL')
+        assert.deepStrictEqual(err.code, 'EINTERNAL')
       }
     })
   })
@@ -93,17 +93,17 @@ describe('handleCartErrors', () => {
 
     it('should return empty cart for ENOTFOUND error', async () => {
       const response = await handleCartErrors(new EntityNotFoundError(), context, {})
-      assert.deepEqual(response, emptyCart)
+      assert.deepStrictEqual(response, emptyCart)
     })
 
     it('should return empty cart for EFORBIDDEN error', async () => {
       const response = await handleCartErrors(new EntityForbiddenError(), context, {})
-      assert.deepEqual(response, emptyCart)
+      assert.deepStrictEqual(response, emptyCart)
     })
 
     it('should return the cart if no error was thrown', async () => {
       const response = await handleCartErrors(null, context, validCart)
-      assert.deepEqual(response, validCart)
+      assert.deepStrictEqual(response, validCart)
     })
 
     it('should throw the error, if it is not 403 or 404', async () => {
@@ -111,7 +111,7 @@ describe('handleCartErrors', () => {
         await handleCartErrors(new MagentoError(), context, {})
         assert.fail('no exception was thrown')
       } catch (err) {
-        assert.strictEqual(err.code, 'EINTERNAL')
+        assert.deepStrictEqual(err.code, 'EINTERNAL')
       }
     })
   })
