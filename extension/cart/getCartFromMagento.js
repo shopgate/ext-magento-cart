@@ -1,6 +1,7 @@
 const CartStorageHandler = require('../helpers/cartStorageHandler')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const EntityNotFoundError = require('../models/Errors/EntityNotFoundError')
+const EntityForbiddenError = require('../models/Errors/EntityForbiddenError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
 const util = require('util')
@@ -62,13 +63,21 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
   const requestStart = new Date()
   request.get(options, (err, res) => {
     if (err) return cb(err)
-    if (res.statusCode === 404) {
-      log.warn(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}, id ${cartId.toString()}`)
-      return cb(new EntityNotFoundError())
-    } else if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
-      return cb(new MagentoError())
+
+    switch (res.statusCode) {
+      case 200:
+        break
+      case 403:
+        log.warn(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}, id ${cartId.toString()}`)
+        return cb(new EntityForbiddenError())
+      case 404:
+        log.warn(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}, id ${cartId.toString()}`)
+        return cb(new EntityNotFoundError())
+      default:
+        log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
+        return cb(new MagentoError())
     }
+
     if (!res.body) {
       log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())
