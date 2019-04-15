@@ -12,6 +12,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Fixed
 - issue when a cart was deleted from Magento database, now it creates a new one instead of throwing a hard error
 
+### Changed
+- log levels for addCartItems and getCheckoutUrlFromMagento to be warnings instead of errors
+
 ## [1.2.0] - 2019-03-14
 ### Added
 - support for product text input for field and area

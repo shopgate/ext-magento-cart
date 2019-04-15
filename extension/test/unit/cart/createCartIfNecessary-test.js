@@ -114,7 +114,7 @@ describe('createCartIfNecessary', () => {
         cb(null, { statusCode: 400 }, { error: 'error' })
       }
 
-      createCart(context.tracedRequest, input.tokens.accessToken, context.config.magentoUrl, context.log, null, (err) => {
+      createCart(context.tracedRequest, input.tokens.accessToken, context.config.magentoUrl, context, null, (err) => {
         assert.strictEqual(err.constructor.name, 'MagentoEndpointError')
         assert.strictEqual(err.code, 'EINTERNAL')
         done()

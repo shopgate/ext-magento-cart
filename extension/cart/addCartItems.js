@@ -1,7 +1,7 @@
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const InvalidItemError = require('../models/Errors/InvalidItemError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
-const util = require('util')
+const { warn: logMageWarn, debug: logMageDebug } = require('../models/Logs/mage')
 
 /**
  * @param {StepContext} context
@@ -11,13 +11,12 @@ const util = require('util')
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest('magento-cart-extension:addCartItems', { log: true })
   const cartUrl = context.config.magentoUrl + '/carts'
-  const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const accessToken = input.token
   const items = input.transformedItems
   const cartId = input.cartId
 
-  addItemsToCart(request, accessToken, items, cartId, cartUrl, log, !allowSelfSignedCertificate, (err) => {
+  addItemsToCart(request, accessToken, items, cartId, cartUrl, context, !allowSelfSignedCertificate, (err) => {
     if (err) return cb(err)
     cb(null, { messages: null })
   })
@@ -29,11 +28,11 @@ module.exports = function (context, input, cb) {
  * @param {Object} items
  * @param {string} cartId
  * @param {string} cartUrl
- * @param {Logger} log
+ * @param {context} context
  * @param {boolean} rejectUnauthorized
  * @param {function} cb
  */
-function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, rejectUnauthorized, cb) {
+function addItemsToCart (request, accessToken, items, cartId, cartUrl, context, rejectUnauthorized, cb) {
   const options = {
     url: `${cartUrl}/${cartId}/items`,
     auth: { bearer: accessToken },
@@ -45,23 +44,14 @@ function addItemsToCart (request, accessToken, items, cartId, cartUrl, log, reje
   request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from magento: ${JSON.stringify(res.body)}`)
-
+      logMageWarn(context, res, JSON.stringify(res.body))
       if (res.statusCode >= 400 && res.statusCode < 500) {
         return cb(ResponseParser.build(new InvalidItemError(), res.body))
       }
       return cb(new MagentoError())
     }
 
-    log.debug(
-      {
-        duration: new Date() - requestStart,
-        statusCode: res.statusCode,
-        request: util.inspect(options, true, 5),
-        response: util.inspect(res.body, true, 5)
-      },
-      'Request to Magento: addCartItems'
-    )
+    logMageDebug(context, requestStart, options, res, 'Request to Magento: addCartItems')
     cb()
   })
 }
