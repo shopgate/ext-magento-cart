@@ -4,7 +4,7 @@ const moment = require('moment')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
-const { warn: logMageWarn, debug: logMageDebug } = require('../models/Logs/mage')
+const util = require('util')
 
 /**
  * @typedef {Object} getCheckoutUrlFromMagentoInput
@@ -22,16 +22,17 @@ const { warn: logMageWarn, debug: logMageDebug } = require('../models/Logs/mage'
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest('magento-cart-extension:getCheckoutUrlFromMagento', { log: true })
   const cartUrl = context.config.magentoUrl + '/carts'
+  const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const accessToken = input.token
   const cartId = input.cartId
 
   if (!cartId) {
-    context.log.error('Output key "cartId" is missing')
+    log.error('Output key "cartId" is missing')
     return cb(new InvalidCallError())
   }
 
-  getCheckoutUrlFromMagento(request, accessToken, cartId, cartUrl, context, !allowSelfSignedCertificate, (err, result) => {
+  getCheckoutUrlFromMagento(request, accessToken, cartId, cartUrl, log, !allowSelfSignedCertificate, (err, result) => {
     if (err) return cb(err)
 
     // Add additional query parameters for Google Analytics in Webcheckout
@@ -55,11 +56,11 @@ module.exports = function (context, input, cb) {
  * @param {string} accessToken
  * @param {number|string} cartId
  * @param {string} cartUrl
- * @param {context} context
+ * @param {Logger} log
  * @param {boolean} rejectUnauthorized
  * @param {StepCallback} cb
  */
-function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, context, rejectUnauthorized, cb) {
+function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, log, rejectUnauthorized, cb) {
   const options = {
     baseUrl: cartUrl,
     uri: cartId + '/checkoutUrl',
@@ -73,16 +74,25 @@ function getCheckoutUrlFromMagento (request, accessToken, cartId, cartUrl, conte
     if (err) return cb(err)
 
     if (!res.body) {
-      context.log.error(options, `Got empty body from magento. Request result: ${res}`)
+      log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())
     }
 
     if (res.statusCode !== 200 || !res.body.url) {
-      logMageWarn(context, res, ResponseParser.extractMagentoError(res.body))
+      log.error(`Got ${res.statusCode} from magento: ${ResponseParser.extractMagentoError(res.body)}`)
       return cb(new MagentoError())
     }
 
-    logMageDebug(context, requestStart, options, res, 'Request to Magento: getCheckoutUrlFromMagento')
+    log.debug(
+      {
+        duration: new Date() - requestStart,
+        statusCode: res.statusCode,
+        request: util.inspect(options, true, 5),
+        response: util.inspect(res.body, true, 5)
+      },
+      'Request to Magento: getCheckoutUrlFromMagento'
+    )
+
     cb(null, res.body)
   })
 }
