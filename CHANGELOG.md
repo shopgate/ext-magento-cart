@@ -5,12 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-### Fixed
-- issue inconsistency with customer carts that resulted in "cart does not belong to customer" error
-
 ## [1.2.1] - 2019-04-12
 ### Fixed
 - issue when a cart was deleted from Magento database, now it creates a new one instead of throwing a hard error
+- issue inconsistency with customer carts that resulted in "cart does not belong to customer" error
 
 ## [1.2.0] - 2019-03-14
 ### Added
