@@ -3,7 +3,7 @@ const Product = require('../models/cartUpdates/product')
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
-const util = require('util')
+const { error: logMageError, debug: logMageDebug } = require('../models/Logs/mage')
 
 /**
  * @typedef {Object} UpdateProductsInCartInput
@@ -27,14 +27,13 @@ const util = require('util')
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest('magento-cart-extension:updateProductsInCart', { log: true })
   const cartUrl = context.config.magentoUrl + '/carts'
-  const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const cartItems = input.cartItems
   const accessToken = input.token
   const cartId = input.cartId
 
   if (!cartId) {
-    log.error('Output key "cartId" is missing')
+    context.log.error('Output key "cartId" is missing')
     return cb(new InvalidCallError())
   }
 
@@ -42,13 +41,13 @@ module.exports = function (context, input, cb) {
   csh.get(!!context.meta.userId, (err, magentoCart) => {
     if (err) return cb(err)
     if (!magentoCart) {
-      log.error('missing cart information')
+      context.log.error('missing cart information')
       return cb(new InvalidCallError())
     }
 
     // check if returned guest cart matches to the one that is currently cached
     if (cartId.toString().toLowerCase() !== 'me' && String(cartId) !== String(magentoCart['entity_id'])) {
-      log.error('invalid cart')
+      context.log.error('invalid cart')
       return cb(new InvalidCallError())
     }
 
@@ -57,11 +56,11 @@ module.exports = function (context, input, cb) {
     try {
       updateItems = transformToUpdateItems(cartItems, magentoCart)
     } catch (e) {
-      log.error(e.message)
+      context.log.error(e.message)
       return cb(new InvalidCallError())
     }
 
-    updateProductsInCart(request, updateItems, cartId, accessToken, cartUrl, log, !allowSelfSignedCertificate, (err) => {
+    updateProductsInCart(request, updateItems, cartId, accessToken, cartUrl, context, !allowSelfSignedCertificate, (err) => {
       if (err) return cb(err)
       cb()
     })
@@ -74,11 +73,11 @@ module.exports = function (context, input, cb) {
  * @param {(string|number)} cartId
  * @param {string} accessToken
  * @param {string} cartUrl
- * @param {Logger} log
+ * @param {context} context
  * @param {boolean} rejectUnauthorized
  * @param {StepCallback} cb
  */
-function updateProductsInCart (request, updateItems, cartId, accessToken, cartUrl, log, rejectUnauthorized, cb) {
+function updateProductsInCart (request, updateItems, cartId, accessToken, cartUrl, context, rejectUnauthorized, cb) {
   const options = {
     baseUrl: cartUrl,
     uri: cartId + '/items',
@@ -91,20 +90,11 @@ function updateProductsInCart (request, updateItems, cartId, accessToken, cartUr
   request.post(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
+      logMageError(context, res, ResponseParser.extractMagentoError(res.body))
       return cb(new MagentoError())
     }
 
-    log.debug(
-      {
-        duration: new Date() - requestStart,
-        statusCode: res.statusCode,
-        request: util.inspect(options, true, 5),
-        response: util.inspect(res.body, true, 5)
-      },
-      'Request to Magento: updateProductsInCart'
-    )
-
+    logMageDebug(context, requestStart, options, res, 'Request to Magento: updateProductsInCart')
     cb()
   })
 }

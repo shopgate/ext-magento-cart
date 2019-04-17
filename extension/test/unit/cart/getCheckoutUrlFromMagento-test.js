@@ -16,6 +16,8 @@ describe('getCheckoutUrlFromMagento', () => {
       debug: () => {
       },
       error: () => {
+      },
+      warn: () => {
       }
     }
   }
