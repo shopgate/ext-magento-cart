@@ -4,7 +4,7 @@ const EntityNotFoundError = require('../models/Errors/EntityNotFoundError')
 const EntityForbiddenError = require('../models/Errors/EntityForbiddenError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
-const util = require('util')
+const { error: logMageError, warn: logMageWarn, debug: logMageDebug } = require('../models/Logs/mage')
 
 /**
  * @typedef {Object} getCartFromMagentoInput
@@ -22,16 +22,15 @@ module.exports = function (context, input, cb) {
   const request = context.tracedRequest('magento-cart-extension:getCartFromMagento', { log: true })
   const cartUrl = context.config.magentoUrl + '/carts'
   const accessToken = input.token
-  const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const cartId = input.cartId
 
   if (!cartId) {
-    log.error('Output key "cartId" is missing')
+    context.log.error('Output key "cartId" is missing')
     return cb(new InvalidCallError())
   }
 
-  getCartFromMagento(request, accessToken, cartId, cartUrl, log, !allowSelfSignedCertificate, (err, magentoCart) => {
+  getCartFromMagento(request, accessToken, cartId, cartUrl, context, !allowSelfSignedCertificate, (err, magentoCart) => {
     if (err) return cb(err)
 
     const csh = new CartStorageHandler(context.storage)
@@ -47,11 +46,11 @@ module.exports = function (context, input, cb) {
  * @param {string} accessToken
  * @param {(string|number)} cartId - could be 'me' or cart id
  * @param {string} cartUrl - endpoint url
- * @param {Logger} log
+ * @param {context} context
  * @param {boolean} rejectUnauthorized
  * @param {StepCallback} cb
  */
-function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectUnauthorized, cb) {
+function getCartFromMagento (request, accessToken, cartId, cartUrl, context, rejectUnauthorized, cb) {
   const options = {
     baseUrl: cartUrl,
     uri: cartId.toString(),
@@ -68,31 +67,22 @@ function getCartFromMagento (request, accessToken, cartId, cartUrl, log, rejectU
       case 200:
         break
       case 403:
-        log.warn(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}, id ${cartId.toString()}`)
+        logMageWarn(context, res, `${ResponseParser.extractMagentoError(res.body)}, id ${cartId.toString()}`)
         return cb(new EntityForbiddenError())
       case 404:
-        log.warn(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}, id ${cartId.toString()}`)
+        logMageWarn(context, res, `${ResponseParser.extractMagentoError(res.body)}, id ${cartId.toString()}`)
         return cb(new EntityNotFoundError())
       default:
-        log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
+        logMageError(context, res, ResponseParser.extractMagentoError(res.body))
         return cb(new MagentoError())
     }
 
     if (!res.body) {
-      log.error(options, `Got empty body from magento. Request result: ${res}`)
+      context.log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())
     }
 
-    log.debug(
-      {
-        duration: new Date() - requestStart,
-        statusCode: res.statusCode,
-        request: util.inspect(options, true, 5),
-        response: util.inspect(res.body, true, 5)
-      },
-      'Request to Magento: getCartFromMagento'
-    )
-
+    logMageDebug(context, requestStart, options, res, 'Request to Magento: getCartFromMagento')
     cb(null, res.body)
   })
 }

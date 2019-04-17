@@ -2,7 +2,7 @@ const CARTID_KEY = 'cartId'
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
-const util = require('util')
+const { error: logMageError, debug: logMageDebug } = require('../models/Logs/mage')
 
 /**
  * @typedef {Object} CreateNewCartForCustomerInput
@@ -17,7 +17,6 @@ const util = require('util')
  */
 module.exports = function (context, input, cb) {
   const orderId = input.orderId
-  const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const request = context.tracedRequest('magento-cart-extension:createNewCartForCustomer', { log: true })
   const accessToken = input.token
@@ -25,19 +24,19 @@ module.exports = function (context, input, cb) {
   const isLoggedIn = !!context.meta.userId
 
   if (!orderId) {
-    log.error('Output key "orderId" is missing')
+    context.log.error('Output key "orderId" is missing')
     return cb(new InvalidCallError())
   }
 
-  log.debug(`Got orderId ${orderId} from app, creating new cart for customer.`)
+  context.log.debug(`Got orderId ${orderId} from app, creating new cart for customer.`)
 
-  createCart(request, accessToken, cartUrl, log, !allowSelfSignedCertificate, (err, cartId) => {
+  createCart(request, accessToken, cartUrl, context, !allowSelfSignedCertificate, (err, cartId) => {
     if (err) return cb(err)
 
     context.storage[isLoggedIn ? 'user' : 'device'].set(CARTID_KEY, cartId, (err) => {
       if (err) return cb(err)
 
-      log.debug(`Created cart with id: ${cartId}`)
+      context.log.debug(`Created cart with id: ${cartId}`)
 
       return cb(null, { 'success': true })
     })
@@ -48,11 +47,11 @@ module.exports = function (context, input, cb) {
  * @param {Request} request
  * @param {string} accessToken
  * @param {string} cartUrl
- * @param {Logger} log
+ * @param {context} context
  * @param {boolean} rejectUnauthorized
  * @param {StepCallback} cb
  */
-function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb) {
+function createCart (request, accessToken, cartUrl, context, rejectUnauthorized, cb) {
   const options = {
     url: cartUrl,
     auth: { bearer: accessToken },
@@ -65,25 +64,16 @@ function createCart (request, accessToken, cartUrl, log, rejectUnauthorized, cb)
     if (err) return cb(err)
 
     if (!res.body) {
-      log.error(options, `Got empty body from magento. Request result: ${res}`)
+      context.log.error(options, `Got empty body from magento. Request result: ${res}`)
       return cb(new MagentoError())
     }
 
     if (res.statusCode !== 200 || !res.body.cartId) {
-      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
+      logMageError(context, res, ResponseParser.extractMagentoError(res.body))
       return cb(new MagentoError())
     }
 
-    log.debug(
-      {
-        duration: new Date() - requestStart,
-        statusCode: res.statusCode,
-        request: util.inspect(options, true, 5),
-        response: util.inspect(res.body, true, 5)
-      },
-      'Request to Magento: createNewCartForCustomer'
-    )
-
+    logMageDebug(context, requestStart, options, res, 'Request to Magento: createNewCartForCustomer')
     cb(null, res.body.cartId)
   })
 }

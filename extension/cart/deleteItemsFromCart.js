@@ -1,7 +1,7 @@
 const MagentoError = require('../models/Errors/MagentoEndpointError')
 const ResponseParser = require('../helpers/MagentoResponseParser')
 const InvalidCallError = require('../models/Errors/InvalidCallError')
-const util = require('util')
+const { error: logMageError, debug: logMageDebug } = require('../models/Logs/mage')
 
 /**
  * @typedef {Object} DeleteItemsFromCartInput
@@ -18,14 +18,13 @@ const util = require('util')
 module.exports = function (context, input, cb) {
   const request = context.tracedRequest('magento-cart-extension:deleteItemsFromCart', { log: true })
   const cartUrl = context.config.magentoUrl + '/carts'
-  const log = context.log
   const allowSelfSignedCertificate = context.config.allowSelfSignedCertificate
   const accessToken = input.token
   const cartId = input.cartId
   let cartItemIds = input.cartItemIds
 
   if (!cartId) {
-    log.error('Output key "cartId" is missing')
+    context.log.error('Output key "cartId" is missing')
     return cb(new InvalidCallError())
   }
 
@@ -37,7 +36,7 @@ module.exports = function (context, input, cb) {
     })
   }
 
-  deleteItemsFromCart(request, accessToken, cartId, cartItemIds, cartUrl, log, !allowSelfSignedCertificate, (err) => {
+  deleteItemsFromCart(request, accessToken, cartId, cartItemIds, cartUrl, context, !allowSelfSignedCertificate, (err) => {
     if (err) return cb(err)
     cb(null, {})
   })
@@ -49,11 +48,11 @@ module.exports = function (context, input, cb) {
  * @param {number|string} cartId - can be cart ID for guest or "me" for customer
  * @param {[string]} cartItemIds
  * @param {string} cartUrl
- * @param {Logger} log
+ * @param {context} context
  * @param {boolean} rejectUnauthorized
  * @param {StepCallback} cb
  */
-function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl, log, rejectUnauthorized, cb) {
+function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl, context, rejectUnauthorized, cb) {
   const options = {
     baseUrl: cartUrl,
     uri: cartId + '/items',
@@ -69,20 +68,11 @@ function deleteItemsFromCart (request, accessToken, cartId, cartItemIds, cartUrl
   request.delete(options, (err, res) => {
     if (err) return cb(err)
     if (res.statusCode !== 200) {
-      log.error(`Got ${res.statusCode} from Magento: ${ResponseParser.extractMagentoError(res.body)}`)
+      logMageError(context, res, ResponseParser.extractMagentoError(res.body))
       return cb(new MagentoError())
     }
 
-    log.debug(
-      {
-        duration: new Date() - requestStart,
-        statusCode: res.statusCode,
-        request: util.inspect(options, true, 5),
-        response: util.inspect(res.body, true, 5)
-      },
-      'Request to Magento: deleteItemsFromCart'
-    )
-
+    logMageDebug(context, requestStart, options, res, 'Request to Magento: deleteItemsFromCart')
     cb()
   })
 }
