@@ -1,5 +1,6 @@
 {
   "cart": {
     "coupon_invalid": "Coupon code is not valid."
-  }
+  },
+  "Das Produkt ist nicht mehr verfügbar.": "test eng"
 }
