@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [Unreleased]
 ### Changed
 - log levels for addCartItems and getCheckoutUrlFromMagento to be warnings instead of errors
+- message about a cart item, that is not available anymore is now localised (requires PWA 6.5 or higher)
 
 ## [1.2.1] - 2019-04-12
 ### Fixed

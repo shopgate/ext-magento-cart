@@ -222,7 +222,7 @@ function getCartItems (magentoCart, shopgateProducts) {
       if (!productAvailableInBigApi) {
         magentoCart.has_error = true
         // @TODO actually there is no way to pass custom error messages through the frontend. As soon as there is a solution for this, change the message blow
-        cartItem.addMessage(new Message('error', 'cart.product_unavailable'))
+        cartItem.addMessage(new Message('error', 'This product is not available anymore'))
       }
 
       if (magentoCart.items[i]['has_error']) {
