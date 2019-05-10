@@ -1,5 +1,6 @@
 {
   "cart": {
-    "coupon_invalid": "Rabattcode ist ungültig."
-  }
+    "coupon_invalid": "Gutscheincode ist ungültig."
+  },
+  "This product is not available anymore": "Das Produkt ist nicht mehr verfügbar."
 }

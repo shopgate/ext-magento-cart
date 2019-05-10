@@ -1,5 +1,6 @@
 {
   "cart": {
     "coupon_invalid": "Le code de réduction n'est pas valide."
-  }
+  },
+  "This product is not available anymore": "Le produit n'est plus disponible."
 }
