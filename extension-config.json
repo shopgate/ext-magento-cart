@@ -1,5 +1,5 @@
 {
-  "version": "1.2.2",
+  "version": "1.2.3",
   "id": "@shopgate/magento-cart",
   "configuration": {
     "enableCartCoupons" : {
@@ -52,6 +52,16 @@
       "id": "locale/nl-NL",
       "type": "translations",
       "path": "frontend/locale/nl-NL.json"
+    },
+    {
+      "id": "locale/pl-PL",
+      "type": "translations",
+      "path": "frontend/locale/pl-PL.json"
+    },
+    {
+      "id": "locale/pt-PT",
+      "type": "translations",
+      "path": "frontend/locale/pt-PT.json"
     },
     {
       "id": "CouponCode",
