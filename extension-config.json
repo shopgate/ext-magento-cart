@@ -1,31 +1,31 @@
 {
-  "version": "1.2.3",
+  "version": "1.2.4",
   "id": "@shopgate/magento-cart",
   "configuration": {
-    "enableCartCoupons" : {
-      "type" : "static",
-      "destination" : "backend",
-      "params" : {
-        "value" : true
+    "enableCartCoupons": {
+      "type": "static",
+      "destination": "backend",
+      "params": {
+        "value": true
       }
     },
-    "magentoUrl" : {
+    "magentoUrl": {
       "type": "bigApi",
-      "destination" : "backend",
+      "destination": "backend",
       "default": null,
       "params": {
-        "method":  "GET",
+        "method": "GET",
         "service": "config",
         "path": "/v1/shop/%(shopId)s/checkout_web_checkout_shopify?parsed=true",
         "key": "value.backend.magentoUrl"
       }
     },
-    "allowSelfSignedCertificate" : {
+    "allowSelfSignedCertificate": {
       "type": "bigApi",
-      "destination" : "backend",
+      "destination": "backend",
       "default": false,
       "params": {
-        "method":  "GET",
+        "method": "GET",
         "service": "config",
         "path": "/v1/shop/%(shopId)s/checkout_web_checkout_shopify?parsed=true",
         "key": "value.backend.allowSelfSignedCertificate"
@@ -44,9 +44,19 @@
       "path": "frontend/locale/de-DE.json"
     },
     {
+      "id": "locale/es-ES",
+      "type": "translations",
+      "path": "frontend/locale/es-ES.json"
+    },
+    {
       "id": "locale/fr-FR",
       "type": "translations",
       "path": "frontend/locale/fr-FR.json"
+    },
+    {
+      "id": "locale/it-IT",
+      "type": "translations",
+      "path": "frontend/locale/it-IT.json"
     },
     {
       "id": "locale/nl-NL",
